@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[85vh] flex items-center bg-foreground overflow-hidden">
+    <section className="relative min-h-[85vh] flex items-center bg-transparent overflow-hidden">
       <div className="container relative z-10 py-24 md:py-32">
         <div className="max-w-3xl space-y-8 animate-fade-up">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-background leading-[1.05] tracking-tight">
