@@ -11,7 +11,7 @@ const MythsSection = () => (
   <section id="myths" className="py-20 md:py-28 bg-background">
     <div className="container max-w-4xl">
       <div className="text-center mb-14">
-        <span className="text-sm font-semibold text-accent uppercase tracking-widest">Myth Busters</span>
+        <span className="text-sm font-semibold text-primary uppercase tracking-widest">Myth Busters</span>
         <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
           Separating Fact from Fiction
         </h2>
@@ -27,8 +27,8 @@ const MythsSection = () => (
               <p className="font-medium text-foreground"><span className="text-destructive font-semibold">Myth:</span> {m.myth}</p>
             </div>
             <div className="flex items-start gap-3 p-5">
-              <CheckCircle className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-              <p className="text-muted-foreground"><span className="text-accent font-semibold">Truth:</span> {m.truth}</p>
+              <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+              <p className="text-muted-foreground"><span className="text-primary font-semibold">Truth:</span> {m.truth}</p>
             </div>
           </div>
         ))}
