@@ -6,13 +6,13 @@ const stats = [
 ];
 
 const StatsSection = () => (
-  <section className="py-16 bg-gradient-warm">
+  <section className="py-16 bg-foreground">
     <div className="container">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         {stats.map((s, i) => (
           <div key={i} className="space-y-1 animate-count-up" style={{ animationDelay: `${i * 0.15}s` }}>
-            <div className="text-3xl md:text-4xl font-display font-bold text-primary-foreground">{s.value}</div>
-            <div className="text-sm text-primary-foreground/80 font-medium">{s.label}</div>
+            <div className="text-3xl md:text-4xl font-display font-bold text-background">{s.value}</div>
+            <div className="text-sm text-background/70 font-medium">{s.label}</div>
           </div>
         ))}
       </div>

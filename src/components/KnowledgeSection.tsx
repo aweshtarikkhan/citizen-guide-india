@@ -12,7 +12,7 @@ const KnowledgeSection = () => (
     <div className="container">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
         <div>
-          <span className="text-sm font-semibold text-secondary uppercase tracking-widest">Civic Knowledge Hub</span>
+          <span className="text-sm font-semibold text-primary uppercase tracking-widest">Civic Knowledge Hub</span>
           <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
             Know Your Democracy
           </h2>
@@ -23,8 +23,8 @@ const KnowledgeSection = () => (
         <div className="grid sm:grid-cols-2 gap-5">
           {topics.map((t, i) => (
             <div key={i} className="p-5 rounded-xl bg-card border border-border shadow-card hover:shadow-elevated transition-all duration-300 group cursor-pointer">
-              <div className="h-10 w-10 rounded-lg bg-secondary/10 flex items-center justify-center mb-3 group-hover:bg-gradient-civic transition-colors">
-                <t.icon className="h-5 w-5 text-secondary group-hover:text-secondary-foreground transition-colors" />
+              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-gradient-warm transition-colors">
+                <t.icon className="h-5 w-5 text-primary group-hover:text-primary-foreground transition-colors" />
               </div>
               <h3 className="font-display font-semibold text-foreground mb-1">{t.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{t.desc}</p>
