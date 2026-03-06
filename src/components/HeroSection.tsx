@@ -6,11 +6,11 @@ const HeroSection = () => {
     <section className="relative min-h-[85vh] flex items-center bg-transparent overflow-hidden">
       <div className="container relative z-10 py-24 md:py-32">
         <div className="max-w-3xl space-y-8 animate-fade-up">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-background leading-[1.05] tracking-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-foreground leading-[1.05] tracking-tight">
             Every Vote<br />
             <span className="text-gradient-warm">Shapes India.</span>
           </h1>
-          <p className="text-lg md:text-xl text-background/60 font-body max-w-md leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground font-body max-w-md leading-relaxed">
             Your non-partisan guide to understanding and exercising your democratic rights.
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
@@ -20,7 +20,7 @@ const HeroSection = () => {
               </Button>
             </a>
             <a href="#knowledge">
-              <Button size="lg" variant="outline" className="border-background/20 text-background hover:bg-background/10 font-semibold text-base px-8 rounded-full">
+              <Button size="lg" variant="outline" className="border-foreground/20 text-foreground hover:bg-foreground/10 font-semibold text-base px-8 rounded-full">
                 Learn More
               </Button>
             </a>
