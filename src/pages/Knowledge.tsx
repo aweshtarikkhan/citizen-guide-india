@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
-import { Landmark, Users, BookOpen, Vote, Scale, Globe, Shield, FileText } from "lucide-react";
+import { Landmark, Users, BookOpen, Vote, Scale, Globe, Shield, FileText, Briefcase, Building2 } from "lucide-react";
 
 const topics = [
   {
@@ -13,6 +13,8 @@ const topics = [
       "The Election Commission of India (ECI) is an autonomous constitutional body that oversees free and fair elections.",
       "The process includes: announcement of dates → filing of nominations → scrutiny → withdrawal → campaigning → polling → counting → results.",
       "Electronic Voting Machines (EVMs) have been used since 2004. VVPAT (Voter Verifiable Paper Audit Trail) was introduced to add a layer of verification.",
+      "India's elections are the largest democratic exercise in the world — the 2024 general elections had over 960 million eligible voters.",
+      "Multi-phase polling is conducted in large states to ensure adequate security and logistics coverage.",
     ],
   },
   {
@@ -25,6 +27,8 @@ const topics = [
       "Money Bills can only be introduced in Lok Sabha. Rajya Sabha can suggest amendments but cannot reject them.",
       "State Legislatures function similarly — Vidhan Sabha (Legislative Assembly) is the lower house; some states have a Vidhan Parishad (Legislative Council).",
       "Question Hour, Zero Hour, and debates are mechanisms through which representatives raise public issues in Parliament.",
+      "The Budget Session, Monsoon Session, and Winter Session are the three parliamentary sessions each year.",
+      "Standing Committees and Select Committees examine bills in detail before they are debated in the house.",
     ],
   },
   {
@@ -37,6 +41,8 @@ const topics = [
       "Sarpanch/Gram Panchayat — elected head of the village panchayat, responsible for rural development and local dispute resolution.",
       "Each representative has constituency development funds (MPLAD/MLALAD) to spend on local infrastructure and welfare projects.",
       "You can meet your representatives during public grievance sessions or write to them about issues affecting your area.",
+      "Track your MP's performance — attendance, questions asked, debates participated — on PRS Legislative Research (prsindia.org).",
+      "The Anti-Defection Law (10th Schedule) prevents elected representatives from switching parties after election.",
     ],
   },
   {
@@ -49,6 +55,9 @@ const topics = [
       "PM-KISAN — provides ₹6,000 per year in three instalments to small and marginal farmer families.",
       "Digital India — initiative to transform India into a digitally empowered society and knowledge economy.",
       "Your vote influences which policies get prioritised, funded, and implemented at national and state levels.",
+      "GST (Goods and Services Tax) — unified tax system replacing multiple state and central taxes.",
+      "Right to Information (RTI) Act, 2005 — empowers citizens to seek information from government bodies.",
+      "Swachh Bharat Mission — nationwide cleanliness and sanitation campaign with significant budget allocation.",
     ],
   },
   {
@@ -61,6 +70,8 @@ const topics = [
       "Fundamental Rights (Articles 14–32) are justiciable — you can approach courts if they are violated.",
       "The judiciary ensures that laws passed by Parliament and state legislatures conform to the Constitution.",
       "Legal aid is available free of cost to economically weaker sections under the Legal Services Authorities Act.",
+      "Lok Adalats provide alternative dispute resolution for quick and amicable settlement of cases.",
+      "The collegium system governs the appointment of judges to the Supreme Court and High Courts.",
     ],
   },
   {
@@ -73,6 +84,49 @@ const topics = [
       "Directive Principles of State Policy guide the government in making laws for social and economic welfare.",
       "Rights and duties together form the foundation of democratic citizenship in India.",
       "Awareness of your rights empowers you to hold the state accountable and participate meaningfully in governance.",
+      "The Right to Constitutional Remedies (Article 32) is itself a Fundamental Right — Dr. Ambedkar called it the 'heart and soul of the Constitution'.",
+    ],
+  },
+  {
+    icon: Building2,
+    title: "Local Self-Government (Panchayati Raj)",
+    content: [
+      "The 73rd Amendment (1992) gave constitutional status to Panchayati Raj Institutions for rural governance.",
+      "Three-tier system: Gram Panchayat (village), Block/Taluk Panchayat (intermediate), Zila Parishad (district).",
+      "One-third of all seats in Panchayats are reserved for women — India's largest affirmative action in governance.",
+      "Gram Sabha — the general body of all registered voters in a village — is the foundation of grassroots democracy.",
+      "Panchayats handle local planning, agriculture, health, education, water supply, and rural infrastructure.",
+      "The 74th Amendment provides similar structure for urban local bodies — Municipal Corporations and Municipalities.",
+      "Local elections are conducted by State Election Commissions, not the central ECI.",
+      "Direct participation in Gram Sabha meetings is one of the most powerful forms of democratic engagement.",
+    ],
+  },
+  {
+    icon: Briefcase,
+    title: "The Election Commission of India",
+    content: [
+      "Established on 25th January 1950 — celebrated annually as National Voters' Day.",
+      "The ECI is an autonomous constitutional body under Article 324 of the Constitution.",
+      "Headed by the Chief Election Commissioner (CEC) and assisted by two Election Commissioners.",
+      "The CEC can only be removed through impeachment — the same process as removing a Supreme Court judge.",
+      "The ECI controls the entire electoral process — from delimitation to the declaration of results.",
+      "SVEEP (Systematic Voters' Education and Electoral Participation) is the ECI's flagship voter awareness program.",
+      "The ECI has the power to postpone, cancel, or annul elections if circumstances demand.",
+      "Model Code of Conduct is enforced by the ECI from the date of election announcement until results.",
+    ],
+  },
+  {
+    icon: Globe,
+    title: "India in the World of Democracies",
+    content: [
+      "India is the world's largest democracy by population — over 1.4 billion citizens.",
+      "India has conducted uninterrupted free elections since 1952 — one of the longest streaks in the developing world.",
+      "The Indian electoral model is studied and emulated by emerging democracies worldwide.",
+      "India's EVM technology has attracted interest from election bodies in over 50 countries.",
+      "Universal adult suffrage was adopted from the very first election in 1952 — many Western democracies took centuries to achieve this.",
+      "India's reservation system for SC/ST/OBC in legislatures is one of the largest affirmative action programs globally.",
+      "The 2024 elections deployed over 10 million polling officials — the world's largest civilian mobilisation.",
+      "India's democratic journey from a newly independent nation to the world's largest democracy is a remarkable story of civic faith.",
     ],
   },
 ];
