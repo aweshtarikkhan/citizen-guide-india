@@ -3,7 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
-import { ArrowRight, UserPlus, BookOpen, XCircle } from "lucide-react";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle } from "lucide-react";
 
 const sections = [
   {
@@ -24,6 +24,30 @@ const sections = [
     desc: "Common misconceptions debunked with facts and official sources.",
     link: "/myths",
   },
+  {
+    icon: Clock,
+    title: "Election Timeline",
+    desc: "From announcement to results — every phase of India's election process explained in detail.",
+    link: "/election-timeline",
+  },
+  {
+    icon: FileText,
+    title: "Important Forms",
+    desc: "Complete guide to all voter-related forms — Form 6, 7, 8, 8A, 6B, and more with documents and process.",
+    link: "/important-forms",
+  },
+  {
+    icon: Shield,
+    title: "Voter Rights",
+    desc: "Know your constitutional rights as a voter — right to secret ballot, NOTA, accessibility, and more.",
+    link: "/voter-rights",
+  },
+  {
+    icon: HelpCircle,
+    title: "FAQ",
+    desc: "Comprehensive answers to the most common questions about voting, EVMs, registration, and elections.",
+    link: "/faq",
+  },
 ];
 
 const Index = () => (
@@ -42,7 +66,7 @@ const Index = () => (
             Everything you need to be an informed, empowered citizen.
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {sections.map((s, i) => (
             <Link
               key={i}

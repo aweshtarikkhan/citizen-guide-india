@@ -7,9 +7,13 @@ const Navbar = () => {
   const location = useLocation();
 
   const links = [
-    { label: "Voter Help Desk", href: "/help-desk" },
-    { label: "Know Your Democracy", href: "/knowledge" },
-    { label: "Myth Busters", href: "/myths" },
+    { label: "Help Desk", href: "/help-desk" },
+    { label: "Democracy", href: "/knowledge" },
+    { label: "Myths", href: "/myths" },
+    { label: "Timeline", href: "/election-timeline" },
+    { label: "Forms", href: "/important-forms" },
+    { label: "Rights", href: "/voter-rights" },
+    { label: "FAQ", href: "/faq" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ];
@@ -20,7 +24,7 @@ const Navbar = () => {
         <Link to="/" className="font-display text-2xl font-bold text-foreground tracking-wide">
           MATDAAN
         </Link>
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-5">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -33,12 +37,12 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+        <button className="lg:hidden text-foreground" onClick={() => setOpen(!open)}>
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
       {open && (
-        <div className="md:hidden bg-card border-b border-border px-6 pb-4 space-y-3">
+        <div className="lg:hidden bg-card border-b border-border px-6 pb-4 space-y-3">
           {links.map((l) => (
             <Link
               key={l.href}
