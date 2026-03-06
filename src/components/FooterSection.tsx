@@ -1,21 +1,23 @@
 import { Mail, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FooterSection = () => (
-  <footer id="contact" className="py-16 bg-foreground text-background">
+  <footer className="py-16 bg-foreground text-background">
     <div className="container">
       <div className="grid md:grid-cols-3 gap-10">
         <div>
-          <h3 className="font-display text-2xl font-bold text-gradient-warm mb-3">मतदान</h3>
-          <p className="text-background/70 text-sm leading-relaxed max-w-xs">
+          <Link to="/" className="font-display text-2xl font-bold text-gradient-warm">मतदान</Link>
+          <p className="text-background/70 text-sm leading-relaxed max-w-xs mt-3">
             India's Voter Help Centre — empowering citizens with knowledge, assistance, and tools to participate meaningfully in democracy.
           </p>
         </div>
         <div>
           <h4 className="font-display font-semibold text-lg mb-4">Quick Links</h4>
           <ul className="space-y-2 text-sm text-background/70">
-            <li><a href="#help-desk" className="hover:text-background transition-colors">Voter Help Desk</a></li>
-            <li><a href="#knowledge" className="hover:text-background transition-colors">Know Your Democracy</a></li>
-            <li><a href="#myths" className="hover:text-background transition-colors">Myth Busters</a></li>
+            <li><Link to="/help-desk" className="hover:text-background transition-colors">Voter Help Desk</Link></li>
+            <li><Link to="/knowledge" className="hover:text-background transition-colors">Know Your Democracy</Link></li>
+            <li><Link to="/myths" className="hover:text-background transition-colors">Myth Busters</Link></li>
+            <li><Link to="/about" className="hover:text-background transition-colors">About</Link></li>
             <li><a href="https://www.eci.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-background transition-colors">Election Commission of India ↗</a></li>
           </ul>
         </div>
