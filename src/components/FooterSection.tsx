@@ -6,7 +6,7 @@ const FooterSection = () => (
     <div className="container">
       <div className="grid md:grid-cols-3 gap-10">
         <div>
-          <Link to="/" className="font-display text-2xl font-bold text-gradient-warm">मतदान</Link>
+          <Link to="/" className="font-display text-2xl font-bold text-background tracking-wide">MATDAAN</Link>
           <p className="text-background/70 text-sm leading-relaxed max-w-xs mt-3">
             India's Voter Help Centre — empowering citizens with knowledge, assistance, and tools to participate meaningfully in democracy.
           </p>
