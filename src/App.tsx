@@ -9,6 +9,10 @@ import Knowledge from "./pages/Knowledge";
 import Myths from "./pages/Myths";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ElectionTimeline from "./pages/ElectionTimeline";
+import ImportantForms from "./pages/ImportantForms";
+import VoterRights from "./pages/VoterRights";
+import FAQ from "./pages/FAQ";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +30,10 @@ const App = () => (
           <Route path="/myths" element={<Myths />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/election-timeline" element={<ElectionTimeline />} />
+          <Route path="/important-forms" element={<ImportantForms />} />
+          <Route path="/voter-rights" element={<VoterRights />} />
+          <Route path="/faq" element={<FAQ />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
