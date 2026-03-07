@@ -1,9 +1,8 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import StatsSection from "@/components/StatsSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
-import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle } from "lucide-react";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote } from "lucide-react";
 
 const sections = [
   { icon: UserPlus, title: "Voter Help Desk", desc: "Register, correct details & find your polling station.", link: "/help-desk" },
@@ -15,12 +14,58 @@ const sections = [
   { icon: HelpCircle, title: "FAQ", desc: "Quick answers to common voting questions.", link: "/faq" },
 ];
 
+const testimonials = [
+  { name: "Priya Sharma", location: "Delhi", text: "Matdaan helped me register as a first-time voter. The step-by-step process was so easy to follow!" },
+  { name: "Rahul Verma", location: "Mumbai", text: "I didn't know I could vote with Aadhaar instead of Voter ID. The Myth Busters section cleared all my doubts." },
+  { name: "Ananya Patel", location: "Ahmedabad", text: "The Election Timeline section helped me understand how the entire process works. Very informative!" },
+  { name: "Karthik Reddy", location: "Hyderabad", text: "Finally a platform that explains voter rights in simple language. Every citizen should visit Matdaan." },
+  { name: "Sneha Iyer", location: "Bengaluru", text: "I used Matdaan to help my parents correct their voter details. The forms guide was extremely helpful." },
+  { name: "Amit Singh", location: "Lucknow", text: "The FAQ section answered every question I had about EVMs and VVPAT. Highly recommended!" },
+];
+
 const Index = () => (
   <div className="min-h-screen">
     <Navbar />
-    <HeroSection />
-    <StatsSection />
 
+    {/* 1. Hero */}
+    <HeroSection />
+
+    {/* 2. Who We Are */}
+    <section className="py-20 md:py-28 bg-muted/50">
+      <div className="container max-w-5xl">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Who We Are</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
+              Empowering Every Indian Voter
+            </h2>
+            <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
+              Matdaan is a non-partisan civic awareness platform dedicated to making democracy accessible. We simplify voter registration, explain your rights, and bust myths — so every citizen can vote with confidence.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <Link to="/about" className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-lg font-semibold text-sm hover:bg-foreground/90 transition-colors">
+                Learn More <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { value: "100%", label: "Non-Partisan" },
+              { value: "10+", label: "Detailed Guides" },
+              { value: "50+", label: "FAQs Answered" },
+              { value: "8", label: "Voter Rights Covered" },
+            ].map((stat, i) => (
+              <div key={i} className="p-5 rounded-xl bg-card border border-border shadow-card text-center">
+                <div className="text-2xl md:text-3xl font-display font-bold text-foreground">{stat.value}</div>
+                <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* 3. Explore Matdaan */}
     <section className="py-20 md:py-28 bg-background">
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-14">
@@ -48,6 +93,84 @@ const Index = () => (
               </span>
             </Link>
           ))}
+        </div>
+      </div>
+    </section>
+
+    {/* 4. Testimonials */}
+    <section className="py-20 md:py-28 bg-muted/50">
+      <div className="container max-w-5xl">
+        <div className="text-center mb-14">
+          <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Testimonials</span>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
+            What Citizens Say
+          </h2>
+          <p className="mt-4 text-muted-foreground text-lg">Real stories from voters empowered by Matdaan.</p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <div key={i} className="p-6 rounded-xl bg-card border border-border shadow-card">
+              <Quote className="h-8 w-8 text-border mb-4" />
+              <p className="text-muted-foreground text-sm leading-relaxed mb-5">"{t.text}"</p>
+              <div className="border-t border-border pt-4">
+                <p className="font-display font-semibold text-foreground text-sm">{t.name}</p>
+                <p className="text-xs text-muted-foreground">{t.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* 5. Contact */}
+    <section className="py-20 md:py-28 bg-background">
+      <div className="container max-w-5xl">
+        <div className="grid md:grid-cols-2 gap-12">
+          <div>
+            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Contact Us</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
+              Get in Touch
+            </h2>
+            <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
+              Have questions or suggestions? Reach out — we'd love to hear from you.
+            </p>
+            <div className="mt-8 space-y-4">
+              {[
+                { icon: Phone, label: "Voter Helpline", value: "1950 (Toll Free)" },
+                { icon: Mail, label: "Email", value: "contact@matdaan.in" },
+                { icon: MapPin, label: "Address", value: "New Delhi, India" },
+              ].map((c, i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-lg bg-foreground flex items-center justify-center flex-shrink-0">
+                    <c.icon className="h-5 w-5 text-background" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">{c.label}</p>
+                    <p className="text-sm font-semibold text-foreground">{c.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="p-6 rounded-xl bg-card border border-border shadow-card">
+            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label className="text-sm font-medium text-foreground block mb-1.5">Name</label>
+                <input type="text" placeholder="Your name" className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground block mb-1.5">Email</label>
+                <input type="email" placeholder="you@example.com" className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20" />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-foreground block mb-1.5">Message</label>
+                <textarea rows={4} placeholder="Your message..." className="w-full px-4 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20 resize-none" />
+              </div>
+              <button type="submit" className="w-full py-3 bg-foreground text-background rounded-lg font-semibold text-sm hover:bg-foreground/90 transition-colors">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
