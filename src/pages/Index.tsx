@@ -6,48 +6,13 @@ import { Link } from "react-router-dom";
 import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle } from "lucide-react";
 
 const sections = [
-  {
-    icon: UserPlus,
-    title: "Voter Help Desk",
-    desc: "Register to vote, correct details, find your polling station, and more — step-by-step guidance for every voter need.",
-    link: "/help-desk",
-  },
-  {
-    icon: BookOpen,
-    title: "Know Your Democracy",
-    desc: "Understand elections, Parliament, your rights, and the policies that shape your life.",
-    link: "/knowledge",
-  },
-  {
-    icon: XCircle,
-    title: "Myth Busters",
-    desc: "Common misconceptions debunked with facts and official sources.",
-    link: "/myths",
-  },
-  {
-    icon: Clock,
-    title: "Election Timeline",
-    desc: "From announcement to results — every phase of India's election process explained in detail.",
-    link: "/election-timeline",
-  },
-  {
-    icon: FileText,
-    title: "Important Forms",
-    desc: "Complete guide to all voter-related forms — Form 6, 7, 8, 8A, 6B, and more with documents and process.",
-    link: "/important-forms",
-  },
-  {
-    icon: Shield,
-    title: "Voter Rights",
-    desc: "Know your constitutional rights as a voter — right to secret ballot, NOTA, accessibility, and more.",
-    link: "/voter-rights",
-  },
-  {
-    icon: HelpCircle,
-    title: "FAQ",
-    desc: "Comprehensive answers to the most common questions about voting, EVMs, registration, and elections.",
-    link: "/faq",
-  },
+  { icon: UserPlus, title: "Voter Help Desk", desc: "Register, correct details & find your polling station.", link: "/help-desk" },
+  { icon: BookOpen, title: "Know Your Democracy", desc: "Elections, Parliament & how governance works.", link: "/knowledge" },
+  { icon: XCircle, title: "Myth Busters", desc: "Common voting myths debunked with facts.", link: "/myths" },
+  { icon: Clock, title: "Election Timeline", desc: "Every phase from announcement to results.", link: "/election-timeline" },
+  { icon: FileText, title: "Important Forms", desc: "All voter forms — Form 6, 7, 8 & more.", link: "/important-forms" },
+  { icon: Shield, title: "Voter Rights", desc: "Your constitutional rights as a voter.", link: "/voter-rights" },
+  { icon: HelpCircle, title: "FAQ", desc: "Quick answers to common voting questions.", link: "/faq" },
 ];
 
 const Index = () => (
