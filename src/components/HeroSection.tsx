@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import indiaMap from "@/assets/india-map.png";
+import IndiaMapInteractive from "@/components/IndiaMapInteractive";
 
 const HeroSection = () => {
   return (
@@ -29,11 +29,7 @@ const HeroSection = () => {
             </div>
           </div>
           <div className="hidden md:flex items-center justify-center">
-            <img
-              src={indiaMap}
-              alt="Map of India with state boundaries"
-              className="w-full max-w-md opacity-90"
-            />
+            <IndiaMapInteractive />
           </div>
         </div>
       </div>
