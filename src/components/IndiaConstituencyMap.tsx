@@ -160,8 +160,10 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         }}
         width={800}
         height={820}
-        style={{ width: "100%", height: "auto", backgroundColor: "#ffffff" }}
+        style={{ width: "100%", height: "auto" }}
       >
+        {/* White background rect covering entire SVG viewport */}
+        <rect x={0} y={0} width={800} height={820} fill="#ffffff" />
         <ZoomableGroup
           zoom={zoom}
           center={center}
@@ -172,8 +174,6 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
           minZoom={1}
           maxZoom={12}
         >
-          {/* White background to cover default blue ocean */}
-          <rect x={-500} y={-500} width={2000} height={2000} fill="#ffffff" />
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => {
