@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, MapPin, Users, Filter, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import IndiaMapInteractive from "@/components/IndiaMapInteractive";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
 // Party color mapping
 const partyColors: Record<string, string> = {
