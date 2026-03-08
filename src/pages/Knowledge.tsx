@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Landmark, Users, BookOpen, Vote, Scale, Globe, Shield, FileText, Briefcase, Building2 } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const topics = [
   {
