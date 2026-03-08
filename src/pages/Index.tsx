@@ -3,7 +3,9 @@ import HeroSection from "@/components/HeroSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
 import { usePageContent } from "@/hooks/usePageContent";
-import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark } from "lucide-react";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark, Brain } from "lucide-react";
+import ElectionCountdown from "@/components/ElectionCountdown";
+import DailyFact from "@/components/DailyFact";
 
 const sections = [
   { icon: UserPlus, title: "Voter Help Desk", desc: "Register, correct details & find your polling station.", link: "/help-desk" },
@@ -16,6 +18,7 @@ const sections = [
   { icon: TrendingUp, title: "Election Results & News", desc: "Latest election results, analysis & updates.", link: "/election-results" },
   { icon: Users, title: "Political Parties", desc: "National & state-level parties of India.", link: "/political-parties" },
   { icon: Landmark, title: "Constitution & Laws", desc: "Electoral legal framework of India.", link: "/constitution-laws" },
+  { icon: Brain, title: "Voter Quiz", desc: "Test your election knowledge with our quiz!", link: "/voter-quiz" },
 ];
 
 const testimonials = [
@@ -38,6 +41,16 @@ const Index = () => {
 
     {/* 1. Hero */}
     <HeroSection />
+
+    {/* Countdown + Daily Fact */}
+    <section className="py-12 md:py-16 bg-background">
+      <div className="container max-w-5xl">
+        <div className="grid md:grid-cols-2 gap-6">
+          <ElectionCountdown />
+          <DailyFact />
+        </div>
+      </div>
+    </section>
 
     {/* 2. Who We Are */}
     <section className="py-20 md:py-28 bg-muted/50">
