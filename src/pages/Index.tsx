@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
-import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote } from "lucide-react";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark } from "lucide-react";
 
 const sections = [
   { icon: UserPlus, title: "Voter Help Desk", desc: "Register, correct details & find your polling station.", link: "/help-desk" },
@@ -12,6 +12,9 @@ const sections = [
   { icon: FileText, title: "Important Forms", desc: "All voter forms — Form 6, 7, 8 & more.", link: "/important-forms" },
   { icon: Shield, title: "Voter Rights", desc: "Your constitutional rights as a voter.", link: "/voter-rights" },
   { icon: HelpCircle, title: "FAQ", desc: "Quick answers to common voting questions.", link: "/faq" },
+  { icon: TrendingUp, title: "Election Results & News", desc: "Latest election results, analysis & updates.", link: "/election-results" },
+  { icon: Users, title: "Political Parties", desc: "National & state-level parties of India.", link: "/political-parties" },
+  { icon: Landmark, title: "Constitution & Laws", desc: "Electoral legal framework of India.", link: "/constitution-laws" },
 ];
 
 const testimonials = [

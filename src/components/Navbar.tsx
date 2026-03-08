@@ -145,6 +145,7 @@ const Navbar = () => {
           >
             Services
             <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`} />
+
           </button>
           {mobileServicesOpen && (
             <div className="pl-3 space-y-0.5 pb-2">
