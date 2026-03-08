@@ -10,7 +10,6 @@ const serviceLinks = [
   { icon: FileText, label: "Important Forms", desc: "All voter forms — Form 6, 7, 8 & more", href: "/important-forms" },
   { icon: Shield, label: "Voter Rights", desc: "Your constitutional rights as a voter", href: "/voter-rights" },
   { icon: HelpCircle, label: "FAQ", desc: "Quick answers to common questions", href: "/faq" },
-  { icon: Phone, label: "Contact Us", desc: "Get in touch with Matdaan team", href: "/contact" },
   { icon: TrendingUp, label: "Election Results & News", desc: "Latest results, analysis & updates", href: "/election-results" },
   { icon: Users, label: "Political Parties", desc: "National & state parties info", href: "/political-parties" },
   { icon: Landmark, label: "Constitution & Laws", desc: "Electoral legal framework", href: "/constitution-laws" },
