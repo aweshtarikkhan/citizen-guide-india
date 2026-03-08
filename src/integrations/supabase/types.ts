@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      volunteer_applications: {
+        Row: {
+          availability: string
+          created_at: string | null
+          email: string
+          experience: string | null
+          full_name: string
+          id: string
+          phone: string
+          resume_url: string | null
+          skills: string[] | null
+          status: string | null
+          updated_at: string | null
+          why_join_us: string
+        }
+        Insert: {
+          availability: string
+          created_at?: string | null
+          email: string
+          experience?: string | null
+          full_name: string
+          id?: string
+          phone: string
+          resume_url?: string | null
+          skills?: string[] | null
+          status?: string | null
+          updated_at?: string | null
+          why_join_us: string
+        }
+        Update: {
+          availability?: string
+          created_at?: string | null
+          email?: string
+          experience?: string | null
+          full_name?: string
+          id?: string
+          phone?: string
+          resume_url?: string | null
+          skills?: string[] | null
+          status?: string | null
+          updated_at?: string | null
+          why_join_us?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
