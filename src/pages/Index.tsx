@@ -189,5 +189,6 @@ const Index = () => {
     <FooterSection />
   </div>
 );
+};
 
 export default Index;
