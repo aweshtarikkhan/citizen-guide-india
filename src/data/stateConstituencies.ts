@@ -213,13 +213,13 @@ export const stateDataMap: Record<string, StateData> = {
   "hr": {
     id: "hr", name: "Haryana", capital: "Chandigarh", cm: "Nayab Singh Saini", governor: "Bandaru Dattatreya", rulingParty: "BJP", totalConstituencies: 10, area: "44,212 km²", population: "2.54 Cr",
     constituencies: [
-      { name: "Ambala", mp: "Banto Kataria", party: "BJP", category: "SC" },
+      { name: "Ambala", mp: "Varun Chaudhary", party: "INC", category: "SC" },
       { name: "Kurukshetra", mp: "Naveen Jindal", party: "BJP", category: "GEN" },
-      { name: "Sirsa", mp: "Ashok Tanwar", party: "BJP", category: "GEN" },
-      { name: "Hisar", mp: "Ranjit Singh", party: "BJP", category: "GEN" },
+      { name: "Sirsa", mp: "Kumari Selja", party: "INC", category: "SC" },
+      { name: "Hisar", mp: "Jai Prakash", party: "INC", category: "GEN" },
       { name: "Karnal", mp: "Manohar Lal Khattar", party: "BJP", category: "GEN" },
-      { name: "Sonipat", mp: "Mohan Lal Badoli", party: "BJP", category: "SC" },
-      { name: "Rohtak", mp: "Arvind Sharma", party: "BJP", category: "GEN" },
+      { name: "Sonipat", mp: "Satpal Brahamchari", party: "INC", category: "SC" },
+      { name: "Rohtak", mp: "Deepender Singh Hooda", party: "INC", category: "GEN" },
       { name: "Bhiwani-Mahendragarh", mp: "Dharambir Singh", party: "BJP", category: "GEN" },
       { name: "Gurgaon", mp: "Rao Inderjit Singh", party: "BJP", category: "GEN" },
       { name: "Faridabad", mp: "Krishan Pal Gurjar", party: "BJP", category: "SC" },
