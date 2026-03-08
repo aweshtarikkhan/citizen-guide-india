@@ -112,6 +112,7 @@ const PoliticalParties = () => {
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default PoliticalParties;

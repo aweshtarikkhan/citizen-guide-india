@@ -160,6 +160,7 @@ const ElectionTimelinePage = () => {
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default ElectionTimelinePage;

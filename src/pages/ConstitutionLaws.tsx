@@ -123,6 +123,7 @@ const ConstitutionLaws = () => {
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default ConstitutionLaws;
