@@ -309,6 +309,7 @@ const ConstituencyPage = () => {
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2">
               <IndiaConstituencyMap
+                data={constituencyMapData}
                 onConstituencyClick={(name) => {
                   setSearchQuery(name);
                 }}
