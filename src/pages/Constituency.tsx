@@ -107,7 +107,7 @@ const ConstituencyPage = () => {
     });
   }, [allConstituencies, searchQuery, selectedState, selectedParty]);
 
-  // Party-wise count
+  // Party-wise count for badges
   const partyWiseCount = useMemo(() => {
     const counts: Record<string, number> = {};
     allConstituencies.forEach((c) => {
@@ -117,6 +117,44 @@ const ConstituencyPage = () => {
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8);
   }, [allConstituencies]);
+
+  // Full party-wise data for pie chart
+  const pieChartData = useMemo(() => {
+    const counts: Record<string, number> = {};
+    allConstituencies.forEach((c) => {
+      counts[c.party] = (counts[c.party] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, value]) => ({ name, value }));
+  }, [allConstituencies]);
+
+  // Colors for pie chart
+  const PARTY_CHART_COLORS: Record<string, string> = {
+    "BJP": "#f97316",
+    "INC": "#3b82f6",
+    "SP": "#ef4444",
+    "TMC": "#16a34a",
+    "DMK": "#dc2626",
+    "TDP": "#eab308",
+    "JD(U)": "#22c55e",
+    "SS (UBT)": "#fb923c",
+    "Shiv Sena": "#ea580c",
+    "NCP": "#60a5fa",
+    "YSRCP": "#1d4ed8",
+    "AAP": "#06b6d4",
+    "BJD": "#4ade80",
+    "RJD": "#15803d",
+    "CPI(M)": "#b91c1c",
+    "JKNC": "#dc2626",
+    "IND": "#6b7280",
+  };
+
+  const getChartColor = (party: string, index: number) => {
+    if (PARTY_CHART_COLORS[party]) return PARTY_CHART_COLORS[party];
+    const fallbackColors = ["#8b5cf6", "#ec4899", "#14b8a6", "#f59e0b", "#84cc16", "#6366f1"];
+    return fallbackColors[index % fallbackColors.length];
+  };
 
   return (
     <div className="min-h-screen bg-background">
