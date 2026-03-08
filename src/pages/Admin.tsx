@@ -91,11 +91,11 @@ const Admin = () => {
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
-    if (!authLoading && user && !hasAccess) {
+    if (!authLoading && rolesChecked && user && !hasAccess) {
       toast({ title: "Access Denied", description: "You don't have admin or editor privileges.", variant: "destructive" });
       navigate("/");
     }
-  }, [authLoading, user, hasAccess, navigate, toast]);
+  }, [authLoading, rolesChecked, user, hasAccess, navigate, toast]);
 
   useEffect(() => {
     if (hasAccess) {
