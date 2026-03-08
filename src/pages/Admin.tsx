@@ -62,7 +62,7 @@ interface UserRole {
 type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content";
 
 const Admin = () => {
-  const { user, isAdmin, isEditor, loading: authLoading, signOut } = useAuth();
+  const { user, isAdmin, isEditor, loading: authLoading, rolesChecked, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
@@ -91,11 +91,11 @@ const Admin = () => {
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
-    if (!authLoading && user && !hasAccess) {
+    if (!authLoading && rolesChecked && user && !hasAccess) {
       toast({ title: "Access Denied", description: "You don't have admin or editor privileges.", variant: "destructive" });
       navigate("/");
     }
-  }, [authLoading, user, hasAccess, navigate, toast]);
+  }, [authLoading, rolesChecked, user, hasAccess, navigate, toast]);
 
   useEffect(() => {
     if (hasAccess) {
@@ -302,7 +302,7 @@ const Admin = () => {
     }));
   };
 
-  if (authLoading) {
+  if (authLoading || (user && !rolesChecked)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
