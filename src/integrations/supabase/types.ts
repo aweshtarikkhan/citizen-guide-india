@@ -14,6 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      candidate_cache: {
+        Row: {
+          age: number | null
+          candidate_id: string
+          candidate_name: string
+          constituency: string
+          criminal_cases: number | null
+          criminal_details: Json | null
+          detail_scraped: boolean | null
+          education: string | null
+          id: string
+          immovable_assets: Json | null
+          income_details: Json | null
+          liabilities: string | null
+          movable_assets: Json | null
+          myneta_url: string | null
+          pan_status: string | null
+          party: string | null
+          raw_markdown: string | null
+          scraped_at: string | null
+          self_profession: string | null
+          source_of_income: Json | null
+          spouse_profession: string | null
+          total_assets: string | null
+        }
+        Insert: {
+          age?: number | null
+          candidate_id: string
+          candidate_name: string
+          constituency: string
+          criminal_cases?: number | null
+          criminal_details?: Json | null
+          detail_scraped?: boolean | null
+          education?: string | null
+          id?: string
+          immovable_assets?: Json | null
+          income_details?: Json | null
+          liabilities?: string | null
+          movable_assets?: Json | null
+          myneta_url?: string | null
+          pan_status?: string | null
+          party?: string | null
+          raw_markdown?: string | null
+          scraped_at?: string | null
+          self_profession?: string | null
+          source_of_income?: Json | null
+          spouse_profession?: string | null
+          total_assets?: string | null
+        }
+        Update: {
+          age?: number | null
+          candidate_id?: string
+          candidate_name?: string
+          constituency?: string
+          criminal_cases?: number | null
+          criminal_details?: Json | null
+          detail_scraped?: boolean | null
+          education?: string | null
+          id?: string
+          immovable_assets?: Json | null
+          income_details?: Json | null
+          liabilities?: string | null
+          movable_assets?: Json | null
+          myneta_url?: string | null
+          pan_status?: string | null
+          party?: string | null
+          raw_markdown?: string | null
+          scraped_at?: string | null
+          self_profession?: string | null
+          source_of_income?: Json | null
+          spouse_profession?: string | null
+          total_assets?: string | null
+        }
+        Relationships: []
+      }
       volunteer_applications: {
         Row: {
           availability: string
