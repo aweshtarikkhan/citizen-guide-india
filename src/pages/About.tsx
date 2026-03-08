@@ -89,6 +89,20 @@ const whatWeDo = [
   { icon: Award, title: "Myth Busting", desc: "Debunking misinformation about EVMs, voting, and the electoral process." },
 ];
 
+const teamMembers = [
+  { name: "Rahul Sharma", role: "Founder & Director", image: "RS", desc: "Civic tech enthusiast with 10+ years in public policy" },
+  { name: "Priya Patel", role: "Head of Content", image: "PP", desc: "Former journalist specializing in electoral coverage" },
+  { name: "Amit Kumar", role: "Tech Lead", image: "AK", desc: "Full-stack developer passionate about civic innovation" },
+  { name: "Sneha Reddy", role: "Outreach Coordinator", image: "SR", desc: "Grassroots organizer with pan-India network" },
+];
+
+const ourWorking = [
+  { icon: Target, title: "Research", desc: "We study official ECI documents, constitutional provisions, and legal frameworks to ensure accuracy." },
+  { icon: BookOpen, title: "Simplify", desc: "Complex civic information is broken down into easy-to-understand guides and articles." },
+  { icon: Globe, title: "Distribute", desc: "Content is made freely available across web, social media, and partner networks." },
+  { icon: Users, title: "Engage", desc: "We actively respond to citizen queries and continuously improve based on feedback." },
+];
+
 /* ── Component ── */
 const AboutPage = () => {
   const heroReveal = useScrollReveal();
