@@ -294,7 +294,81 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* ── Our Values ── */}
+      {/* ── Our Working ── */}
+      <section className="py-16 md:py-24 bg-background">
+        <div
+          ref={workingReveal.ref}
+          className={`container max-w-5xl transition-all duration-700 ${workingReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="text-center mb-12">
+            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Our Working</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mt-3">
+              How We Work
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
+              Our systematic approach ensures accurate, accessible, and impactful civic education.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {ourWorking.map((item, i) => (
+              <div
+                key={i}
+                className="relative group"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                {/* Step Number */}
+                <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-bold z-10">
+                  {i + 1}
+                </div>
+                <div className="rounded-xl border border-border bg-card shadow-card p-6 pt-8 hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 h-full">
+                  <div className="h-11 w-11 rounded-lg bg-muted flex items-center justify-center mb-4 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
+                    <item.icon className="h-5 w-5 text-foreground group-hover:text-background transition-colors duration-300" />
+                  </div>
+                  <h3 className="font-display font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Meet Our Team ── */}
+      <section className="py-16 md:py-24 bg-muted/30 border-y border-border">
+        <div
+          ref={teamReveal.ref}
+          className={`container max-w-5xl transition-all duration-700 ${teamReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="text-center mb-12">
+            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Our Team</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mt-3">
+              Meet Our Team
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
+              Passionate individuals dedicated to strengthening Indian democracy through civic education.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {teamMembers.map((member, i) => (
+              <div
+                key={i}
+                className="group rounded-xl border border-border bg-card shadow-card p-6 text-center hover:shadow-elevated transition-all duration-300 hover:-translate-y-2"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                {/* Avatar */}
+                <div className="mx-auto h-20 w-20 rounded-full bg-foreground flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-2xl font-bold text-background">{member.image}</span>
+                </div>
+                <h3 className="font-display font-bold text-lg text-foreground">{member.name}</h3>
+                <p className="text-sm font-medium text-primary mt-1">{member.role}</p>
+                <p className="text-muted-foreground text-xs mt-3 leading-relaxed">{member.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       <section className="py-16 md:py-24 bg-background">
         <div
           ref={valuesReveal.ref}
