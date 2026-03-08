@@ -160,7 +160,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         }}
         width={800}
         height={820}
-        style={{ width: "100%", height: "auto" }}
+        style={{ width: "100%", height: "auto", backgroundColor: "#ffffff" }}
       >
         <ZoomableGroup
           zoom={zoom}
