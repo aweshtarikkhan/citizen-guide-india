@@ -11,8 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe
 } from "lucide-react";
+import ContentManager from "@/components/ContentManager";
 
 interface Blog {
   id: string;
@@ -58,7 +59,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content";
 
 const Admin = () => {
   const { user, isAdmin, isEditor, loading: authLoading, signOut } = useAuth();
@@ -425,6 +426,7 @@ const Admin = () => {
   const sidebarTabs = isAdmin
     ? [
         { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
+        { id: "content" as Tab, label: "Page Content", icon: Globe },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
         { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
@@ -652,6 +654,9 @@ const Admin = () => {
             )}
           </div>
         )}
+
+        {/* Content Manager - Admin only */}
+        {activeTab === "content" && isAdmin && <ContentManager />}
       </main>
     </div>
   );

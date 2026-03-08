@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
+import { usePageContent } from "@/hooks/usePageContent";
 import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark } from "lucide-react";
 
 const sections = [
@@ -26,7 +27,12 @@ const testimonials = [
   { name: "Amit Singh", location: "Lucknow", text: "The FAQ section answered every question I had about EVMs and VVPAT. Highly recommended!" },
 ];
 
-const Index = () => (
+const Index = () => {
+  const { getContent, getJsonContent } = usePageContent("home");
+  
+  const cmsTestimonials = getJsonContent("testimonials", testimonials);
+
+  return (
   <div className="min-h-screen">
     <Navbar />
 
@@ -38,12 +44,14 @@ const Index = () => (
       <div className="container max-w-5xl">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Who We Are</span>
+            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">
+              {getContent("whoweare_label", "Who We Are")}
+            </span>
             <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
-              Empowering Every Indian Voter
+              {getContent("whoweare_title", "Empowering Every Indian Voter")}
             </h2>
             <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
-              Matdaan is a non-partisan civic awareness platform dedicated to making democracy accessible. We simplify voter registration, explain your rights, and bust myths — so every citizen can vote with confidence.
+              {getContent("whoweare_desc", "Matdaan is a non-partisan civic awareness platform dedicated to making democracy accessible. We simplify voter registration, explain your rights, and bust myths — so every citizen can vote with confidence.")}
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
               <Link to="/about" className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-lg font-semibold text-sm hover:bg-foreground/90 transition-colors">
@@ -73,7 +81,7 @@ const Index = () => (
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Explore Matdaan
+            {getContent("explore_title", "Explore Matdaan")}
           </h2>
           <p className="mt-4 text-muted-foreground text-lg">
             Everything you need to be an informed, empowered citizen.
@@ -111,7 +119,7 @@ const Index = () => (
           <p className="mt-4 text-muted-foreground text-lg">Real stories from voters empowered by Matdaan.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
+          {cmsTestimonials.map((t: any, i: number) => (
             <div key={i} className="p-6 rounded-xl bg-card border border-border shadow-card">
               <Quote className="h-8 w-8 text-border mb-4" />
               <p className="text-muted-foreground text-sm leading-relaxed mb-5">"{t.text}"</p>
@@ -181,5 +189,6 @@ const Index = () => (
     <FooterSection />
   </div>
 );
+};
 
 export default Index;

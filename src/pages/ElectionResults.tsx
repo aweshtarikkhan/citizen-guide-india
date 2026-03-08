@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { TrendingUp, BarChart3, MapPin, Calendar, Users, Award } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const electionData = [
   {
@@ -53,19 +54,21 @@ const newsItems = [
   { title: "VVPAT Verification Process Explained", date: "October 2024", category: "Education" },
 ];
 
-const ElectionResults = () => (
+const ElectionResults = () => {
+  const { getContent } = usePageContent("election-results");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
 
-    {/* Hero */}
     <section className="pt-28 pb-16 md:pt-36 md:pb-20 bg-muted/50">
       <div className="container max-w-5xl text-center">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Election Data</span>
         <h1 className="text-4xl md:text-5xl font-display font-bold mt-3 text-foreground">
-          Election Results & News
+          {getContent("page_title", "Election Results & News")}
         </h1>
         <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-          Stay updated with latest election results, analysis, and news from across India.
+          {getContent("page_desc", "Stay updated with latest election results, analysis, and news from across India.")}
         </p>
       </div>
     </section>
@@ -154,6 +157,7 @@ const ElectionResults = () => (
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default ElectionResults;

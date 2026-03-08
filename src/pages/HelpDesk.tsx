@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search, ExternalLink, CheckCircle, Smartphone, Globe, Printer, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const services = [
   {
@@ -166,17 +167,20 @@ const services = [
   },
 ];
 
-const HelpDeskPage = () => (
+const HelpDeskPage = () => {
+  const { getContent } = usePageContent("help-desk");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Voter Help Desk</span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          How Can We Help You?
+          {getContent("page_title", "How Can We Help You?")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Simple, step-by-step guidance for all your voter-related needs. We guide you toward official Election Commission services — everything here is free and non-partisan.
+          {getContent("page_desc", "Simple, step-by-step guidance for all your voter-related needs. We guide you toward official Election Commission services — everything here is free and non-partisan.")}
         </p>
       </div>
     </section>
@@ -214,6 +218,7 @@ const HelpDeskPage = () => (
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default HelpDeskPage;

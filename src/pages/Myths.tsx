@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { XCircle, CheckCircle } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const myths = [
   {
@@ -65,24 +66,28 @@ const myths = [
   },
 ];
 
-const MythsPage = () => (
+const MythsPage = () => {
+  const { getContent, getJsonContent } = usePageContent("myths");
+  const cmsMythsData = getJsonContent("myths_data", myths);
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Myth Busters</span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          Separating Fact from Fiction
+          {getContent("page_title", "Separating Fact from Fiction")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Misconceptions about voting prevent millions from exercising their rights. Here are {myths.length} common myths debunked with facts and official sources.
+          {getContent("page_desc", `Misconceptions about voting prevent millions from exercising their rights. Here are ${cmsMythsData.length} common myths debunked with facts and official sources.`)}
         </p>
       </div>
     </section>
 
     <section className="pb-20 bg-background">
       <div className="container max-w-4xl space-y-6">
-        {myths.map((m, i) => (
+        {cmsMythsData.map((m: any, i: number) => (
           <div key={i} className="rounded-xl border border-border bg-card shadow-card overflow-hidden">
             <div className="flex items-start gap-3 p-6 border-b border-border bg-muted/30">
               <XCircle className="h-5 w-5 text-destructive mt-0.5 flex-shrink-0" />
@@ -108,6 +113,7 @@ const MythsPage = () => (
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default MythsPage;
