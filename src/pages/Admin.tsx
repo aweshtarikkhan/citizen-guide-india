@@ -44,7 +44,14 @@ interface VolunteerApp {
   created_at: string | null;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor";
+interface UserProfile {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  created_at: string;
+}
+
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users";
 
 const Admin = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
