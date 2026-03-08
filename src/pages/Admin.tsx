@@ -62,7 +62,7 @@ interface UserRole {
 type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content";
 
 const Admin = () => {
-  const { user, isAdmin, isEditor, loading: authLoading, signOut } = useAuth();
+  const { user, isAdmin, isEditor, loading: authLoading, rolesChecked, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
