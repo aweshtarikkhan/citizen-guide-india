@@ -559,6 +559,33 @@ const Admin = () => {
             )}
           </div>
         )}
+        {/* Users */}
+        {activeTab === "users" && (
+          <div>
+            <h2 className="text-2xl font-display font-bold mb-6">Signed Up Users ({users.length})</h2>
+            {users.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">No users signed up yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {users.map((u) => (
+                  <Card key={u.id} className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
+                        {u.full_name ? u.full_name.charAt(0).toUpperCase() : "?"}
+                      </div>
+                      <div>
+                        <h3 className="font-medium text-foreground">{u.full_name || "No Name"}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          Joined: {new Date(u.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
