@@ -654,6 +654,9 @@ const Admin = () => {
             )}
           </div>
         )}
+
+        {/* Content Manager - Admin only */}
+        {activeTab === "content" && isAdmin && <ContentManager />}
       </main>
     </div>
   );
