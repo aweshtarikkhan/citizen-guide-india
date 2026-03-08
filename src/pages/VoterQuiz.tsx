@@ -162,8 +162,8 @@ const VoterQuiz = () => {
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span className="text-sm font-medium text-foreground">{opt}</span>
-                      {answered && idx === q.correct && <CheckCircle2 className="h-5 w-5 text-green-600 ml-auto shrink-0" />}
-                      {answered && idx === selected && idx !== q.correct && <XCircle className="h-5 w-5 text-red-500 ml-auto shrink-0" />}
+                      {answered && idx === q.correct && <CheckCircle2 className="h-5 w-5 text-foreground ml-auto shrink-0" />}
+                      {answered && idx === selected && idx !== q.correct && <XCircle className="h-5 w-5 text-destructive ml-auto shrink-0" />}
                     </button>
                   );
                 })}
