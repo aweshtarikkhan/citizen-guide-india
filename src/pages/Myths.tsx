@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { XCircle, CheckCircle } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const myths = [
   {
