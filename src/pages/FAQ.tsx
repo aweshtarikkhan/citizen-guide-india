@@ -131,28 +131,32 @@ const faqCategories = [
   },
 ];
 
-const FAQPage = () => (
+const FAQPage = () => {
+  const { getContent, getJsonContent } = usePageContent("faq");
+  const cmsFaqData = getJsonContent("faq_data", faqCategories);
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">FAQ</span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          Frequently Asked Questions
+          {getContent("page_title", "Frequently Asked Questions")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Comprehensive answers to the most common questions about voting, elections, and democratic participation in India.
+          {getContent("page_desc", "Comprehensive answers to the most common questions about voting, elections, and democratic participation in India.")}
         </p>
       </div>
     </section>
 
     <section className="pb-20 bg-background">
       <div className="container max-w-4xl space-y-12">
-        {faqCategories.map((cat, i) => (
+        {cmsFaqData.map((cat: any, i: number) => (
           <div key={i}>
             <h2 className="text-2xl font-display font-bold text-foreground mb-6">{cat.category}</h2>
             <Accordion type="multiple" className="space-y-3">
-              {cat.faqs.map((faq, j) => (
+              {cat.faqs.map((faq: any, j: number) => (
                 <AccordionItem key={j} value={`${i}-${j}`} className="rounded-xl border border-border bg-card shadow-card px-6">
                   <AccordionTrigger className="text-left font-display font-semibold text-foreground text-sm md:text-base py-5 hover:no-underline">
                     {faq.q}
@@ -170,6 +174,7 @@ const FAQPage = () => (
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default FAQPage;
