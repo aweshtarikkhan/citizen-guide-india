@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import IndiaMapInteractive from "@/components/IndiaMapInteractive";
+import { usePageContent } from "@/hooks/usePageContent";
 import {
   Heart, Shield, Eye, Users, MapPin, Vote, BookOpen, Scale,
   Target, Lightbulb, Globe, Award, ArrowRight, CheckCircle2,
