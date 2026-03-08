@@ -30,18 +30,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isEditor, setIsEditor] = useState(false);
 
   const checkRoles = async (userId: string) => {
-    try {
-      const [adminRes, editorRes] = await Promise.all([
-        supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
-        supabase.rpc("has_role", { _user_id: userId, _role: "editor" }),
-      ]);
+    const [adminRes, editorRes] = await Promise.allSettled([
+      supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
+      supabase.rpc("has_role", { _user_id: userId, _role: "editor" }),
+    ]);
 
-      setIsAdmin(Boolean(adminRes.data));
-      setIsEditor(Boolean(editorRes.data));
-    } catch {
-      setIsAdmin(false);
-      setIsEditor(false);
-    }
+    const adminValue =
+      adminRes.status === "fulfilled" && !adminRes.value.error
+        ? Boolean(adminRes.value.data)
+        : false;
+
+    const editorValue =
+      editorRes.status === "fulfilled" && !editorRes.value.error
+        ? Boolean(editorRes.value.data)
+        : false;
+
+    setIsAdmin(adminValue);
+    setIsEditor(editorValue);
   };
 
   useEffect(() => {
