@@ -1,15 +1,9 @@
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup,
-  Sphere,
-} from "react-simple-maps";
 import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const GEO_URL = "/india_pc_2019_simplified.geojson";
+import { MapContainer, GeoJSON, TileLayer, useMap } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 // Party hex colors for the map fills
 const PARTY_HEX: Record<string, string> = {
@@ -55,7 +49,6 @@ const PARTY_HEX: Record<string, string> = {
 };
 
 const DEFAULT_COLOR = "#d1d5db";
-const HOVER_STROKE = "#000";
 
 interface ConstituencyData {
   party: string;
@@ -68,7 +61,6 @@ interface Props {
   onConstituencyClick?: (name: string) => void;
 }
 
-// Normalize names for matching: uppercase, remove extra spaces, handle common variations
 function normalizeName(name: string): string {
   return name
     .toUpperCase()
@@ -77,40 +69,42 @@ function normalizeName(name: string): string {
     .trim();
 }
 
+// Component to handle zoom controls from outside the map
+function ZoomControls({ onReset }: { onReset: () => void }) {
+  const map = useMap();
+  return (
+    <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-1">
+      <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={() => map.zoomIn()}>
+        <ZoomIn className="h-4 w-4" />
+      </Button>
+      <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={() => map.zoomOut()}>
+        <ZoomOut className="h-4 w-4" />
+      </Button>
+      <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={() => {
+        map.setView([22, 82], 5);
+        onReset();
+      }}>
+        <RotateCcw className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+}
+
 const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
+  const [geoData, setGeoData] = useState<any>(null);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [center, setCenter] = useState<[number, number]>([82, 22]);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const geoJsonRef = useRef<L.GeoJSON | null>(null);
 
-  // Force override blue ocean background from react-simple-maps
+  // Load GeoJSON
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const observer = new MutationObserver(() => {
-      const rects = el.querySelectorAll("svg rect");
-      rects.forEach((rect) => {
-        const fill = rect.getAttribute("fill");
-        if (fill && fill !== "#ffffff" && fill !== "none" && !fill.startsWith("hsl")) {
-          rect.setAttribute("fill", "#ffffff");
-        }
-      });
-      const paths = el.querySelectorAll("svg > g > path");
-      paths.forEach((path) => {
-        const fill = path.getAttribute("fill");
-        if (fill && fill.match(/^#[0-9a-f]{6}$/i) && fill !== "#ffffff") {
-          // Only override if it looks like the sphere/ocean fill
-          const d = path.getAttribute("d") || "";
-          if (d.length > 500) path.setAttribute("fill", "#ffffff");
-        }
-      });
-    });
-    observer.observe(el, { childList: true, subtree: true, attributes: true });
-    return () => observer.disconnect();
+    fetch("/india_pc_2019_simplified.geojson")
+      .then((res) => res.json())
+      .then((d) => setGeoData(d))
+      .catch(console.error);
   }, []);
 
-  // Build a normalized lookup from the data prop
+  // Build normalized lookup
   const normalizedData = useMemo(() => {
     if (!data) return {};
     const map: Record<string, ConstituencyData> = {};
@@ -122,8 +116,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
 
   const findMatch = useCallback(
     (pcName: string): ConstituencyData | undefined => {
-      const norm = normalizeName(pcName);
-      return normalizedData[norm];
+      return normalizedData[normalizeName(pcName)];
     },
     [normalizedData]
   );
@@ -137,41 +130,68 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
     [findMatch]
   );
 
-  const handleZoomIn = useCallback(() => setZoom((z) => Math.min(z * 1.5, 12)), []);
-  const handleZoomOut = useCallback(() => setZoom((z) => Math.max(z / 1.5, 1)), []);
-  const handleReset = useCallback(() => {
-    setZoom(1);
-    setCenter([82, 22]);
-  }, []);
+  const onEachFeature = useCallback(
+    (feature: any, layer: L.Layer) => {
+      const pcName = feature.properties?.pc_name || "";
+      const match = findMatch(pcName);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setTooltipPos({ x: e.clientX, y: e.clientY });
-  }, []);
+      layer.on({
+        mouseover: (e: any) => {
+          const l = e.target;
+          l.setStyle({
+            weight: 2,
+            fillOpacity: 0.85,
+          });
+          l.bringToFront();
+          const label = match
+            ? `${pcName} — ${match.mp} (${match.party})`
+            : pcName;
+          setTooltipContent(label);
+        },
+        mouseout: (e: any) => {
+          const l = e.target;
+          l.setStyle({
+            weight: 0.5,
+            fillOpacity: 0.7,
+          });
+          setTooltipContent("");
+        },
+        mousemove: (e: any) => {
+          setTooltipPos({ x: e.originalEvent.clientX, y: e.originalEvent.clientY });
+        },
+        click: () => {
+          if (onConstituencyClick) onConstituencyClick(pcName);
+        },
+      });
+    },
+    [findMatch, onConstituencyClick]
+  );
+
+  const style = useCallback(
+    (feature: any) => {
+      const pcName = feature.properties?.pc_name || "";
+      return {
+        fillColor: getFillColor(pcName),
+        weight: 0.5,
+        opacity: 1,
+        color: "#888",
+        fillOpacity: 0.7,
+      };
+    },
+    [getFillColor]
+  );
+
+  // Recreate GeoJSON key when data changes to force re-render
+  const geoKey = useMemo(() => {
+    return data ? Object.keys(data).length : 0;
+  }, [data]);
 
   return (
-    <div
-      ref={containerRef}
-      className="india-map-white relative w-full rounded-lg overflow-hidden border border-border bg-white"
-      style={{ minHeight: "500px" }}
-      onMouseMove={handleMouseMove}
-    >
-      {/* Zoom controls */}
-      <div className="absolute top-3 right-3 z-10 flex flex-col gap-1">
-        <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={handleZoomIn}>
-          <ZoomIn className="h-4 w-4" />
-        </Button>
-        <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={handleZoomOut}>
-          <ZoomOut className="h-4 w-4" />
-        </Button>
-        <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={handleReset}>
-          <RotateCcw className="h-4 w-4" />
-        </Button>
-      </div>
-
+    <div className="relative w-full rounded-lg overflow-hidden border border-border" style={{ minHeight: "500px" }}>
       {/* Tooltip */}
       {tooltipContent && (
         <div
-          className="fixed z-50 pointer-events-none px-3 py-2 rounded-md text-xs font-medium bg-foreground text-background shadow-lg"
+          className="fixed z-[2000] pointer-events-none px-3 py-2 rounded-md text-xs font-medium bg-foreground text-background shadow-lg"
           style={{
             left: tooltipPos.x + 12,
             top: tooltipPos.y - 30,
@@ -181,70 +201,34 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         </div>
       )}
 
-      <div style={{ background: "#ffffff" }}>
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{
-          scale: 1000,
-          center: [82, 22],
-        }}
-        width={800}
-        height={820}
-        style={{ width: "100%", height: "auto", display: "block", background: "#ffffff" }}
-      >
-        <ZoomableGroup
-          zoom={zoom}
-          center={center}
-          onMoveEnd={({ coordinates, zoom: z }) => {
-            setCenter(coordinates as [number, number]);
-            setZoom(z);
-          }}
-          minZoom={1}
-          maxZoom={12}
+      {geoData ? (
+        <MapContainer
+          center={[22, 82]}
+          zoom={5}
+          minZoom={4}
+          maxZoom={10}
+          style={{ height: "600px", width: "100%", background: "#ffffff" }}
+          zoomControl={false}
+          attributionControl={false}
         >
-          <Geographies geography={GEO_URL}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const pcName = geo.properties.pc_name || "";
-                const match = findMatch(pcName);
-                const fill = getFillColor(pcName);
-
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={fill}
-                    stroke="hsl(var(--border))"
-                    strokeWidth={0.4 / zoom}
-                    style={{
-                      default: { outline: "none" },
-                      hover: {
-                        outline: "none",
-                        fill: fill === DEFAULT_COLOR ? "#bbb" : fill,
-                        stroke: HOVER_STROKE,
-                        strokeWidth: 1.2 / zoom,
-                        filter: "brightness(1.15)",
-                      },
-                      pressed: { outline: "none" },
-                    }}
-                    onMouseEnter={() => {
-                      const label = match
-                        ? `${pcName} — ${match.mp} (${match.party})`
-                        : pcName;
-                      setTooltipContent(label);
-                    }}
-                    onMouseLeave={() => setTooltipContent("")}
-                    onClick={() => {
-                      if (onConstituencyClick) onConstituencyClick(pcName);
-                    }}
-                  />
-                );
-              })
-            }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
-      </div>
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+            attribution=""
+          />
+          <GeoJSON
+            key={`geo-${geoKey}`}
+            ref={geoJsonRef as any}
+            data={geoData}
+            style={style}
+            onEachFeature={onEachFeature}
+          />
+          <ZoomControls onReset={() => {}} />
+        </MapContainer>
+      ) : (
+        <div className="flex items-center justify-center h-[600px] text-muted-foreground">
+          Loading map...
+        </div>
+      )}
     </div>
   );
 });
