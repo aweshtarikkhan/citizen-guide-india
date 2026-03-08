@@ -11,17 +11,22 @@ const resources = [
   { name: "Voter Helpline App", url: "https://play.google.com/store/apps/details?id=com.eci.citizen", desc: "ECI's official app for voter services on mobile." },
 ];
 
-const ContactPage = () => (
+const ContactPage = () => {
+  const { getContent } = usePageContent("contact");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
-        <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Contact</span>
+        <span className="text-sm font-semibold text-foreground uppercase tracking-widest">
+          {getContent("page_label", "Contact")}
+        </span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          Get in Touch
+          {getContent("page_title", "Get in Touch")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Have questions, suggestions, or want to collaborate? Reach out to us. For official voter-related queries, we recommend contacting the Election Commission directly.
+          {getContent("page_desc", "Have questions, suggestions, or want to collaborate? Reach out to us. For official voter-related queries, we recommend contacting the Election Commission directly.")}
         </p>
       </div>
     </section>
