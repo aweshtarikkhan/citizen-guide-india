@@ -73,6 +73,24 @@ const ConstituencyPage = () => {
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedParty, setSelectedParty] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
+  const [mynetaData, setMynetaData] = useState<Record<string, CandidateSummary>>({});
+  const [mynetaLoading, setMynetaLoading] = useState(false);
+
+  // Load MyNeta data
+  useEffect(() => {
+    setMynetaLoading(true);
+    mynetaApi.getWinners().then((res) => {
+      if (res.success && res.data) {
+        const dataMap: Record<string, CandidateSummary> = {};
+        res.data.forEach((c) => {
+          // Map by constituency name (uppercase for matching)
+          dataMap[c.constituency.toUpperCase()] = c;
+        });
+        setMynetaData(dataMap);
+      }
+      setMynetaLoading(false);
+    }).catch(() => setMynetaLoading(false));
+  }, []);
 
   // Get all constituencies with state info
   const allConstituencies: FlatConstituency[] = useMemo(() => {
