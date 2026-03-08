@@ -1,14 +1,16 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap, Constituency as ConstituencyType } from "@/data/stateConstituencies";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, MapPin, Users, Filter, ChevronDown } from "lucide-react";
+import { Search, MapPin, Users, Filter, ChevronDown, AlertTriangle, GraduationCap, IndianRupee, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import IndiaMapInteractive from "@/components/IndiaMapInteractive";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { Button } from "@/components/ui/button";
+import { mynetaApi, CandidateSummary } from "@/lib/api/myneta";
 
 // Party color mapping
 const partyColors: Record<string, string> = {
