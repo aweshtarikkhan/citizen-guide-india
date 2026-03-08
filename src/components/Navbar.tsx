@@ -136,6 +136,8 @@ const Navbar = () => {
             Contact
           </Link>
 
+          <LanguageSelector />
+
           {/* Auth Buttons */}
           {user ? (
             <div className="flex items-center gap-2">
