@@ -137,8 +137,14 @@ const AboutPage = () => {
           ref={heroReveal.ref}
           className={`container relative z-10 max-w-5xl transition-all duration-1000 ${heroReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
+          {/* Foundation Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-background/10 border border-background/20 rounded-full mb-6">
+            <Calendar className="h-4 w-4 text-background/80" />
+            <span className="text-sm font-medium text-background/80">Founded in 2020</span>
+          </div>
+          
           <span className="inline-block text-sm font-semibold text-background/60 uppercase tracking-[0.2em] mb-4">
-            About Matdaan
+            Matdaan Ki Foundation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-display font-bold text-background leading-[1.1]">
             Empowering India's
@@ -146,8 +152,25 @@ const AboutPage = () => {
             <span className="text-background/70">950 Million Voters</span>
           </h1>
           <p className="mt-6 text-background/60 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Matdaan (मतदान) means "the act of voting" in Hindi. We are a non-partisan civic initiative dedicated to empowering Indian citizens with the knowledge and tools they need to participate meaningfully in democracy.
+            Matdaan (मतदान) means "the act of voting" in Hindi. Founded in 2020, we are a non-partisan civic initiative dedicated to empowering Indian citizens with the knowledge and tools they need to participate meaningfully in democracy.
           </p>
+          
+          {/* Foundation Highlights */}
+          <div className="mt-8 grid grid-cols-3 gap-4 max-w-md">
+            <div className="text-center p-3 bg-background/5 rounded-lg border border-background/10">
+              <div className="text-2xl font-bold text-background">2020</div>
+              <div className="text-xs text-background/60">Founded</div>
+            </div>
+            <div className="text-center p-3 bg-background/5 rounded-lg border border-background/10">
+              <div className="text-2xl font-bold text-background">5+</div>
+              <div className="text-xs text-background/60">Years Active</div>
+            </div>
+            <div className="text-center p-3 bg-background/5 rounded-lg border border-background/10">
+              <div className="text-2xl font-bold text-background">Pan-India</div>
+              <div className="text-xs text-background/60">Reach</div>
+            </div>
+          </div>
+          
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               to="/help-desk"
