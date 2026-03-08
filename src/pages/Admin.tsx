@@ -24,8 +24,8 @@ interface Blog {
   category: string | null;
   tags: string[];
   status: string;
-  social_links: Record<string, string>;
-  external_links: Array<{ label: string; url: string }>;
+  social_links: any;
+  external_links: any;
   published_at: string | null;
   created_at: string;
 }
