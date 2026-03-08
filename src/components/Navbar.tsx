@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Phone, TrendingUp, Users, Landmark } from "lucide-react";
+import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const serviceLinks = [
@@ -10,7 +10,6 @@ const serviceLinks = [
   { icon: FileText, label: "Important Forms", desc: "All voter forms — Form 6, 7, 8 & more", href: "/important-forms" },
   { icon: Shield, label: "Voter Rights", desc: "Your constitutional rights as a voter", href: "/voter-rights" },
   { icon: HelpCircle, label: "FAQ", desc: "Quick answers to common questions", href: "/faq" },
-  { icon: Phone, label: "Contact Us", desc: "Get in touch with Matdaan team", href: "/contact" },
   { icon: TrendingUp, label: "Election Results & News", desc: "Latest results, analysis & updates", href: "/election-results" },
   { icon: Users, label: "Political Parties", desc: "National & state parties info", href: "/political-parties" },
   { icon: Landmark, label: "Constitution & Laws", desc: "Electoral legal framework", href: "/constitution-laws" },
@@ -113,6 +112,15 @@ const Navbar = () => {
           >
             Blogs
           </Link>
+
+          <Link
+            to="/contact"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/contact" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Contact
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -173,6 +181,15 @@ const Navbar = () => {
             }`}
           >
             Blogs
+          </Link>
+
+          <Link
+            to="/contact"
+            className={`block py-2.5 text-sm font-medium ${
+              location.pathname === "/contact" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Contact
           </Link>
         </div>
       )}
