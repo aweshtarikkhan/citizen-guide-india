@@ -4,6 +4,7 @@ import {
   Geographies,
   Geography,
   ZoomableGroup,
+  Sphere,
 } from "react-simple-maps";
 import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
