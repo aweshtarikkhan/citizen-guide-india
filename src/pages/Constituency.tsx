@@ -309,11 +309,7 @@ const ConstituencyPage = () => {
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2">
               <IndiaConstituencyMap
-                constituencyPartyMap={constituencyMapData}
-                onConstituencyClick={(name, data) => {
-                  if (data?.candidateId) {
-                    window.location.href = `/candidate?id=${data.candidateId}`;
-                  }
+                onConstituencyClick={(name) => {
                   setSearchQuery(name);
                 }}
               />
