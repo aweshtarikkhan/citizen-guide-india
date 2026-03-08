@@ -369,20 +369,12 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
-      {/* MyNeta Data Banner */}
+      {/* MyNeta Data Loading Indicator */}
       {mynetaLoading && (
         <div className="bg-primary/10 border-b border-border py-3">
           <div className="container max-w-5xl flex items-center gap-2 text-sm text-primary">
             <Loader2 className="h-4 w-4 animate-spin" />
-            MyNeta.info se candidates ka data load ho raha hai...
-          </div>
-        </div>
-      )}
-
-      {!mynetaLoading && Object.keys(mynetaData).length > 0 && (
-        <div className="bg-green-500/10 border-b border-border py-3">
-          <div className="container max-w-5xl text-sm text-green-700 dark:text-green-400">
-            ✅ {Object.keys(mynetaData).length} candidates ka data loaded from MyNeta.info — Click any card for full details
+            Loading candidate data...
           </div>
         </div>
       )}
