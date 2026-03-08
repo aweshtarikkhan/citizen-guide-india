@@ -114,13 +114,6 @@ const Admin = () => {
     }
   }, [isEditor, isAdmin]);
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
 
   const fetchBlogs = async () => {
     setLoadingData(true);
@@ -441,6 +434,14 @@ const Admin = () => {
     : [
         { id: "blogs" as Tab, label: "My Blogs", icon: FileText },
       ];
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex">
