@@ -10,7 +10,15 @@ const quickQuestions = [
   "Voter ID kaise banaye?",
   "Polling booth kaise dhundein?",
   "EVM kya hai?",
+  "NOTA kya hota hai?",
   "Voting ke liye kya documents chahiye?",
+  "NRI voting kaise karein?",
+  "Postal ballot kaise milega?",
+  "Election mein complaint kaise karein?",
+  "e-EPIC kya hai aur kaise download karein?",
+  "Model Code of Conduct kya hota hai?",
+  "Voter list mein naam kaise check karein?",
+  "Senior citizens ke liye kya suvidha hai?",
 ];
 
 const VotingAssistant = () => {
