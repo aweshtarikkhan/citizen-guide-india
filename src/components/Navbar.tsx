@@ -134,6 +134,27 @@ const Navbar = () => {
           >
             Contact
           </Link>
+
+          {/* Auth Buttons */}
+          {user ? (
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <Link to="/admin" className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
+                  <Settings className="h-4 w-4" /> Admin
+                </Link>
+              )}
+              <button
+                onClick={() => { signOut(); navigate("/"); }}
+                className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1"
+              >
+                <LogOut className="h-4 w-4" /> Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="flex items-center gap-1.5 px-4 py-2 bg-foreground text-background rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors">
+              <LogIn className="h-4 w-4" /> Login
+            </Link>
+          )}
         </div>
 
         {/* Mobile Toggle */}
