@@ -119,7 +119,7 @@ const Index = () => {
           <p className="mt-4 text-muted-foreground text-lg">Real stories from voters empowered by Matdaan.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
+          {cmsTestimonials.map((t: any, i: number) => (
             <div key={i} className="p-6 rounded-xl bg-card border border-border shadow-card">
               <Quote className="h-8 w-8 text-border mb-4" />
               <p className="text-muted-foreground text-sm leading-relaxed mb-5">"{t.text}"</p>
