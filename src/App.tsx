@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import HelpDesk from "./pages/HelpDesk";
 import Knowledge from "./pages/Knowledge";
@@ -21,6 +22,9 @@ import ConstitutionLaws from "./pages/ConstitutionLaws";
 import JoinUs from "./pages/JoinUs";
 import Constituency from "./pages/Constituency";
 import CandidateDetail from "./pages/CandidateDetail";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,28 +35,33 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/help-desk" element={<HelpDesk />} />
-          <Route path="/knowledge" element={<Knowledge />} />
-          <Route path="/myths" element={<Myths />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/election-timeline" element={<ElectionTimeline />} />
-          <Route path="/important-forms" element={<ImportantForms />} />
-          <Route path="/voter-rights" element={<VoterRights />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/state/:stateId" element={<StatePage />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/election-results" element={<ElectionResults />} />
-          <Route path="/political-parties" element={<PoliticalParties />} />
-          <Route path="/constitution-laws" element={<ConstitutionLaws />} />
-          <Route path="/join-us" element={<JoinUs />} />
-          <Route path="/constituency" element={<Constituency />} />
-          <Route path="/candidate" element={<CandidateDetail />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/help-desk" element={<HelpDesk />} />
+            <Route path="/knowledge" element={<Knowledge />} />
+            <Route path="/myths" element={<Myths />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/election-timeline" element={<ElectionTimeline />} />
+            <Route path="/important-forms" element={<ImportantForms />} />
+            <Route path="/voter-rights" element={<VoterRights />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/state/:stateId" element={<StatePage />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/election-results" element={<ElectionResults />} />
+            <Route path="/political-parties" element={<PoliticalParties />} />
+            <Route path="/constitution-laws" element={<ConstitutionLaws />} />
+            <Route path="/join-us" element={<JoinUs />} />
+            <Route path="/constituency" element={<Constituency />} />
+            <Route path="/candidate" element={<CandidateDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<Admin />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
