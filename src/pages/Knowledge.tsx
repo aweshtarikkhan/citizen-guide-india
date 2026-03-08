@@ -132,17 +132,20 @@ const topics = [
   },
 ];
 
-const KnowledgePage = () => (
+const KnowledgePage = () => {
+  const { getContent } = usePageContent("knowledge");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Civic Knowledge Hub</span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          Know Your Democracy
+          {getContent("page_title", "Know Your Democracy")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          Democracy works best when citizens understand it. Explore how India's democratic institutions function, what your rights are, and how you can engage meaningfully.
+          {getContent("page_desc", "Democracy works best when citizens understand it. Explore how India's democratic institutions function, what your rights are, and how you can engage meaningfully.")}
         </p>
       </div>
     </section>
@@ -172,6 +175,7 @@ const KnowledgePage = () => (
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default KnowledgePage;

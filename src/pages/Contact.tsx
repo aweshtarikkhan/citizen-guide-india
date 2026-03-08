@@ -102,6 +102,7 @@ const ContactPage = () => {
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default ContactPage;
