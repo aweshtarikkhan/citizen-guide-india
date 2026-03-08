@@ -111,17 +111,20 @@ const phases = [
   },
 ];
 
-const ElectionTimelinePage = () => (
+const ElectionTimelinePage = () => {
+  const { getContent } = usePageContent("election-timeline");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Election Timeline</span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          How an Election Unfolds
+          {getContent("page_title", "How an Election Unfolds")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          From announcement to results — understand every phase of India's election process with detailed breakdowns.
+          {getContent("page_desc", "From announcement to results — understand every phase of India's election process with detailed breakdowns.")}
         </p>
       </div>
     </section>
