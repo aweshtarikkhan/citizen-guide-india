@@ -80,6 +80,7 @@ const IndiaMapInteractive = () => {
                 })
               }
               onMouseLeave={() => setHovered(null)}
+              onClick={() => navigate(`/state/${location.id}`)}
             />
           );
         })}

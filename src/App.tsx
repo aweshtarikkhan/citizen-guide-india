@@ -35,6 +35,7 @@ const App = () => (
           <Route path="/important-forms" element={<ImportantForms />} />
           <Route path="/voter-rights" element={<VoterRights />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/state/:stateId" element={<StatePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
