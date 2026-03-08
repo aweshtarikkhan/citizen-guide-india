@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Scale, BookOpen, FileText, Landmark } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const fundamentalArticles = [
   { article: "Article 326", title: "Adult Suffrage", desc: "Elections to the Lok Sabha and State Assemblies shall be on the basis of adult suffrage — every citizen who is 18+ years of age has the right to vote." },
