@@ -149,7 +149,20 @@ const ConstituencyPage = () => {
       .map(([name, value]) => ({ name, value }));
   }, [allConstituencies]);
 
-  // Colors for pie chart
+  // Build constituency map data for the interactive map
+  const constituencyMapData = useMemo(() => {
+    const map: Record<string, { party: string; mp: string; candidateId?: string }> = {};
+    allConstituencies.forEach((c) => {
+      const mynetaInfo = mynetaData[c.name.toUpperCase()];
+      map[c.name.toUpperCase()] = {
+        party: c.party,
+        mp: c.mp,
+        candidateId: mynetaInfo?.candidate_id,
+      };
+    });
+    return map;
+  }, [allConstituencies, mynetaData]);
+
   const PARTY_CHART_COLORS: Record<string, string> = {
     "BJP": "#f97316",
     "INC": "#3b82f6",
