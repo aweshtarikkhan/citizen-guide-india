@@ -39,6 +39,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <AutoTranslateWrapper>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/help-desk" element={<HelpDesk />} />
