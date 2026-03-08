@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Phone } from "lucide-react";
+import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Phone, TrendingUp, Users, Landmark } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const serviceLinks = [
@@ -11,6 +11,9 @@ const serviceLinks = [
   { icon: Shield, label: "Voter Rights", desc: "Your constitutional rights as a voter", href: "/voter-rights" },
   { icon: HelpCircle, label: "FAQ", desc: "Quick answers to common questions", href: "/faq" },
   { icon: Phone, label: "Contact Us", desc: "Get in touch with Matdaan team", href: "/contact" },
+  { icon: TrendingUp, label: "Election Results & News", desc: "Latest results, analysis & updates", href: "/election-results" },
+  { icon: Users, label: "Political Parties", desc: "National & state parties info", href: "/political-parties" },
+  { icon: Landmark, label: "Constitution & Laws", desc: "Electoral legal framework", href: "/constitution-laws" },
 ];
 
 const Navbar = () => {
@@ -75,11 +78,10 @@ const Navbar = () => {
               }`}
             >
               Services
-              <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
             </button>
 
             {servicesOpen && (
-              <div className="absolute top-full right-0 mt-3 w-[580px] bg-card border border-border rounded-xl shadow-elevated p-4 grid grid-cols-2 gap-1 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full right-0 mt-3 w-[640px] bg-card border border-border rounded-xl shadow-elevated p-4 grid grid-cols-2 gap-1 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
                 {serviceLinks.map((s) => (
                   <Link
                     key={s.href}
@@ -143,6 +145,7 @@ const Navbar = () => {
           >
             Services
             <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`} />
+
           </button>
           {mobileServicesOpen && (
             <div className="pl-3 space-y-0.5 pb-2">
