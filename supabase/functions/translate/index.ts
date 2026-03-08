@@ -77,7 +77,16 @@ Deno.serve(async (req) => {
     if (uncachedTexts.length > 0) {
       const langName = langNames[targetLang] || targetLang;
 
-      const prompt = `You are a professional translator. Translate the following English texts to ${langName}. 
+      const prompt = `You are a professional ${langName} translator. Translate the following English texts to natural, fluent ${langName}.
+
+IMPORTANT RULES:
+- Do NOT transliterate English words into ${langName} script. Instead, find the proper ${langName} equivalent.
+- For example: "Explore" should become "जानें" or "खोजें" in Hindi, NOT "एक्सप्लोर"
+- "Download" should become "डाउनलोड" only if no native word exists, otherwise use the native word
+- Brand names and proper nouns can stay as-is
+- The translation should sound like a native ${langName} speaker wrote it
+- Keep the meaning and intent, not just word-for-word translation
+
 Return ONLY a JSON array of translated strings in the same order. No explanations, no markdown.
 
 Input texts:
