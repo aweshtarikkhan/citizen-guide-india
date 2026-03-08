@@ -11,8 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe
 } from "lucide-react";
+import ContentManager from "@/components/ContentManager";
 
 interface Blog {
   id: string;
