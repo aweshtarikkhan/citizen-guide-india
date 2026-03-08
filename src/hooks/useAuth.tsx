@@ -6,6 +6,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  rolesChecked: boolean;
   isAdmin: boolean;
   isEditor: boolean;
   signOut: () => Promise<void>;
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
   loading: true,
+  rolesChecked: false,
   isAdmin: false,
   isEditor: false,
   signOut: async () => {},
