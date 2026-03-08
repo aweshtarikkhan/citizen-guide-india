@@ -2,6 +2,9 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
+import { usePageContent } from "@/hooks/usePageContent";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark } from "lucide-react";
+import { Link } from "react-router-dom";
 import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark } from "lucide-react";
 
 const sections = [
