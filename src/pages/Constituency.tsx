@@ -191,8 +191,81 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
-      {/* India Map */}
+      {/* Party-wise Pie Chart */}
       <section className="py-12 bg-muted/30 border-b border-border">
+        <div className="container max-w-5xl">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground text-center mb-2">
+            2024 Lok Sabha Results
+          </h2>
+          <p className="text-muted-foreground text-center mb-8">
+            Party-wise seat distribution across all 543 constituencies
+          </p>
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Pie Chart */}
+            <div className="h-[400px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieChartData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={140}
+                    paddingAngle={1}
+                    dataKey="value"
+                    label={({ name, value, percent }) => 
+                      percent > 0.03 ? `${name}: ${value}` : ""
+                    }
+                    labelLine={false}
+                  >
+                    {pieChartData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={getChartColor(entry.name, index)}
+                        stroke="hsl(var(--background))"
+                        strokeWidth={2}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    formatter={(value: number, name: string) => [`${value} seats`, name]}
+                    contentStyle={{
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px",
+                      color: "hsl(var(--foreground))"
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Party List */}
+            <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+              {pieChartData.map((party, index) => (
+                <div 
+                  key={party.name}
+                  className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:shadow-sm transition-shadow"
+                >
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-4 h-4 rounded-full shrink-0"
+                      style={{ backgroundColor: getChartColor(party.name, index) }}
+                    />
+                    <span className="font-medium text-foreground">{party.name}</span>
+                  </div>
+                  <Badge variant="secondary" className="font-bold">
+                    {party.value} seats
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* India Map */}
+      <section className="py-12 bg-background border-b border-border">
         <div className="container max-w-5xl">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
