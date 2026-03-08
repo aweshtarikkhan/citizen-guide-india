@@ -122,7 +122,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
 
   return (
     <div
-      className="relative w-full rounded-lg overflow-hidden border border-border bg-card"
+      className="relative w-full rounded-lg overflow-hidden border border-border bg-white"
       style={{ minHeight: "500px" }}
       onMouseMove={handleMouseMove}
     >
