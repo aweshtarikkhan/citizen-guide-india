@@ -138,9 +138,9 @@ const Navbar = () => {
           {/* Auth Buttons */}
           {user ? (
             <div className="flex items-center gap-2">
-              {isAdmin && (
+              {(isAdmin || isEditor) && (
                 <Link to="/admin" className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
-                  <Settings className="h-4 w-4" /> Admin
+                  <Settings className="h-4 w-4" /> {isAdmin ? "Admin" : "Editor"}
                 </Link>
               )}
               <button
