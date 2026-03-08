@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, MapPin, Users, Filter, ChevronDown, AlertTriangle, GraduationCap, IndianRupee, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import IndiaMapInteractive from "@/components/IndiaMapInteractive";
+import IndiaConstituencyMap from "@/components/IndiaConstituencyMap";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
 import { mynetaApi, CandidateSummary } from "@/lib/api/myneta";
