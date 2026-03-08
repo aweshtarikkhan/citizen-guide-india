@@ -18,6 +18,7 @@ const sections = [
   { icon: TrendingUp, title: "Election Results & News", desc: "Latest election results, analysis & updates.", link: "/election-results" },
   { icon: Users, title: "Political Parties", desc: "National & state-level parties of India.", link: "/political-parties" },
   { icon: Landmark, title: "Constitution & Laws", desc: "Electoral legal framework of India.", link: "/constitution-laws" },
+  { icon: Brain, title: "Voter Quiz", desc: "Test your election knowledge with our quiz!", link: "/voter-quiz" },
 ];
 
 const testimonials = [
