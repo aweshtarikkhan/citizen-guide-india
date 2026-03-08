@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
-  LayoutDashboard, FileText, Users, LogOut, Plus, Edit, Trash2,
+  LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
   Eye, Save, Upload, X, Loader2, Image as ImageIcon
 } from "lucide-react";
 
@@ -44,7 +44,14 @@ interface VolunteerApp {
   created_at: string | null;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor";
+interface UserProfile {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  created_at: string;
+}
+
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users";
 
 const Admin = () => {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
@@ -53,6 +60,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [leads, setLeads] = useState<VolunteerApp[]>([]);
+  const [users, setUsers] = useState<UserProfile[]>([]);
   const [loadingData, setLoadingData] = useState(false);
 
   // Blog editor state
@@ -82,6 +90,7 @@ const Admin = () => {
     if (isAdmin) {
       fetchBlogs();
       fetchLeads();
+      fetchUsers();
     }
   }, [isAdmin]);
 
@@ -101,6 +110,14 @@ const Admin = () => {
       .select("*")
       .order("created_at", { ascending: false });
     setLeads((data as VolunteerApp[]) || []);
+  };
+
+  const fetchUsers = async () => {
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .order("created_at", { ascending: false });
+    setUsers((data as UserProfile[]) || []);
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: "featured" | "gallery") => {
@@ -404,6 +421,7 @@ const Admin = () => {
             { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
             { id: "blogs" as Tab, label: "Blogs", icon: FileText },
             { id: "leads" as Tab, label: "Leads", icon: Users },
+            { id: "users" as Tab, label: "Signed Up Users", icon: UserCheck },
           ]).map((item) => (
             <button
               key={item.id}
@@ -428,7 +446,7 @@ const Admin = () => {
         {activeTab === "dashboard" && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-6">Dashboard</h2>
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-4 gap-4">
               <Card>
                 <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Blogs</CardTitle></CardHeader>
                 <CardContent><div className="text-3xl font-bold">{blogs.length}</div></CardContent>
@@ -440,6 +458,10 @@ const Admin = () => {
               <Card>
                 <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Total Leads</CardTitle></CardHeader>
                 <CardContent><div className="text-3xl font-bold">{leads.length}</div></CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Signed Up Users</CardTitle></CardHeader>
+                <CardContent><div className="text-3xl font-bold">{users.length}</div></CardContent>
               </Card>
             </div>
           </div>
@@ -529,6 +551,33 @@ const Admin = () => {
                             View Resume
                           </a>
                         )}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {/* Users */}
+        {activeTab === "users" && (
+          <div>
+            <h2 className="text-2xl font-display font-bold mb-6">Signed Up Users ({users.length})</h2>
+            {users.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">No users signed up yet.</p>
+            ) : (
+              <div className="space-y-3">
+                {users.map((u) => (
+                  <Card key={u.id} className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
+                        {u.full_name ? u.full_name.charAt(0).toUpperCase() : "?"}
+                      </div>
+                      <div>
+                        <h3 className="font-medium text-foreground">{u.full_name || "No Name"}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          Joined: {new Date(u.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                        </p>
                       </div>
                     </div>
                   </Card>
