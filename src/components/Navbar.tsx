@@ -234,6 +234,29 @@ const Navbar = () => {
           >
             Contact
           </Link>
+
+          {/* Mobile Auth */}
+          <div className="border-t border-border pt-3 mt-2">
+            {user ? (
+              <>
+                {isAdmin && (
+                  <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground">
+                    <Settings className="h-4 w-4" /> Admin Panel
+                  </Link>
+                )}
+                <button
+                  onClick={() => { signOut(); navigate("/"); setMobileOpen(false); }}
+                  className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground w-full"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="flex items-center justify-center gap-2 py-2.5 bg-foreground text-background rounded-lg text-sm font-medium">
+                <LogIn className="h-4 w-4" /> Login
+              </Link>
+            )}
+          </div>
         </div>
       )}
     </nav>
