@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const resources = [
   { name: "Election Commission of India", url: "https://www.eci.gov.in", desc: "Official ECI website for all election-related information." },
