@@ -121,6 +121,7 @@ const Navbar = () => {
           >
             Contact
           </Link>
+        </div>
 
         {/* Mobile Toggle */}
         <button className="lg:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
