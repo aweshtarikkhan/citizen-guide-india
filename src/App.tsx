@@ -14,6 +14,7 @@ import ImportantForms from "./pages/ImportantForms";
 import VoterRights from "./pages/VoterRights";
 import FAQ from "./pages/FAQ";
 import StatePage from "./pages/StatePage";
+import Blogs from "./pages/Blogs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/voter-rights" element={<VoterRights />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/state/:stateId" element={<StatePage />} />
+          <Route path="/blogs" element={<Blogs />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
