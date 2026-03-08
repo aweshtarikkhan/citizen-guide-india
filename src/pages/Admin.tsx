@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck
 } from "lucide-react";
 
 interface Blog {
@@ -28,6 +28,7 @@ interface Blog {
   external_links: any;
   published_at: string | null;
   created_at: string;
+  author_id: string;
 }
 
 interface VolunteerApp {
@@ -51,16 +52,23 @@ interface UserProfile {
   created_at: string;
 }
 
+interface UserRole {
+  id: string;
+  user_id: string;
+  role: string;
+}
+
 type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users";
 
 const Admin = () => {
-  const { user, isAdmin, loading: authLoading, signOut } = useAuth();
+  const { user, isAdmin, isEditor, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [leads, setLeads] = useState<VolunteerApp[]>([]);
   const [users, setUsers] = useState<UserProfile[]>([]);
+  const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [loadingData, setLoadingData] = useState(false);
 
   // Blog editor state
@@ -73,6 +81,8 @@ const Admin = () => {
   const [linkLabel, setLinkLabel] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
 
+  const hasAccess = isAdmin || isEditor;
+
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/login");
@@ -80,19 +90,29 @@ const Admin = () => {
   }, [authLoading, user, navigate]);
 
   useEffect(() => {
-    if (!authLoading && user && !isAdmin) {
-      toast({ title: "Access Denied", description: "You don't have admin privileges.", variant: "destructive" });
+    if (!authLoading && user && !hasAccess) {
+      toast({ title: "Access Denied", description: "You don't have admin or editor privileges.", variant: "destructive" });
       navigate("/");
     }
-  }, [authLoading, user, isAdmin, navigate, toast]);
+  }, [authLoading, user, hasAccess, navigate, toast]);
 
   useEffect(() => {
-    if (isAdmin) {
+    if (hasAccess) {
       fetchBlogs();
-      fetchLeads();
-      fetchUsers();
+      if (isAdmin) {
+        fetchLeads();
+        fetchUsers();
+        fetchUserRoles();
+      }
     }
-  }, [isAdmin]);
+  }, [hasAccess, isAdmin]);
+
+  // Set default tab based on role
+  useEffect(() => {
+    if (isEditor && !isAdmin) {
+      setActiveTab("blogs");
+    }
+  }, [isEditor, isAdmin]);
 
   const fetchBlogs = async () => {
     setLoadingData(true);
@@ -118,6 +138,45 @@ const Admin = () => {
       .select("*")
       .order("created_at", { ascending: false });
     setUsers((data as UserProfile[]) || []);
+  };
+
+  const fetchUserRoles = async () => {
+    const { data } = await supabase
+      .from("user_roles")
+      .select("*");
+    setUserRoles((data as UserRole[]) || []);
+  };
+
+  const getUserRoles = (userId: string) => {
+    return userRoles.filter((r) => r.user_id === userId).map((r) => r.role);
+  };
+
+  const assignRole = async (userId: string, role: string) => {
+    const { error } = await supabase.from("user_roles").insert({ user_id: userId, role } as any);
+    if (error) {
+      if (error.code === "23505") {
+        toast({ title: "Already has this role", variant: "destructive" });
+      } else {
+        toast({ title: "Error assigning role", description: error.message, variant: "destructive" });
+      }
+    } else {
+      toast({ title: `${role} role assigned!` });
+      fetchUserRoles();
+    }
+  };
+
+  const removeRole = async (userId: string, role: string) => {
+    const { error } = await supabase
+      .from("user_roles")
+      .delete()
+      .eq("user_id", userId)
+      .eq("role", role as any);
+    if (error) {
+      toast({ title: "Error removing role", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: `${role} role removed` });
+      fetchUserRoles();
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: "featured" | "gallery") => {
@@ -250,7 +309,7 @@ const Admin = () => {
     );
   }
 
-  if (!isAdmin) return null;
+  if (!hasAccess) return null;
 
   // Blog editor view
   if (activeTab === "blog-editor") {
@@ -273,78 +332,40 @@ const Admin = () => {
           </div>
         </div>
         <div className="max-w-4xl mx-auto p-6 space-y-6">
-          {/* Title */}
           <div className="space-y-2">
             <Label>Title</Label>
-            <Input
-              placeholder="Blog title"
-              value={editingBlog?.title || ""}
-              onChange={(e) => setEditingBlog((prev) => ({ ...prev, title: e.target.value }))}
-            />
+            <Input placeholder="Blog title" value={editingBlog?.title || ""} onChange={(e) => setEditingBlog((prev) => ({ ...prev, title: e.target.value }))} />
           </div>
-
-          {/* Excerpt */}
           <div className="space-y-2">
             <Label>Excerpt</Label>
-            <Textarea
-              placeholder="Short description..."
-              rows={2}
-              value={editingBlog?.excerpt || ""}
-              onChange={(e) => setEditingBlog((prev) => ({ ...prev, excerpt: e.target.value }))}
-            />
+            <Textarea placeholder="Short description..." rows={2} value={editingBlog?.excerpt || ""} onChange={(e) => setEditingBlog((prev) => ({ ...prev, excerpt: e.target.value }))} />
           </div>
-
-          {/* Content */}
           <div className="space-y-2">
             <Label>Content</Label>
-            <Textarea
-              placeholder="Write your blog content here... (supports markdown)"
-              rows={12}
-              value={editingBlog?.content || ""}
-              onChange={(e) => setEditingBlog((prev) => ({ ...prev, content: e.target.value }))}
-            />
+            <Textarea placeholder="Write your blog content here... (supports markdown)" rows={12} value={editingBlog?.content || ""} onChange={(e) => setEditingBlog((prev) => ({ ...prev, content: e.target.value }))} />
           </div>
-
-          {/* Category */}
           <div className="space-y-2">
             <Label>Category</Label>
-            <Input
-              placeholder="e.g. Technology, Opinion, Guide"
-              value={editingBlog?.category || ""}
-              onChange={(e) => setEditingBlog((prev) => ({ ...prev, category: e.target.value }))}
-            />
+            <Input placeholder="e.g. Technology, Opinion, Guide" value={editingBlog?.category || ""} onChange={(e) => setEditingBlog((prev) => ({ ...prev, category: e.target.value }))} />
           </div>
-
-          {/* Tags */}
           <div className="space-y-2">
             <Label>Tags</Label>
             <div className="flex gap-2">
-              <Input placeholder="Add a tag" value={tagInput} onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())} />
+              <Input placeholder="Add a tag" value={tagInput} onChange={(e) => setTagInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())} />
               <Button type="button" variant="outline" onClick={addTag}>Add</Button>
             </div>
             <div className="flex flex-wrap gap-2 mt-2">
               {(editingBlog?.tags || []).map((tag, i) => (
-                <Badge key={i} variant="secondary" className="gap-1">
-                  {tag}
-                  <button onClick={() => removeTag(i)}><X className="h-3 w-3" /></button>
-                </Badge>
+                <Badge key={i} variant="secondary" className="gap-1">{tag}<button onClick={() => removeTag(i)}><X className="h-3 w-3" /></button></Badge>
               ))}
             </div>
           </div>
-
-          {/* Featured Image */}
           <div className="space-y-2">
             <Label>Featured Image</Label>
             {editingBlog?.featured_image && (
               <div className="relative w-full h-48 rounded-lg overflow-hidden border border-border mb-2">
                 <img src={editingBlog.featured_image} alt="" className="w-full h-full object-cover" />
-                <button
-                  className="absolute top-2 right-2 bg-background/80 rounded-full p-1"
-                  onClick={() => setEditingBlog((prev) => ({ ...prev, featured_image: null }))}
-                >
-                  <X className="h-4 w-4" />
-                </button>
+                <button className="absolute top-2 right-2 bg-background/80 rounded-full p-1" onClick={() => setEditingBlog((prev) => ({ ...prev, featured_image: null }))}><X className="h-4 w-4" /></button>
               </div>
             )}
             <label className="flex items-center gap-2 px-4 py-2 border border-dashed border-border rounded-lg cursor-pointer hover:bg-muted transition-colors">
@@ -353,20 +374,13 @@ const Admin = () => {
               <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, "featured")} />
             </label>
           </div>
-
-          {/* Gallery Images */}
           <div className="space-y-2">
             <Label>Additional Images</Label>
             <div className="grid grid-cols-3 gap-3">
               {(editingBlog?.images || []).map((img, i) => (
                 <div key={i} className="relative h-32 rounded-lg overflow-hidden border border-border">
                   <img src={img} alt="" className="w-full h-full object-cover" />
-                  <button
-                    className="absolute top-1 right-1 bg-background/80 rounded-full p-1"
-                    onClick={() => removeImage(i)}
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
+                  <button className="absolute top-1 right-1 bg-background/80 rounded-full p-1" onClick={() => removeImage(i)}><X className="h-3 w-3" /></button>
                 </div>
               ))}
               <label className="h-32 flex flex-col items-center justify-center border border-dashed border-border rounded-lg cursor-pointer hover:bg-muted">
@@ -376,8 +390,6 @@ const Admin = () => {
               </label>
             </div>
           </div>
-
-          {/* Social Links */}
           <div className="space-y-2">
             <Label>Social Links</Label>
             <div className="flex gap-2">
@@ -391,8 +403,6 @@ const Admin = () => {
               </div>
             ))}
           </div>
-
-          {/* External Links */}
           <div className="space-y-2">
             <Label>External Links</Label>
             <div className="flex gap-2">
@@ -411,18 +421,32 @@ const Admin = () => {
     );
   }
 
+  // Sidebar tabs based on role
+  const sidebarTabs = isAdmin
+    ? [
+        { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
+        { id: "blogs" as Tab, label: "Blogs", icon: FileText },
+        { id: "leads" as Tab, label: "Leads", icon: Users },
+        { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
+      ]
+    : [
+        { id: "blogs" as Tab, label: "My Blogs", icon: FileText },
+      ];
+
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <aside className="w-64 border-r border-border bg-card min-h-screen p-4 flex flex-col">
-        <h1 className="text-xl font-display font-bold mb-8 px-2">Admin Panel</h1>
+        <div className="mb-8 px-2">
+          <h1 className="text-xl font-display font-bold">
+            {isAdmin ? "Admin Panel" : "Editor Panel"}
+          </h1>
+          <p className="text-xs text-muted-foreground mt-1">
+            {isAdmin ? <Badge variant="default" className="text-xs"><Shield className="h-3 w-3 mr-1" />Admin</Badge> : <Badge variant="secondary" className="text-xs"><Edit className="h-3 w-3 mr-1" />Editor</Badge>}
+          </p>
+        </div>
         <nav className="flex-1 space-y-1">
-          {([
-            { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
-            { id: "blogs" as Tab, label: "Blogs", icon: FileText },
-            { id: "leads" as Tab, label: "Leads", icon: Users },
-            { id: "users" as Tab, label: "Signed Up Users", icon: UserCheck },
-          ]).map((item) => (
+          {sidebarTabs.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
@@ -442,8 +466,8 @@ const Admin = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-8">
-        {/* Dashboard */}
-        {activeTab === "dashboard" && (
+        {/* Dashboard - Admin only */}
+        {activeTab === "dashboard" && isAdmin && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-6">Dashboard</h2>
             <div className="grid sm:grid-cols-4 gap-4">
@@ -460,7 +484,7 @@ const Admin = () => {
                 <CardContent><div className="text-3xl font-bold">{leads.length}</div></CardContent>
               </Card>
               <Card>
-                <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Signed Up Users</CardTitle></CardHeader>
+                <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Users</CardTitle></CardHeader>
                 <CardContent><div className="text-3xl font-bold">{users.length}</div></CardContent>
               </Card>
             </div>
@@ -471,7 +495,7 @@ const Admin = () => {
         {activeTab === "blogs" && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-display font-bold">Blogs</h2>
+              <h2 className="text-2xl font-display font-bold">{isAdmin ? "All Blogs" : "My Blogs"}</h2>
               <Button onClick={() => { setEditingBlog({ tags: [], images: [], social_links: {}, external_links: [] }); setActiveTab("blog-editor"); }}>
                 <Plus className="h-4 w-4 mr-2" /> New Blog
               </Button>
@@ -514,8 +538,8 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Leads */}
-        {activeTab === "leads" && (
+        {/* Leads - Admin only */}
+        {activeTab === "leads" && isAdmin && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-6">Volunteer Applications ({leads.length})</h2>
             {leads.length === 0 ? (
@@ -559,29 +583,71 @@ const Admin = () => {
             )}
           </div>
         )}
-        {/* Users */}
-        {activeTab === "users" && (
+
+        {/* Users & Role Management - Admin only */}
+        {activeTab === "users" && isAdmin && (
           <div>
-            <h2 className="text-2xl font-display font-bold mb-6">Signed Up Users ({users.length})</h2>
+            <h2 className="text-2xl font-display font-bold mb-6">Users & Role Management ({users.length})</h2>
             {users.length === 0 ? (
               <p className="text-muted-foreground text-center py-8">No users signed up yet.</p>
             ) : (
               <div className="space-y-3">
-                {users.map((u) => (
-                  <Card key={u.id} className="p-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
-                        {u.full_name ? u.full_name.charAt(0).toUpperCase() : "?"}
+                {users.map((u) => {
+                  const roles = getUserRoles(u.id);
+                  return (
+                    <Card key={u.id} className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
+                            {u.full_name ? u.full_name.charAt(0).toUpperCase() : "?"}
+                          </div>
+                          <div>
+                            <h3 className="font-medium text-foreground">{u.full_name || "No Name"}</h3>
+                            <p className="text-xs text-muted-foreground">
+                              Joined: {new Date(u.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                            </p>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {roles.map((r) => (
+                                <Badge key={r} variant={r === "admin" ? "default" : "secondary"} className="text-xs gap-1">
+                                  {r === "admin" ? <Shield className="h-3 w-3" /> : <Edit className="h-3 w-3" />}
+                                  {r}
+                                  {u.id !== user?.id && (
+                                    <button onClick={() => removeRole(u.id, r)} className="ml-1 hover:text-destructive">
+                                      <X className="h-3 w-3" />
+                                    </button>
+                                  )}
+                                </Badge>
+                              ))}
+                              {roles.length === 0 && <span className="text-xs text-muted-foreground">No roles</span>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          {!roles.includes("admin") && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => assignRole(u.id, "admin")}
+                              className="text-xs"
+                            >
+                              <Shield className="h-3 w-3 mr-1" /> Make Admin
+                            </Button>
+                          )}
+                          {!roles.includes("editor") && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => assignRole(u.id, "editor")}
+                              className="text-xs"
+                            >
+                              <Edit className="h-3 w-3 mr-1" /> Make Editor
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-medium text-foreground">{u.full_name || "No Name"}</h3>
-                        <p className="text-xs text-muted-foreground">
-                          Joined: {new Date(u.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </div>

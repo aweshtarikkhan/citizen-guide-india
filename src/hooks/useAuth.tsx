@@ -7,6 +7,7 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   isAdmin: boolean;
+  isEditor: boolean;
   signOut: () => Promise<void>;
 }
 
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   loading: true,
   isAdmin: false,
+  isEditor: false,
   signOut: async () => {},
 });
 
@@ -25,41 +27,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isEditor, setIsEditor] = useState(false);
+
+  const checkRoles = async (userId: string) => {
+    const [adminRes, editorRes] = await Promise.all([
+      supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
+      supabase.rpc("has_role", { _user_id: userId, _role: "editor" }),
+    ]);
+    setIsAdmin(!!adminRes.data);
+    setIsEditor(!!editorRes.data);
+  };
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-
         if (session?.user) {
-          // Check admin role using the database function
-          const { data } = await supabase.rpc("has_role", {
-            _user_id: session.user.id,
-            _role: "admin",
-          });
-          setIsAdmin(!!data);
+          await checkRoles(session.user.id);
         } else {
           setIsAdmin(false);
+          setIsEditor(false);
         }
         setLoading(false);
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        supabase.rpc("has_role", {
-          _user_id: session.user.id,
-          _role: "admin",
-        }).then(({ data }) => {
-          setIsAdmin(!!data);
-          setLoading(false);
-        });
-      } else {
-        setLoading(false);
+        await checkRoles(session.user.id);
       }
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -70,10 +70,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(null);
     setSession(null);
     setIsAdmin(false);
+    setIsEditor(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, isAdmin, isEditor, signOut }}>
       {children}
     </AuthContext.Provider>
   );

@@ -18,7 +18,7 @@ const serviceLinks = [
 ];
 
 const Navbar = () => {
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isAdmin, isEditor, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -138,9 +138,9 @@ const Navbar = () => {
           {/* Auth Buttons */}
           {user ? (
             <div className="flex items-center gap-2">
-              {isAdmin && (
+              {(isAdmin || isEditor) && (
                 <Link to="/admin" className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
-                  <Settings className="h-4 w-4" /> Admin
+                  <Settings className="h-4 w-4" /> {isAdmin ? "Admin" : "Editor"}
                 </Link>
               )}
               <button
@@ -239,9 +239,9 @@ const Navbar = () => {
           <div className="border-t border-border pt-3 mt-2">
             {user ? (
               <>
-                {isAdmin && (
+                {(isAdmin || isEditor) && (
                   <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground">
-                    <Settings className="h-4 w-4" /> Admin Panel
+                    <Settings className="h-4 w-4" /> {isAdmin ? "Admin Panel" : "Editor Panel"}
                   </Link>
                 )}
                 <button
