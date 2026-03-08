@@ -172,6 +172,8 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
           minZoom={1}
           maxZoom={12}
         >
+          {/* White background to cover default blue ocean */}
+          <rect x={-500} y={-500} width={2000} height={2000} fill="#ffffff" />
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => {
