@@ -173,7 +173,7 @@ const AboutPage = () => {
           
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
-              to="/help-desk"
+              to="/join-us"
               className="inline-flex items-center gap-2 px-6 py-3 bg-background text-foreground rounded-lg font-semibold text-sm hover:bg-background/90 transition-colors"
             >
               Get Started <ArrowRight className="h-4 w-4" />
