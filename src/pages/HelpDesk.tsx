@@ -218,6 +218,7 @@ const HelpDeskPage = () => {
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default HelpDeskPage;

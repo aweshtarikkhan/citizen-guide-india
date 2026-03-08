@@ -106,6 +106,7 @@ const ourWorking = [
 
 /* ── Component ── */
 const AboutPage = () => {
+  const { getContent } = usePageContent("about");
   const heroReveal = useScrollReveal();
   const statsReveal = useScrollReveal();
   const missionReveal = useScrollReveal();
