@@ -14,6 +14,7 @@ import ImportantForms from "./pages/ImportantForms";
 import VoterRights from "./pages/VoterRights";
 import FAQ from "./pages/FAQ";
 import StatePage from "./pages/StatePage";
+import Blogs from "./pages/Blogs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
