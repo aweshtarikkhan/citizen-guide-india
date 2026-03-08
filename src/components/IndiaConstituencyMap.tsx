@@ -161,9 +161,10 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         width={800}
         height={820}
         style={{ width: "100%", height: "auto" }}
+        className="[&>svg]:bg-white [&_rect]:!fill-white"
       >
         {/* White background rect covering entire SVG viewport */}
-        <rect x={0} y={0} width={800} height={820} fill="#ffffff" />
+        <rect x={-9999} y={-9999} width={99999} height={99999} fill="#ffffff" />
         <ZoomableGroup
           zoom={zoom}
           center={center}
