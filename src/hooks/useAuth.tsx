@@ -30,35 +30,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isEditor, setIsEditor] = useState(false);
 
   const checkRoles = async (userId: string) => {
-    const [adminRes, editorRes] = await Promise.all([
-      supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
-      supabase.rpc("has_role", { _user_id: userId, _role: "editor" }),
-    ]);
-    setIsAdmin(!!adminRes.data);
-    setIsEditor(!!editorRes.data);
+    try {
+      const [adminRes, editorRes] = await Promise.all([
+        supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
+        supabase.rpc("has_role", { _user_id: userId, _role: "editor" }),
+      ]);
+
+      setIsAdmin(Boolean(adminRes.data));
+      setIsEditor(Boolean(editorRes.data));
+    } catch {
+      setIsAdmin(false);
+      setIsEditor(false);
+    }
   };
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        if (session?.user) {
-          await checkRoles(session.user.id);
-        } else {
-          setIsAdmin(false);
-          setIsEditor(false);
-        }
-        setLoading(false);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await checkRoles(session.user.id);
+      if (nextSession?.user) {
+        void checkRoles(nextSession.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsEditor(false);
       }
+
+      setLoading(false);
+    });
+
+    supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
+      setSession(initialSession);
+      setUser(initialSession?.user ?? null);
+
+      if (initialSession?.user) {
+        void checkRoles(initialSession.user.id);
+      } else {
+        setIsAdmin(false);
+        setIsEditor(false);
+      }
+
       setLoading(false);
     });
 
