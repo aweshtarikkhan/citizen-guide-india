@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Phone, TrendingUp, Users, Landmark } from "lucide-react";
+import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const serviceLinks = [
