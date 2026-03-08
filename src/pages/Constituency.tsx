@@ -284,30 +284,61 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
-      {/* India Map */}
+      {/* India Constituency Map */}
       <section className="py-12 bg-background border-b border-border">
-        <div className="container max-w-5xl">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
-                Explore by State
-              </h2>
-              <p className="text-muted-foreground mt-2">
-                Click on any state to view its constituencies and elected representatives.
-              </p>
-              <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-card border border-border">
-                  <div className="text-3xl font-bold text-foreground">543</div>
-                  <div className="text-sm text-muted-foreground">Total Constituencies</div>
-                </div>
-                <div className="p-4 rounded-lg bg-card border border-border">
-                  <div className="text-3xl font-bold text-foreground">28+8</div>
-                  <div className="text-sm text-muted-foreground">States & UTs</div>
+        <div className="container max-w-6xl">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground text-center mb-2">
+            Constituency Map of India
+          </h2>
+          <p className="text-muted-foreground text-center mb-8">
+            Hover to see MP details, click to view full candidate profile. Zoom in to explore.
+          </p>
+          <div className="grid lg:grid-cols-3 gap-8 items-start">
+            <div className="lg:col-span-2">
+              <IndiaConstituencyMap
+                constituencyPartyMap={constituencyMapData}
+                onConstituencyClick={(name, data) => {
+                  if (data?.candidateId) {
+                    window.location.href = `/candidate?id=${data.candidateId}`;
+                  }
+                  setSearchQuery(name);
+                }}
+              />
+            </div>
+            <div className="space-y-4">
+              <div className="p-4 rounded-lg bg-card border border-border">
+                <div className="text-3xl font-bold text-foreground">543</div>
+                <div className="text-sm text-muted-foreground">Total Constituencies</div>
+              </div>
+              <div className="p-4 rounded-lg bg-card border border-border">
+                <div className="text-3xl font-bold text-foreground">28+8</div>
+                <div className="text-sm text-muted-foreground">States & UTs</div>
+              </div>
+              {/* Map Legend */}
+              <div className="p-4 rounded-lg bg-card border border-border">
+                <p className="text-sm font-medium text-foreground mb-3">Party Colors</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { party: "BJP", color: "#f97316" },
+                    { party: "INC", color: "#3b82f6" },
+                    { party: "SP", color: "#ef4444" },
+                    { party: "TMC", color: "#16a34a" },
+                    { party: "DMK", color: "#dc2626" },
+                    { party: "TDP", color: "#eab308" },
+                    { party: "JD(U)", color: "#22c55e" },
+                    { party: "AAP", color: "#06b6d4" },
+                  ].map(({ party, color }) => (
+                    <div key={party} className="flex items-center gap-2 text-xs">
+                      <div className="w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: color }} />
+                      <span className="text-muted-foreground">{party}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="w-3 h-3 rounded-sm shrink-0 bg-muted" />
+                    <span className="text-muted-foreground">Others</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex justify-center">
-              <IndiaMapInteractive />
             </div>
           </div>
         </div>
