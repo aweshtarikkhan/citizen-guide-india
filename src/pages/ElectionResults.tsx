@@ -157,6 +157,7 @@ const ElectionResults = () => {
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default ElectionResults;
