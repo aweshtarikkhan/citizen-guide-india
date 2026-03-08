@@ -93,6 +93,15 @@
   }
 }
 
+/* Override react-simple-maps default blue ocean background */
+.rsm-svg {
+  background: #ffffff !important;
+}
+.rsm-svg > g > rect,
+.rsm-svg > rect {
+  fill: #ffffff !important;
+}
+
 @layer utilities {
   .text-gradient-warm {
     background: var(--gradient-warm);
