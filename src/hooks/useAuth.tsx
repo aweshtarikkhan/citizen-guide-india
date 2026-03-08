@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [rolesChecked, setRolesChecked] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEditor, setIsEditor] = useState(false);
 
@@ -49,6 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     setIsAdmin(adminValue);
     setIsEditor(editorValue);
+    setRolesChecked(true);
   };
 
   useEffect(() => {
@@ -59,10 +61,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(nextSession?.user ?? null);
 
       if (nextSession?.user) {
+        setRolesChecked(false);
         void checkRoles(nextSession.user.id);
       } else {
         setIsAdmin(false);
         setIsEditor(false);
+        setRolesChecked(true);
       }
 
       setLoading(false);
@@ -73,10 +77,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(initialSession?.user ?? null);
 
       if (initialSession?.user) {
+        setRolesChecked(false);
         void checkRoles(initialSession.user.id);
       } else {
         setIsAdmin(false);
         setIsEditor(false);
+        setRolesChecked(true);
       }
 
       setLoading(false);
@@ -91,10 +97,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setSession(null);
     setIsAdmin(false);
     setIsEditor(false);
+    setRolesChecked(true);
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, isEditor, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, rolesChecked, isAdmin, isEditor, signOut }}>
       {children}
     </AuthContext.Provider>
   );
