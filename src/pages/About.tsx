@@ -113,6 +113,8 @@ const AboutPage = () => {
   const mapReveal = useScrollReveal();
   const whatWeDoReveal = useScrollReveal();
   const ctaReveal = useScrollReveal();
+  const workingReveal = useScrollReveal();
+  const teamReveal = useScrollReveal();
 
   const stat1 = useCountUp(950, 2000);
   const stat2 = useCountUp(28, 1500);
