@@ -108,12 +108,19 @@ const Admin = () => {
     }
   }, [hasAccess, isAdmin]);
 
-  // Set default tab based on role
   useEffect(() => {
     if (isEditor && !isAdmin) {
       setActiveTab("blogs");
     }
   }, [isEditor, isAdmin]);
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   const fetchBlogs = async () => {
     setLoadingData(true);
