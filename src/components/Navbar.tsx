@@ -184,6 +184,15 @@ const Navbar = () => {
           )}
 
           <Link
+            to="/constituency"
+            className={`block py-2.5 text-sm font-medium ${
+              location.pathname === "/constituency" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Constituency
+          </Link>
+
+          <Link
             to="/blogs"
             className={`block py-2.5 text-sm font-medium ${
               location.pathname === "/blogs" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
