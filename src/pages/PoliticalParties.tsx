@@ -27,19 +27,21 @@ const stateParties = [
   { name: "Nationalist Congress Party (NCP)", state: "Maharashtra", founded: "1999" },
 ];
 
-const PoliticalParties = () => (
+const PoliticalParties = () => {
+  const { getContent } = usePageContent("political-parties");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
 
-    {/* Hero */}
     <section className="pt-28 pb-16 md:pt-36 md:pb-20 bg-muted/50">
       <div className="container max-w-5xl text-center">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Democracy</span>
         <h1 className="text-4xl md:text-5xl font-display font-bold mt-3 text-foreground">
-          Political Parties of India
+          {getContent("page_title", "Political Parties of India")}
         </h1>
         <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-          Learn about India's national and state-level political parties, their ideologies, and history.
+          {getContent("page_desc", "Learn about India's national and state-level political parties, their ideologies, and history.")}
         </p>
       </div>
     </section>
