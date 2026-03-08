@@ -15,6 +15,9 @@ import VoterRights from "./pages/VoterRights";
 import FAQ from "./pages/FAQ";
 import StatePage from "./pages/StatePage";
 import Blogs from "./pages/Blogs";
+import ElectionResults from "./pages/ElectionResults";
+import PoliticalParties from "./pages/PoliticalParties";
+import ConstitutionLaws from "./pages/ConstitutionLaws";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
