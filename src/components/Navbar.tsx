@@ -181,6 +181,15 @@ const Navbar = () => {
           >
             Blogs
           </Link>
+
+          <Link
+            to="/contact"
+            className={`block py-2.5 text-sm font-medium ${
+              location.pathname === "/contact" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Contact
+          </Link>
         </div>
       )}
     </nav>
