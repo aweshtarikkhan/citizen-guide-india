@@ -82,6 +82,33 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState<[number, number]>([82, 22]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Force override blue ocean background from react-simple-maps
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new MutationObserver(() => {
+      const rects = el.querySelectorAll("svg rect");
+      rects.forEach((rect) => {
+        const fill = rect.getAttribute("fill");
+        if (fill && fill !== "#ffffff" && fill !== "none" && !fill.startsWith("hsl")) {
+          rect.setAttribute("fill", "#ffffff");
+        }
+      });
+      const paths = el.querySelectorAll("svg > g > path");
+      paths.forEach((path) => {
+        const fill = path.getAttribute("fill");
+        if (fill && fill.match(/^#[0-9a-f]{6}$/i) && fill !== "#ffffff") {
+          // Only override if it looks like the sphere/ocean fill
+          const d = path.getAttribute("d") || "";
+          if (d.length > 500) path.setAttribute("fill", "#ffffff");
+        }
+      });
+    });
+    observer.observe(el, { childList: true, subtree: true, attributes: true });
+    return () => observer.disconnect();
+  }, []);
 
   // Build a normalized lookup from the data prop
   const normalizedData = useMemo(() => {
