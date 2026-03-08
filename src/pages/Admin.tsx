@@ -60,6 +60,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [leads, setLeads] = useState<VolunteerApp[]>([]);
+  const [users, setUsers] = useState<UserProfile[]>([]);
   const [loadingData, setLoadingData] = useState(false);
 
   // Blog editor state
