@@ -3,6 +3,7 @@ import { ArrowLeft, MapPin, Users, Landmark, Building2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap } from "@/data/stateConstituencies";
+import StateMapHighlight from "@/components/StateMapHighlight";
 import { useState } from "react";
 
 const StatePage = () => {
