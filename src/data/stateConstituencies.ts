@@ -370,7 +370,7 @@ export const stateDataMap: Record<string, StateData> = {
   "mh": {
     id: "mh", name: "Maharashtra", capital: "Mumbai", cm: "Devendra Fadnavis", governor: "C.P. Radhakrishnan", rulingParty: "Mahayuti (BJP-led)", totalConstituencies: 48, area: "3,07,713 km²", population: "11.24 Cr",
     constituencies: [
-      { name: "Nandurbar", mp: "Gowaal Padavi", party: "BJP", category: "ST" },
+      { name: "Nandurbar", mp: "Gowaal Kagada Padavi", party: "INC", category: "ST" },
       { name: "Dhule", mp: "Subhash Bhamre", party: "BJP", category: "GEN" },
       { name: "Jalgaon", mp: "Smita Wagh", party: "BJP", category: "GEN" },
       { name: "Raver", mp: "Raksha Khadse", party: "BJP", category: "GEN" },
