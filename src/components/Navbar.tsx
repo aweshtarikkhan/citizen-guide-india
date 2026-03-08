@@ -239,9 +239,9 @@ const Navbar = () => {
           <div className="border-t border-border pt-3 mt-2">
             {user ? (
               <>
-                {isAdmin && (
+                {(isAdmin || isEditor) && (
                   <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground">
-                    <Settings className="h-4 w-4" /> Admin Panel
+                    <Settings className="h-4 w-4" /> {isAdmin ? "Admin Panel" : "Editor Panel"}
                   </Link>
                 )}
                 <button
