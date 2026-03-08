@@ -105,6 +105,15 @@ const Navbar = () => {
           </div>
 
           <Link
+            to="/constituency"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/constituency" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Constituency
+          </Link>
+
+          <Link
             to="/blogs"
             className={`text-sm font-medium transition-colors ${
               location.pathname === "/blogs" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
