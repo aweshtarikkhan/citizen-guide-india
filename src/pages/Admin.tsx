@@ -90,6 +90,7 @@ const Admin = () => {
     if (isAdmin) {
       fetchBlogs();
       fetchLeads();
+      fetchUsers();
     }
   }, [isAdmin]);
 
