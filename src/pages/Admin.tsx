@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
-  LayoutDashboard, FileText, Users, LogOut, Plus, Edit, Trash2,
+  LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
   Eye, Save, Upload, X, Loader2, Image as ImageIcon
 } from "lucide-react";
 
