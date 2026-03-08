@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Clock, Calendar, FileCheck, Megaphone, Vote, BarChart3, Trophy, AlertTriangle } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const phases = [
   {
