@@ -153,6 +153,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         </div>
       )}
 
+      <div style={{ background: "#ffffff" }}>
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
@@ -161,10 +162,8 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         }}
         width={800}
         height={820}
-        style={{ width: "100%", height: "auto" }}
+        style={{ width: "100%", height: "auto", display: "block", background: "#ffffff" }}
       >
-        <Sphere id="sphere" fill="#ffffff" stroke="none" strokeWidth={0} />
-        <rect x={0} y={0} width={800} height={820} fill="#ffffff" />
         <ZoomableGroup
           zoom={zoom}
           center={center}
