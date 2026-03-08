@@ -89,6 +89,20 @@ const whatWeDo = [
   { icon: Award, title: "Myth Busting", desc: "Debunking misinformation about EVMs, voting, and the electoral process." },
 ];
 
+const teamMembers = [
+  { name: "Rahul Sharma", role: "Founder & Director", image: "RS", desc: "Civic tech enthusiast with 10+ years in public policy" },
+  { name: "Priya Patel", role: "Head of Content", image: "PP", desc: "Former journalist specializing in electoral coverage" },
+  { name: "Amit Kumar", role: "Tech Lead", image: "AK", desc: "Full-stack developer passionate about civic innovation" },
+  { name: "Sneha Reddy", role: "Outreach Coordinator", image: "SR", desc: "Grassroots organizer with pan-India network" },
+];
+
+const ourWorking = [
+  { icon: Target, title: "Research", desc: "We study official ECI documents, constitutional provisions, and legal frameworks to ensure accuracy." },
+  { icon: BookOpen, title: "Simplify", desc: "Complex civic information is broken down into easy-to-understand guides and articles." },
+  { icon: Globe, title: "Distribute", desc: "Content is made freely available across web, social media, and partner networks." },
+  { icon: Users, title: "Engage", desc: "We actively respond to citizen queries and continuously improve based on feedback." },
+];
+
 /* ── Component ── */
 const AboutPage = () => {
   const heroReveal = useScrollReveal();
@@ -99,6 +113,8 @@ const AboutPage = () => {
   const mapReveal = useScrollReveal();
   const whatWeDoReveal = useScrollReveal();
   const ctaReveal = useScrollReveal();
+  const workingReveal = useScrollReveal();
+  const teamReveal = useScrollReveal();
 
   const stat1 = useCountUp(950, 2000);
   const stat2 = useCountUp(28, 1500);
@@ -121,8 +137,14 @@ const AboutPage = () => {
           ref={heroReveal.ref}
           className={`container relative z-10 max-w-5xl transition-all duration-1000 ${heroReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
+          {/* Foundation Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-background/10 border border-background/20 rounded-full mb-6">
+            <Calendar className="h-4 w-4 text-background/80" />
+            <span className="text-sm font-medium text-background/80">Founded in 2020</span>
+          </div>
+          
           <span className="inline-block text-sm font-semibold text-background/60 uppercase tracking-[0.2em] mb-4">
-            About Matdaan
+            Matdaan Ki Foundation
           </span>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-display font-bold text-background leading-[1.1]">
             Empowering India's
@@ -130,8 +152,25 @@ const AboutPage = () => {
             <span className="text-background/70">950 Million Voters</span>
           </h1>
           <p className="mt-6 text-background/60 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Matdaan (मतदान) means "the act of voting" in Hindi. We are a non-partisan civic initiative dedicated to empowering Indian citizens with the knowledge and tools they need to participate meaningfully in democracy.
+            Matdaan (मतदान) means "the act of voting" in Hindi. Founded in 2020, we are a non-partisan civic initiative dedicated to empowering Indian citizens with the knowledge and tools they need to participate meaningfully in democracy.
           </p>
+          
+          {/* Foundation Highlights */}
+          <div className="mt-8 grid grid-cols-3 gap-4 max-w-md">
+            <div className="text-center p-3 bg-background/5 rounded-lg border border-background/10">
+              <div className="text-2xl font-bold text-background">2020</div>
+              <div className="text-xs text-background/60">Founded</div>
+            </div>
+            <div className="text-center p-3 bg-background/5 rounded-lg border border-background/10">
+              <div className="text-2xl font-bold text-background">5+</div>
+              <div className="text-xs text-background/60">Years Active</div>
+            </div>
+            <div className="text-center p-3 bg-background/5 rounded-lg border border-background/10">
+              <div className="text-2xl font-bold text-background">Pan-India</div>
+              <div className="text-xs text-background/60">Reach</div>
+            </div>
+          </div>
+          
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               to="/help-desk"
@@ -255,7 +294,81 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* ── Our Values ── */}
+      {/* ── Our Working ── */}
+      <section className="py-16 md:py-24 bg-background">
+        <div
+          ref={workingReveal.ref}
+          className={`container max-w-5xl transition-all duration-700 ${workingReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="text-center mb-12">
+            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Our Working</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mt-3">
+              How We Work
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
+              Our systematic approach ensures accurate, accessible, and impactful civic education.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {ourWorking.map((item, i) => (
+              <div
+                key={i}
+                className="relative group"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                {/* Step Number */}
+                <div className="absolute -top-3 -left-3 h-8 w-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-bold z-10">
+                  {i + 1}
+                </div>
+                <div className="rounded-xl border border-border bg-card shadow-card p-6 pt-8 hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 h-full">
+                  <div className="h-11 w-11 rounded-lg bg-muted flex items-center justify-center mb-4 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
+                    <item.icon className="h-5 w-5 text-foreground group-hover:text-background transition-colors duration-300" />
+                  </div>
+                  <h3 className="font-display font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Meet Our Team ── */}
+      <section className="py-16 md:py-24 bg-muted/30 border-y border-border">
+        <div
+          ref={teamReveal.ref}
+          className={`container max-w-5xl transition-all duration-700 ${teamReveal.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <div className="text-center mb-12">
+            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">Our Team</span>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground mt-3">
+              Meet Our Team
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
+              Passionate individuals dedicated to strengthening Indian democracy through civic education.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {teamMembers.map((member, i) => (
+              <div
+                key={i}
+                className="group rounded-xl border border-border bg-card shadow-card p-6 text-center hover:shadow-elevated transition-all duration-300 hover:-translate-y-2"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                {/* Avatar */}
+                <div className="mx-auto h-20 w-20 rounded-full bg-foreground flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-2xl font-bold text-background">{member.image}</span>
+                </div>
+                <h3 className="font-display font-bold text-lg text-foreground">{member.name}</h3>
+                <p className="text-sm font-medium text-primary mt-1">{member.role}</p>
+                <p className="text-muted-foreground text-xs mt-3 leading-relaxed">{member.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       <section className="py-16 md:py-24 bg-background">
         <div
           ref={valuesReveal.ref}
