@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Users, Calendar, MapPin, Globe } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const nationalParties = [
   { name: "Bharatiya Janata Party (BJP)", founded: "1980", symbol: "Lotus", president: "J.P. Nadda", hq: "New Delhi", ideology: "Right-wing, Hindu nationalism" },
