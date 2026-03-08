@@ -112,7 +112,15 @@ const Navbar = () => {
           >
             Blogs
           </Link>
-        </div>
+
+          <Link
+            to="/contact"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/contact" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Contact
+          </Link>
 
         {/* Mobile Toggle */}
         <button className="lg:hidden text-foreground" onClick={() => setMobileOpen(!mobileOpen)}>
