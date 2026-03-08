@@ -117,7 +117,7 @@ export const stateDataMap: Record<string, StateData> = {
       { name: "Pataliputra", mp: "Ram Kripal Yadav", party: "BJP", category: "GEN" },
       { name: "Ara", mp: "R.K. Singh", party: "BJP", category: "GEN" },
       { name: "Buxar", mp: "Sudama Prasad", party: "JD(U)", category: "SC" },
-      { name: "Sasaram", mp: "Manoj Kumar", party: "BJP", category: "SC" },
+      { name: "Sasaram", mp: "Manoj Kumar", party: "INC", category: "SC" },
       { name: "Karakat", mp: "Upendra Kushwaha", party: "JD(U)", category: "GEN" },
       { name: "Jahanabad", mp: "Surendra Prasad Yadav", party: "JD(U)", category: "GEN" },
       { name: "Aurangabad", mp: "Abhay Kumar Sinha", party: "BJP", category: "GEN" },
