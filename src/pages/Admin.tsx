@@ -112,6 +112,14 @@ const Admin = () => {
     setLeads((data as VolunteerApp[]) || []);
   };
 
+  const fetchUsers = async () => {
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .order("created_at", { ascending: false });
+    setUsers((data as UserProfile[]) || []);
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: "featured" | "gallery") => {
     const file = e.target.files?.[0];
     if (!file) return;
