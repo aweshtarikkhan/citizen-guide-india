@@ -68,6 +68,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <VotingAssistant />
           </AutoTranslateWrapper>
         </AuthProvider>
       </BrowserRouter>
