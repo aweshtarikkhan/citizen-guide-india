@@ -82,8 +82,6 @@ const StatePage = () => {
           </div>
 
 
-          </div>
-
           <div className="grid md:grid-cols-2 gap-4 mt-4">
             <div className="bg-card border border-border rounded-xl p-4">
               <p className="text-xs text-muted-foreground">Area</p>
