@@ -216,6 +216,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      </div>
     </div>
   );
 });
