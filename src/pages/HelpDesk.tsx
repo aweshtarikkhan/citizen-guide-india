@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search, ExternalLink, CheckCircle, Smartphone, Globe, Printer, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const services = [
   {
