@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, LogIn, LogOut, Settings } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+
 
 const serviceLinks = [
   { icon: UserPlus, label: "Voter Help Desk", desc: "Register, correct details & find polling station", href: "/help-desk" },
@@ -16,9 +18,11 @@ const serviceLinks = [
 ];
 
 const Navbar = () => {
+  const { user, isAdmin, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -130,6 +134,27 @@ const Navbar = () => {
           >
             Contact
           </Link>
+
+          {/* Auth Buttons */}
+          {user ? (
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <Link to="/admin" className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
+                  <Settings className="h-4 w-4" /> Admin
+                </Link>
+              )}
+              <button
+                onClick={() => { signOut(); navigate("/"); }}
+                className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1"
+              >
+                <LogOut className="h-4 w-4" /> Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="flex items-center gap-1.5 px-4 py-2 bg-foreground text-background rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors">
+              <LogIn className="h-4 w-4" /> Login
+            </Link>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -209,6 +234,29 @@ const Navbar = () => {
           >
             Contact
           </Link>
+
+          {/* Mobile Auth */}
+          <div className="border-t border-border pt-3 mt-2">
+            {user ? (
+              <>
+                {isAdmin && (
+                  <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground">
+                    <Settings className="h-4 w-4" /> Admin Panel
+                  </Link>
+                )}
+                <button
+                  onClick={() => { signOut(); navigate("/"); setMobileOpen(false); }}
+                  className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground w-full"
+                >
+                  <LogOut className="h-4 w-4" /> Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="flex items-center justify-center gap-2 py-2.5 bg-foreground text-background rounded-lg text-sm font-medium">
+                <LogIn className="h-4 w-4" /> Login
+              </Link>
+            )}
+          </div>
         </div>
       )}
     </nav>
