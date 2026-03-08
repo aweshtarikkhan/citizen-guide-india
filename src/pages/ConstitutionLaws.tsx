@@ -29,19 +29,21 @@ const amendments = [
   { number: "74th", year: "1992", desc: "Established elected municipalities and urban local bodies." },
 ];
 
-const ConstitutionLaws = () => (
+const ConstitutionLaws = () => {
+  const { getContent } = usePageContent("constitution-laws");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
 
-    {/* Hero */}
     <section className="pt-28 pb-16 md:pt-36 md:pb-20 bg-muted/50">
       <div className="container max-w-5xl text-center">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Legal Framework</span>
         <h1 className="text-4xl md:text-5xl font-display font-bold mt-3 text-foreground">
-          Constitution & Election Laws
+          {getContent("page_title", "Constitution & Election Laws")}
         </h1>
         <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
-          Understand the constitutional provisions and laws that form the backbone of Indian democracy.
+          {getContent("page_desc", "Understand the constitutional provisions and laws that form the backbone of Indian democracy.")}
         </p>
       </div>
     </section>
