@@ -78,7 +78,6 @@ const Navbar = () => {
               }`}
             >
               Services
-              <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
             </button>
 
             {servicesOpen && (
