@@ -421,6 +421,7 @@ const Admin = () => {
             { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
             { id: "blogs" as Tab, label: "Blogs", icon: FileText },
             { id: "leads" as Tab, label: "Leads", icon: Users },
+            { id: "users" as Tab, label: "Signed Up Users", icon: UserCheck },
           ]).map((item) => (
             <button
               key={item.id}
