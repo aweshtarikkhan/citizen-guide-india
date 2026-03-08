@@ -43,6 +43,7 @@ const statePartyData: Record<string, { party: string; cm: string }> = {
 };
 
 const IndiaMapInteractive = () => {
+  const navigate = useNavigate();
   const [hovered, setHovered] = useState<{ name: string; party: string; cm: string } | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
