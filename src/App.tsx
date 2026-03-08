@@ -20,6 +20,7 @@ import PoliticalParties from "./pages/PoliticalParties";
 import ConstitutionLaws from "./pages/ConstitutionLaws";
 import JoinUs from "./pages/JoinUs";
 import Constituency from "./pages/Constituency";
+import CandidateDetail from "./pages/CandidateDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
