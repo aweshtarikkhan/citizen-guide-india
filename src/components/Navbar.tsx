@@ -238,6 +238,14 @@ const Navbar = () => {
             Contact
           </Link>
 
+          {/* Mobile Language Selector */}
+          <div className="border-t border-border pt-3 mt-2">
+            <div className="flex items-center gap-2 pb-2">
+              <span className="text-xs text-muted-foreground">Language:</span>
+              <LanguageSelector />
+            </div>
+          </div>
+
           {/* Mobile Auth */}
           <div className="border-t border-border pt-3 mt-2">
             {user ? (
