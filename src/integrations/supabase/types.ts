@@ -143,6 +143,42 @@ export type Database = {
         }
         Relationships: []
       }
+      page_content: {
+        Row: {
+          content: string
+          content_type: string
+          id: string
+          page_slug: string
+          section_key: string
+          section_label: string
+          sort_order: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          content?: string
+          content_type?: string
+          id?: string
+          page_slug: string
+          section_key: string
+          section_label?: string
+          sort_order?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          content?: string
+          content_type?: string
+          id?: string
+          page_slug?: string
+          section_key?: string
+          section_label?: string
+          sort_order?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
