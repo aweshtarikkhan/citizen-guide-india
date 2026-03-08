@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Phone } from "lucide-react";
+import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Phone, TrendingUp, Users, Landmark } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const serviceLinks = [
@@ -11,6 +11,9 @@ const serviceLinks = [
   { icon: Shield, label: "Voter Rights", desc: "Your constitutional rights as a voter", href: "/voter-rights" },
   { icon: HelpCircle, label: "FAQ", desc: "Quick answers to common questions", href: "/faq" },
   { icon: Phone, label: "Contact Us", desc: "Get in touch with Matdaan team", href: "/contact" },
+  { icon: TrendingUp, label: "Election Results & News", desc: "Latest results, analysis & updates", href: "/election-results" },
+  { icon: Users, label: "Political Parties", desc: "National & state parties info", href: "/political-parties" },
+  { icon: Landmark, label: "Constitution & Laws", desc: "Electoral legal framework", href: "/constitution-laws" },
 ];
 
 const Navbar = () => {
