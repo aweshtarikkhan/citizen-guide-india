@@ -44,9 +44,42 @@ const StatePage = () => {
             <ArrowLeft className="h-4 w-4" /> Back to India Map
           </Link>
 
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground tracking-tight">
-            {state.name}
-          </h1>
+          <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
+            <div>
+              <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground tracking-tight">
+                {state.name}
+              </h1>
+
+              {/* Info cards */}
+              <div className="grid grid-cols-2 gap-4 mt-8">
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <MapPin className="h-5 w-5 text-muted-foreground mb-2" />
+                  <p className="text-xs text-muted-foreground">Capital</p>
+                  <p className="font-semibold text-foreground text-sm">{state.capital}</p>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <Landmark className="h-5 w-5 text-muted-foreground mb-2" />
+                  <p className="text-xs text-muted-foreground">Chief Minister</p>
+                  <p className="font-semibold text-foreground text-sm">{state.cm}</p>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <Building2 className="h-5 w-5 text-muted-foreground mb-2" />
+                  <p className="text-xs text-muted-foreground">Ruling Party</p>
+                  <p className="font-semibold text-foreground text-sm">{state.rulingParty}</p>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <Users className="h-5 w-5 text-muted-foreground mb-2" />
+                  <p className="text-xs text-muted-foreground">Lok Sabha Seats</p>
+                  <p className="font-semibold text-foreground text-sm">{state.totalConstituencies}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Highlighted India Map */}
+            <div className="hidden md:block">
+              <StateMapHighlight activeStateId={stateId!} />
+            </div>
+          </div>
 
           {/* Info cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
