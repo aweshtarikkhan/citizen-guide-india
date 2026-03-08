@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import indiaMap from "@svg-maps/india";
 
 const statePartyData: Record<string, { party: string; cm: string }> = {
