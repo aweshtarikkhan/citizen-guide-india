@@ -369,51 +369,108 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
+      {/* MyNeta Data Banner */}
+      {mynetaLoading && (
+        <div className="bg-primary/10 border-b border-border py-3">
+          <div className="container max-w-5xl flex items-center gap-2 text-sm text-primary">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            MyNeta.info se candidates ka data load ho raha hai...
+          </div>
+        </div>
+      )}
+
+      {!mynetaLoading && Object.keys(mynetaData).length > 0 && (
+        <div className="bg-green-500/10 border-b border-border py-3">
+          <div className="container max-w-5xl text-sm text-green-700 dark:text-green-400">
+            ✅ {Object.keys(mynetaData).length} candidates ka data loaded from MyNeta.info — Click any card for full details
+          </div>
+        </div>
+      )}
+
       {/* Constituencies Grid */}
       <section className="py-12 bg-background">
         <div className="container max-w-5xl">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredConstituencies.map((c, i) => (
-              <Card
-                key={`${c.stateId}-${c.name}-${i}`}
-                className="group hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="text-base font-semibold leading-tight">
-                      {c.name}
-                    </CardTitle>
-                    {c.category && (
-                      <Badge variant="outline" className="text-xs shrink-0">
-                        {c.category}
-                      </Badge>
+            {filteredConstituencies.map((c, i) => {
+              const mynetaInfo = mynetaData[c.name.toUpperCase()];
+              return (
+                <Card
+                  key={`${c.stateId}-${c.name}-${i}`}
+                  className="group hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
+                >
+                  <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <CardTitle className="text-base font-semibold leading-tight">
+                        {c.name}
+                      </CardTitle>
+                      {c.category && (
+                        <Badge variant="outline" className="text-xs shrink-0">
+                          {c.category}
+                        </Badge>
+                      )}
+                    </div>
+                    <Link
+                      to={`/state/${c.stateId}`}
+                      className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
+                    >
+                      <MapPin className="h-3 w-3" />
+                      {c.stateName}
+                    </Link>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex items-center gap-2 mt-2">
+                      <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate">
+                          {c.mp}
+                        </p>
+                        <Badge className={`${getPartyColor(c.party)} text-xs mt-1`}>
+                          {c.party}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* MyNeta Quick Stats */}
+                    {mynetaInfo && (
+                      <div className="mt-3 pt-3 border-t border-border space-y-1.5">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="flex items-center gap-1 text-muted-foreground">
+                            <AlertTriangle className="h-3 w-3" /> Cases
+                          </span>
+                          <span className={`font-bold ${mynetaInfo.criminal_cases > 0 ? 'text-destructive' : 'text-green-600'}`}>
+                            {mynetaInfo.criminal_cases}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="flex items-center gap-1 text-muted-foreground">
+                            <GraduationCap className="h-3 w-3" /> Education
+                          </span>
+                          <span className="font-medium text-foreground truncate ml-2">{mynetaInfo.education || 'N/A'}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="flex items-center gap-1 text-muted-foreground">
+                            <IndianRupee className="h-3 w-3" /> Assets
+                          </span>
+                          <span className="font-medium text-foreground truncate ml-2">
+                            {mynetaInfo.total_assets?.replace(/!\[.*?\]\(.*?\)/g, 'N/A').substring(0, 30) || 'N/A'}
+                          </span>
+                        </div>
+                        <Link
+                          to={`/candidate?id=${mynetaInfo.candidate_id}`}
+                          className="block mt-2"
+                        >
+                          <Button variant="outline" size="sm" className="w-full text-xs">
+                            View Full Profile →
+                          </Button>
+                        </Link>
+                      </div>
                     )}
-                  </div>
-                  <Link
-                    to={`/state/${c.stateId}`}
-                    className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
-                  >
-                    <MapPin className="h-3 w-3" />
-                    {c.stateName}
-                  </Link>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-                      <Users className="h-4 w-4 text-muted-foreground" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">
-                        {c.mp}
-                      </p>
-                      <Badge className={`${getPartyColor(c.party)} text-xs mt-1`}>
-                        {c.party}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
 
           {filteredConstituencies.length === 0 && (
