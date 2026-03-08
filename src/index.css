@@ -94,13 +94,13 @@
 }
 
 /* Override react-simple-maps default blue ocean background */
-.india-map-white svg {
-  background: #ffffff !important;
-}
-.india-map-white svg rect {
+.india-map-white svg > g > rect[fill] {
   fill: #ffffff !important;
 }
-.india-map-white svg > g > path:first-child {
+.india-map-white svg > g > g > rect[fill] {
+  fill: #ffffff !important;
+}
+.india-map-white svg path[d^="M-"] {
   fill: #ffffff !important;
 }
 
