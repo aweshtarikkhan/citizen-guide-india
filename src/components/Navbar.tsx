@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, LogIn, LogOut, Settings } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import LanguageSelector from "@/components/LanguageSelector";
 
 
 const serviceLinks = [
@@ -135,6 +136,8 @@ const Navbar = () => {
             Contact
           </Link>
 
+          <LanguageSelector />
+
           {/* Auth Buttons */}
           {user ? (
             <div className="flex items-center gap-2">
@@ -234,6 +237,14 @@ const Navbar = () => {
           >
             Contact
           </Link>
+
+          {/* Mobile Language Selector */}
+          <div className="border-t border-border pt-3 mt-2">
+            <div className="flex items-center gap-2 pb-2">
+              <span className="text-xs text-muted-foreground">Language:</span>
+              <LanguageSelector />
+            </div>
+          </div>
 
           {/* Mobile Auth */}
           <div className="border-t border-border pt-3 mt-2">

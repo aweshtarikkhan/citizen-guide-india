@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
+import { LanguageProvider } from "@/hooks/useLanguage";
+import AutoTranslateWrapper from "@/components/AutoTranslateWrapper";
 import Index from "./pages/Index";
 import HelpDesk from "./pages/HelpDesk";
 import Knowledge from "./pages/Knowledge";
@@ -32,10 +34,12 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <LanguageProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <AutoTranslateWrapper>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/help-desk" element={<HelpDesk />} />
@@ -61,8 +65,10 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </AutoTranslateWrapper>
         </AuthProvider>
       </BrowserRouter>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
