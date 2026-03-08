@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Shield, Lock, Accessibility, AlertOctagon, Scale, HandHeart, Eye, Gavel } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const rights = [
   {
