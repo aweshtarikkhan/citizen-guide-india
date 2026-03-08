@@ -102,17 +102,20 @@ const rights = [
   },
 ];
 
-const VoterRightsPage = () => (
+const VoterRightsPage = () => {
+  const { getContent } = usePageContent("voter-rights");
+
+  return (
   <div className="min-h-screen">
     <Navbar />
     <section className="pt-28 pb-16 bg-background">
       <div className="container max-w-4xl">
         <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Voter Rights</span>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mt-3 text-foreground">
-          Know Your Rights as a Voter
+          {getContent("page_title", "Know Your Rights as a Voter")}
         </h1>
         <p className="mt-6 text-muted-foreground text-lg max-w-2xl leading-relaxed">
-          As a citizen of India, you have powerful rights that protect your vote and your voice. Know them, exercise them, and defend them.
+          {getContent("page_desc", "As a citizen of India, you have powerful rights that protect your vote and your voice. Know them, exercise them, and defend them.")}
         </p>
       </div>
     </section>
@@ -142,6 +145,7 @@ const VoterRightsPage = () => (
 
     <FooterSection />
   </div>
-);
+  );
+};
 
 export default VoterRightsPage;
