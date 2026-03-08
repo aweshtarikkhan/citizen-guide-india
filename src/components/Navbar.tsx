@@ -18,10 +18,11 @@ const serviceLinks = [
 ];
 
 const Navbar = () => {
+  const { user, isAdmin, signOut } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const location = useLocation();
+  const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
