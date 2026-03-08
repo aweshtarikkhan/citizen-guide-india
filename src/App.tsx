@@ -19,6 +19,7 @@ import ElectionResults from "./pages/ElectionResults";
 import PoliticalParties from "./pages/PoliticalParties";
 import ConstitutionLaws from "./pages/ConstitutionLaws";
 import JoinUs from "./pages/JoinUs";
+import Constituency from "./pages/Constituency";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/political-parties" element={<PoliticalParties />} />
           <Route path="/constitution-laws" element={<ConstitutionLaws />} />
           <Route path="/join-us" element={<JoinUs />} />
+          <Route path="/constituency" element={<Constituency />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
