@@ -81,7 +81,7 @@ const Index = () => {
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
-            Explore Matdaan
+            {getContent("explore_title", "Explore Matdaan")}
           </h2>
           <p className="mt-4 text-muted-foreground text-lg">
             Everything you need to be an informed, empowered citizen.
