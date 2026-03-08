@@ -338,7 +338,7 @@ export const stateDataMap: Record<string, StateData> = {
     constituencies: [
       { name: "Morena", mp: "Shivmangal Singh Tomar", party: "BJP", category: "SC" },
       { name: "Bhind", mp: "Phool Singh Baraiya", party: "BJP", category: "SC" },
-      { name: "Gwalior", mp: "Bharat Singh Kushwah", party: "BJP", category: "GEN" },
+      { name: "Gwalior", mp: "Praveen Pathak", party: "INC", category: "GEN" },
       { name: "Guna", mp: "Jyotiraditya Scindia", party: "BJP", category: "GEN" },
       { name: "Sagar", mp: "Lata Wankhede", party: "BJP", category: "GEN" },
       { name: "Tikamgarh", mp: "Virendra Kumar", party: "BJP", category: "SC" },
