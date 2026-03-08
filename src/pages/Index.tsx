@@ -42,6 +42,16 @@ const Index = () => {
     {/* 1. Hero */}
     <HeroSection />
 
+    {/* Countdown + Daily Fact */}
+    <section className="py-12 md:py-16 bg-background">
+      <div className="container max-w-5xl">
+        <div className="grid md:grid-cols-2 gap-6">
+          <ElectionCountdown />
+          <DailyFact />
+        </div>
+      </div>
+    </section>
+
     {/* 2. Who We Are */}
     <section className="py-20 md:py-28 bg-muted/50">
       <div className="container max-w-5xl">
