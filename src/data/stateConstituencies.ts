@@ -423,8 +423,8 @@ export const stateDataMap: Record<string, StateData> = {
   "mn": {
     id: "mn", name: "Manipur", capital: "Imphal", cm: "N. Biren Singh", governor: "Lakshman Prasad Acharya", rulingParty: "BJP", totalConstituencies: 2, area: "22,327 km²", population: "28.56 Lakh",
     constituencies: [
-      { name: "Inner Manipur", mp: "Basanta Kumar Singh", party: "BJP", category: "GEN" },
-      { name: "Outer Manipur", mp: "Alfred Kanngam Arthur", party: "BJP", category: "ST" },
+      { name: "Inner Manipur", mp: "Angomcha Bimol Akoijam", party: "INC", category: "GEN" },
+      { name: "Outer Manipur", mp: "Alfred Kanngam Arthur", party: "INC", category: "ST" },
     ],
   },
   "ml": {
