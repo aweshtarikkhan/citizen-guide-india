@@ -146,8 +146,8 @@ const VoterQuiz = () => {
                 {q.options.map((opt, idx) => {
                   let cls = "border-border hover:border-foreground/30 hover:bg-muted/50";
                   if (answered) {
-                    if (idx === q.correct) cls = "border-green-500 bg-green-50 dark:bg-green-500/10";
-                    else if (idx === selected) cls = "border-red-500 bg-red-50 dark:bg-red-500/10";
+                    if (idx === q.correct) cls = "border-foreground bg-foreground/5";
+                    else if (idx === selected) cls = "border-destructive bg-destructive/5";
                     else cls = "border-border opacity-50";
                   }
 
