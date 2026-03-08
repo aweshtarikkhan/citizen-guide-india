@@ -81,7 +81,7 @@ const Navbar = () => {
             </button>
 
             {servicesOpen && (
-              <div className="absolute top-full right-0 mt-3 w-[580px] bg-card border border-border rounded-xl shadow-elevated p-4 grid grid-cols-2 gap-1 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full right-0 mt-3 w-[640px] bg-card border border-border rounded-xl shadow-elevated p-4 grid grid-cols-2 gap-1 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
                 {serviceLinks.map((s) => (
                   <Link
                     key={s.href}
