@@ -426,6 +426,7 @@ const Admin = () => {
   const sidebarTabs = isAdmin
     ? [
         { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
+        { id: "content" as Tab, label: "Page Content", icon: Globe },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
         { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
