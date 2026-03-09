@@ -3,9 +3,11 @@ import HeroSection from "@/components/HeroSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
 import { usePageContent } from "@/hooks/usePageContent";
-import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark, Brain } from "lucide-react";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark, Brain, PenLine } from "lucide-react";
 import ElectionCountdown from "@/components/ElectionCountdown";
 import DailyFact from "@/components/DailyFact";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const sections = [
   { icon: UserPlus, title: "Voter Help Desk", desc: "Register, correct details & find your polling station.", link: "/help-desk" },
@@ -30,10 +32,53 @@ const testimonials = [
   { name: "Amit Singh", location: "Lucknow", text: "The FAQ section answered every question I had about EVMs and VVPAT. Highly recommended!" },
 ];
 
+// Fallback blogs for when no published blogs exist
+const fallbackBlogs = [
+  { 
+    id: "1",
+    title: "Understanding EVM: How Electronic Voting Machines Work", 
+    excerpt: "A deep dive into the technology behind India's Electronic Voting Machines and why they are considered secure.", 
+    published_at: "2026-03-05", 
+    category: "Technology" 
+  },
+  { 
+    id: "2",
+    title: "First-Time Voter? Here's Your Complete Guide", 
+    excerpt: "Everything you need to know before casting your first vote — from registration to the polling booth.", 
+    published_at: "2026-03-01", 
+    category: "Guide" 
+  },
+  { 
+    id: "3",
+    title: "The History of Elections in India", 
+    excerpt: "From the first general election in 1951 to the world's largest democracy today — a journey through India's electoral history.", 
+    published_at: "2026-02-25", 
+    category: "History" 
+  },
+];
+
 const Index = () => {
   const { getContent, getJsonContent } = usePageContent("home");
   
   const cmsTestimonials = getJsonContent("testimonials", testimonials);
+
+  // Fetch latest 3 published blogs
+  const { data: latestBlogs } = useQuery({
+    queryKey: ["latestBlogs"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("blogs")
+        .select("id, title, excerpt, published_at, category")
+        .eq("status", "published")
+        .order("published_at", { ascending: false })
+        .limit(3);
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const blogsToShow = latestBlogs && latestBlogs.length > 0 ? latestBlogs : fallbackBlogs;
 
   return (
   <div className="min-h-screen">
@@ -49,6 +94,61 @@ const Index = () => {
           <ElectionCountdown />
           <DailyFact />
         </div>
+      </div>
+    </section>
+
+    {/* Latest Blogs Section */}
+    <section className="py-12 md:py-16 bg-muted/30">
+      <div className="container max-w-5xl">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Blog</span>
+            <h2 className="text-2xl md:text-3xl font-display font-bold mt-2 text-foreground">Latest Articles</h2>
+          </div>
+          <Link 
+            to="/blogs" 
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:gap-3 transition-all"
+          >
+            View All <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {blogsToShow.map((blog) => (
+            <Link
+              key={blog.id}
+              to="/blogs"
+              className="group rounded-xl border border-border bg-card shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
+            >
+              <div className="h-32 bg-gradient-to-br from-foreground/5 to-muted flex items-center justify-center">
+                <PenLine className="h-8 w-8 text-foreground/20" />
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                <span className="text-xs font-semibold text-foreground/70 uppercase tracking-wider mb-2">
+                  {blog.category || "Article"}
+                </span>
+                <h3 className="text-sm font-display font-bold text-foreground mb-2 leading-snug group-hover:underline decoration-foreground/30 underline-offset-2 line-clamp-2">
+                  {blog.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed flex-1 line-clamp-2">
+                  {blog.excerpt}
+                </p>
+                <div className="text-xs text-muted-foreground border-t border-border pt-3 mt-3">
+                  {new Date(blog.published_at || "").toLocaleDateString("en-IN", { 
+                    month: "short", 
+                    day: "numeric", 
+                    year: "numeric" 
+                  })}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <Link 
+          to="/blogs" 
+          className="sm:hidden mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground"
+        >
+          View All Articles <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </section>
 
