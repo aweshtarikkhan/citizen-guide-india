@@ -115,6 +115,13 @@ const ConstituencyPage = () => {
     return Array.from(parties).sort();
   }, [allConstituencies]);
 
+  // Get unique categories
+  const uniqueCategories = useMemo(() => {
+    const cats = new Set<string>();
+    allConstituencies.forEach((c) => { if (c.category) cats.add(c.category); });
+    return Array.from(cats).sort();
+  }, [allConstituencies]);
+
   // Filter constituencies
   const filteredConstituencies = useMemo(() => {
     return allConstituencies.filter((c) => {
@@ -124,9 +131,10 @@ const ConstituencyPage = () => {
         c.stateName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesState = selectedState === "all" || c.stateId === selectedState;
       const matchesParty = selectedParty === "all" || c.party === selectedParty;
-      return matchesSearch && matchesState && matchesParty;
+      const matchesCategory = selectedCategory === "all" || c.category === selectedCategory;
+      return matchesSearch && matchesState && matchesParty && matchesCategory;
     });
-  }, [allConstituencies, searchQuery, selectedState, selectedParty]);
+  }, [allConstituencies, searchQuery, selectedState, selectedParty, selectedCategory]);
 
   // Party-wise count for badges
   const partyWiseCount = useMemo(() => {
