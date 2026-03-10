@@ -134,8 +134,7 @@ const ConstituencyPage = () => {
       counts[c.party] = (counts[c.party] || 0) + 1;
     });
     return Object.entries(counts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8);
+      .sort((a, b) => b[1] - a[1]);
   }, [allConstituencies]);
 
   // Full party-wise data for pie chart
