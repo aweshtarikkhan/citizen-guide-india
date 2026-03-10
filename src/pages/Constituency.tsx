@@ -134,8 +134,7 @@ const ConstituencyPage = () => {
       counts[c.party] = (counts[c.party] || 0) + 1;
     });
     return Object.entries(counts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8);
+      .sort((a, b) => b[1] - a[1]);
   }, [allConstituencies]);
 
   // Full party-wise data for pie chart
@@ -215,7 +214,8 @@ const ConstituencyPage = () => {
             {partyWiseCount.map(([party, count]) => (
               <Badge
                 key={party}
-                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium`}
+                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity ${selectedParty === party ? 'ring-2 ring-background ring-offset-2 ring-offset-foreground' : ''}`}
+                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
               >
                 {party}: {count}
               </Badge>
@@ -278,7 +278,8 @@ const ConstituencyPage = () => {
               {pieChartData.map((party, index) => (
                 <div 
                   key={party.name}
-                  className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:shadow-sm transition-shadow"
+                  className={`flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:shadow-sm transition-all cursor-pointer ${selectedParty === party.name ? 'ring-2 ring-primary shadow-md' : ''}`}
+                  onClick={() => setSelectedParty(selectedParty === party.name ? "all" : party.name)}
                 >
                   <div className="flex items-center gap-3">
                     <div 
@@ -404,6 +405,35 @@ const ConstituencyPage = () => {
               </select>
             </div>
           </div>
+
+          {/* Party Quick Filter Chips */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button
+              variant={selectedParty === "all" ? "default" : "outline"}
+              size="sm"
+              className="text-xs h-7"
+              onClick={() => setSelectedParty("all")}
+            >
+              All Parties ({allConstituencies.length})
+            </Button>
+            {partyWiseCount.map(([party, count]) => (
+              <Button
+                key={party}
+                variant={selectedParty === party ? "default" : "outline"}
+                size="sm"
+                className="text-xs h-7"
+                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
+              >
+                {party} ({count})
+              </Button>
+            ))}
+            {selectedParty !== "all" && !partyWiseCount.find(([p]) => p === selectedParty) && (
+              <Button variant="default" size="sm" className="text-xs h-7">
+                {selectedParty} ({filteredConstituencies.length})
+              </Button>
+            )}
+          </div>
+
           <div className="mt-3 text-sm text-muted-foreground">
             Showing {filteredConstituencies.length} of {allConstituencies.length} constituencies
           </div>
