@@ -210,12 +210,12 @@ const ConstituencyPage = () => {
           </p>
 
           {/* Quick Stats */}
+          {/* Quick Stats - top 8 only */}
           <div className="mt-8 flex flex-wrap gap-3">
-            {partyWiseCount.map(([party, count]) => (
+            {partyWiseCount.slice(0, 8).map(([party, count]) => (
               <Badge
                 key={party}
-                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity ${selectedParty === party ? 'ring-2 ring-background ring-offset-2 ring-offset-foreground' : ''}`}
-                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
+                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium`}
               >
                 {party}: {count}
               </Badge>
