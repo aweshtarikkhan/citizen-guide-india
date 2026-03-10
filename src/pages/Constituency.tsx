@@ -215,7 +215,8 @@ const ConstituencyPage = () => {
             {partyWiseCount.map(([party, count]) => (
               <Badge
                 key={party}
-                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium`}
+                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity ${selectedParty === party ? 'ring-2 ring-background ring-offset-2 ring-offset-foreground' : ''}`}
+                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
               >
                 {party}: {count}
               </Badge>
