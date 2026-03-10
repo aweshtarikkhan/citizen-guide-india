@@ -72,6 +72,7 @@ const ConstituencyPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedParty, setSelectedParty] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
   const [mynetaData, setMynetaData] = useState<Record<string, CandidateSummary>>({});
   const [mynetaLoading, setMynetaLoading] = useState(false);
@@ -114,6 +115,13 @@ const ConstituencyPage = () => {
     return Array.from(parties).sort();
   }, [allConstituencies]);
 
+  // Get unique categories
+  const uniqueCategories = useMemo(() => {
+    const cats = new Set<string>();
+    allConstituencies.forEach((c) => { if (c.category) cats.add(c.category); });
+    return Array.from(cats).sort();
+  }, [allConstituencies]);
+
   // Filter constituencies
   const filteredConstituencies = useMemo(() => {
     return allConstituencies.filter((c) => {
@@ -123,9 +131,10 @@ const ConstituencyPage = () => {
         c.stateName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesState = selectedState === "all" || c.stateId === selectedState;
       const matchesParty = selectedParty === "all" || c.party === selectedParty;
-      return matchesSearch && matchesState && matchesParty;
+      const matchesCategory = selectedCategory === "all" || c.category === selectedCategory;
+      return matchesSearch && matchesState && matchesParty && matchesCategory;
     });
-  }, [allConstituencies, searchQuery, selectedState, selectedParty]);
+  }, [allConstituencies, searchQuery, selectedState, selectedParty, selectedCategory]);
 
   // Party-wise count for badges
   const partyWiseCount = useMemo(() => {
@@ -400,6 +409,18 @@ const ConstituencyPage = () => {
                 {partyWiseCount.map(([p, count]) => (
                   <option key={p} value={p}>
                     {p} ({count} seats)
+                  </option>
+                ))}
+              </select>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm min-w-[140px]"
+              >
+                <option value="all">All Categories</option>
+                {uniqueCategories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat} ({allConstituencies.filter(c => c.category === cat).length})
                   </option>
                 ))}
               </select>
