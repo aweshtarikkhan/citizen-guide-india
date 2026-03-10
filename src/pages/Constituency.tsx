@@ -278,7 +278,8 @@ const ConstituencyPage = () => {
               {pieChartData.map((party, index) => (
                 <div 
                   key={party.name}
-                  className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:shadow-sm transition-shadow"
+                  className={`flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:shadow-sm transition-all cursor-pointer ${selectedParty === party.name ? 'ring-2 ring-primary shadow-md' : ''}`}
+                  onClick={() => setSelectedParty(selectedParty === party.name ? "all" : party.name)}
                 >
                   <div className="flex items-center gap-3">
                     <div 
