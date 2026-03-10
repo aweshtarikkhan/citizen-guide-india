@@ -210,12 +210,12 @@ const ConstituencyPage = () => {
           </p>
 
           {/* Quick Stats */}
+          {/* Quick Stats - top 8 only */}
           <div className="mt-8 flex flex-wrap gap-3">
-            {partyWiseCount.map(([party, count]) => (
+            {partyWiseCount.slice(0, 8).map(([party, count]) => (
               <Badge
                 key={party}
-                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium cursor-pointer hover:opacity-80 transition-opacity ${selectedParty === party ? 'ring-2 ring-background ring-offset-2 ring-offset-foreground' : ''}`}
-                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
+                className={`${getPartyColor(party)} px-3 py-1.5 text-sm font-medium`}
               >
                 {party}: {count}
               </Badge>
@@ -394,44 +394,16 @@ const ConstituencyPage = () => {
               <select
                 value={selectedParty}
                 onChange={(e) => setSelectedParty(e.target.value)}
-                className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm"
+                className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm min-w-[180px]"
               >
-                <option value="all">All Parties</option>
-                {uniqueParties.map((p) => (
+                <option value="all">All Parties ({allConstituencies.length})</option>
+                {partyWiseCount.map(([p, count]) => (
                   <option key={p} value={p}>
-                    {p}
+                    {p} ({count} seats)
                   </option>
                 ))}
               </select>
             </div>
-          </div>
-
-          {/* Party Quick Filter Chips */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Button
-              variant={selectedParty === "all" ? "default" : "outline"}
-              size="sm"
-              className="text-xs h-7"
-              onClick={() => setSelectedParty("all")}
-            >
-              All Parties ({allConstituencies.length})
-            </Button>
-            {partyWiseCount.map(([party, count]) => (
-              <Button
-                key={party}
-                variant={selectedParty === party ? "default" : "outline"}
-                size="sm"
-                className="text-xs h-7"
-                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
-              >
-                {party} ({count})
-              </Button>
-            ))}
-            {selectedParty !== "all" && !partyWiseCount.find(([p]) => p === selectedParty) && (
-              <Button variant="default" size="sm" className="text-xs h-7">
-                {selectedParty} ({filteredConstituencies.length})
-              </Button>
-            )}
           </div>
 
           <div className="mt-3 text-sm text-muted-foreground">
