@@ -412,6 +412,18 @@ const ConstituencyPage = () => {
                   </option>
                 ))}
               </select>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm min-w-[140px]"
+              >
+                <option value="all">All Categories</option>
+                {uniqueCategories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat} ({allConstituencies.filter(c => c.category === cat).length})
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
