@@ -405,6 +405,35 @@ const ConstituencyPage = () => {
               </select>
             </div>
           </div>
+
+          {/* Party Quick Filter Chips */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button
+              variant={selectedParty === "all" ? "default" : "outline"}
+              size="sm"
+              className="text-xs h-7"
+              onClick={() => setSelectedParty("all")}
+            >
+              All Parties ({allConstituencies.length})
+            </Button>
+            {partyWiseCount.map(([party, count]) => (
+              <Button
+                key={party}
+                variant={selectedParty === party ? "default" : "outline"}
+                size="sm"
+                className="text-xs h-7"
+                onClick={() => setSelectedParty(selectedParty === party ? "all" : party)}
+              >
+                {party} ({count})
+              </Button>
+            ))}
+            {selectedParty !== "all" && !partyWiseCount.find(([p]) => p === selectedParty) && (
+              <Button variant="default" size="sm" className="text-xs h-7">
+                {selectedParty} ({filteredConstituencies.length})
+              </Button>
+            )}
+          </div>
+
           <div className="mt-3 text-sm text-muted-foreground">
             Showing {filteredConstituencies.length} of {allConstituencies.length} constituencies
           </div>
