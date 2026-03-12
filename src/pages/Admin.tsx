@@ -14,6 +14,7 @@ import {
   Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
+import ConstituencyManager from "@/components/ConstituencyManager";
 
 interface Blog {
   id: string;
