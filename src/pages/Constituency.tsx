@@ -423,6 +423,24 @@ const ConstituencyPage = () => {
             </button>
             <div className={`flex flex-col md:flex-row gap-3 ${showFilters ? "block" : "hidden md:flex"}`}>
               <select
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm min-w-[200px]"
+              >
+                <option value="">All Constituencies</option>
+                {allConstituencies
+                  .filter((c) => {
+                    const matchesState = selectedState === "all" || c.stateId === selectedState;
+                    const matchesParty = selectedParty === "all" || c.party === selectedParty;
+                    return matchesState && matchesParty;
+                  })
+                  .map((c) => (
+                    <option key={`${c.stateId}-${c.name}`} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
+              </select>
+              <select
                 value={selectedState}
                 onChange={(e) => setSelectedState(e.target.value)}
                 className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm"
