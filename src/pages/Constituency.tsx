@@ -73,10 +73,33 @@ const ConstituencyPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedParty, setSelectedParty] = useState<string>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
   const [mynetaData, setMynetaData] = useState<Record<string, CandidateSummary>>({});
   const [mynetaLoading, setMynetaLoading] = useState(false);
+  const [overrides, setOverrides] = useState<any[]>([]);
+  const [mapType, setMapType] = useState("leaflet");
+
+  // Load overrides and map type from DB
+  useEffect(() => {
+    supabase
+      .from("constituency_overrides")
+      .select("*")
+      .then(({ data }) => setOverrides(data || []));
+
+    supabase
+      .from("site_settings")
+      .select("setting_value")
+      .eq("setting_key", "constituency_map_type")
+      .single()
+      .then(({ data }) => {
+        if (data?.setting_value) {
+          const val = typeof data.setting_value === "string" 
+            ? data.setting_value 
+            : JSON.stringify(data.setting_value).replace(/"/g, "");
+          setMapType(val);
+        }
+      });
+  }, []);
 
   // Load MyNeta data
   useEffect(() => {
@@ -85,7 +108,6 @@ const ConstituencyPage = () => {
       if (res.success && res.data) {
         const dataMap: Record<string, CandidateSummary> = {};
         res.data.forEach((c) => {
-          // Map by constituency name (uppercase for matching)
           dataMap[c.constituency.toUpperCase()] = c;
         });
         setMynetaData(dataMap);
@@ -94,20 +116,25 @@ const ConstituencyPage = () => {
     }).catch(() => setMynetaLoading(false));
   }, []);
 
-  // Get all constituencies with state info
+  // Get all constituencies with state info + apply overrides
   const allConstituencies: FlatConstituency[] = useMemo(() => {
     const result: FlatConstituency[] = [];
     Object.values(stateDataMap).forEach((state) => {
       state.constituencies.forEach((c) => {
+        const override = overrides.find(
+          (o: any) => o.constituency_name === c.name && o.state_id === state.id
+        );
         result.push({
           ...c,
+          mp: override?.mp_name || c.mp,
+          party: override?.party || c.party,
           stateId: state.id,
           stateName: state.name,
         });
       });
     });
     return result.sort((a, b) => a.name.localeCompare(b.name));
-  }, []);
+  }, [overrides]);
 
   // Get unique parties
   const uniqueParties = useMemo(() => {
@@ -116,14 +143,7 @@ const ConstituencyPage = () => {
     return Array.from(parties).sort();
   }, [allConstituencies]);
 
-  // Get unique categories
-  const uniqueCategories = useMemo(() => {
-    const cats = new Set<string>();
-    allConstituencies.forEach((c) => { if (c.category) cats.add(c.category); });
-    return Array.from(cats).sort();
-  }, [allConstituencies]);
-
-  // Filter constituencies
+  // Filter constituencies (no category filter)
   const filteredConstituencies = useMemo(() => {
     return allConstituencies.filter((c) => {
       const matchesSearch =
@@ -132,10 +152,9 @@ const ConstituencyPage = () => {
         c.stateName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesState = selectedState === "all" || c.stateId === selectedState;
       const matchesParty = selectedParty === "all" || c.party === selectedParty;
-      const matchesCategory = selectedCategory === "all" || c.category === selectedCategory;
-      return matchesSearch && matchesState && matchesParty && matchesCategory;
+      return matchesSearch && matchesState && matchesParty;
     });
-  }, [allConstituencies, searchQuery, selectedState, selectedParty, selectedCategory]);
+  }, [allConstituencies, searchQuery, selectedState, selectedParty]);
 
   // Party-wise count for badges
   const partyWiseCount = useMemo(() => {
