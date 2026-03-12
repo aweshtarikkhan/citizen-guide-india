@@ -11,6 +11,7 @@ import IndiaConstituencyMap from "@/components/IndiaConstituencyMap";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
 import { mynetaApi, CandidateSummary } from "@/lib/api/myneta";
+import { supabase } from "@/integrations/supabase/client";
 
 // Party color mapping
 const partyColors: Record<string, string> = {
@@ -72,10 +73,33 @@ const ConstituencyPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedState, setSelectedState] = useState<string>("all");
   const [selectedParty, setSelectedParty] = useState<string>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
   const [mynetaData, setMynetaData] = useState<Record<string, CandidateSummary>>({});
   const [mynetaLoading, setMynetaLoading] = useState(false);
+  const [overrides, setOverrides] = useState<any[]>([]);
+  const [mapType, setMapType] = useState("leaflet");
+
+  // Load overrides and map type from DB
+  useEffect(() => {
+    supabase
+      .from("constituency_overrides")
+      .select("*")
+      .then(({ data }) => setOverrides(data || []));
+
+    supabase
+      .from("site_settings")
+      .select("setting_value")
+      .eq("setting_key", "constituency_map_type")
+      .single()
+      .then(({ data }) => {
+        if (data?.setting_value) {
+          const val = typeof data.setting_value === "string" 
+            ? data.setting_value 
+            : JSON.stringify(data.setting_value).replace(/"/g, "");
+          setMapType(val);
+        }
+      });
+  }, []);
 
   // Load MyNeta data
   useEffect(() => {
@@ -84,7 +108,6 @@ const ConstituencyPage = () => {
       if (res.success && res.data) {
         const dataMap: Record<string, CandidateSummary> = {};
         res.data.forEach((c) => {
-          // Map by constituency name (uppercase for matching)
           dataMap[c.constituency.toUpperCase()] = c;
         });
         setMynetaData(dataMap);
@@ -93,20 +116,25 @@ const ConstituencyPage = () => {
     }).catch(() => setMynetaLoading(false));
   }, []);
 
-  // Get all constituencies with state info
+  // Get all constituencies with state info + apply overrides
   const allConstituencies: FlatConstituency[] = useMemo(() => {
     const result: FlatConstituency[] = [];
     Object.values(stateDataMap).forEach((state) => {
       state.constituencies.forEach((c) => {
+        const override = overrides.find(
+          (o: any) => o.constituency_name === c.name && o.state_id === state.id
+        );
         result.push({
           ...c,
+          mp: override?.mp_name || c.mp,
+          party: override?.party || c.party,
           stateId: state.id,
           stateName: state.name,
         });
       });
     });
     return result.sort((a, b) => a.name.localeCompare(b.name));
-  }, []);
+  }, [overrides]);
 
   // Get unique parties
   const uniqueParties = useMemo(() => {
@@ -115,14 +143,7 @@ const ConstituencyPage = () => {
     return Array.from(parties).sort();
   }, [allConstituencies]);
 
-  // Get unique categories
-  const uniqueCategories = useMemo(() => {
-    const cats = new Set<string>();
-    allConstituencies.forEach((c) => { if (c.category) cats.add(c.category); });
-    return Array.from(cats).sort();
-  }, [allConstituencies]);
-
-  // Filter constituencies
+  // Filter constituencies (no category filter)
   const filteredConstituencies = useMemo(() => {
     return allConstituencies.filter((c) => {
       const matchesSearch =
@@ -131,10 +152,9 @@ const ConstituencyPage = () => {
         c.stateName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesState = selectedState === "all" || c.stateId === selectedState;
       const matchesParty = selectedParty === "all" || c.party === selectedParty;
-      const matchesCategory = selectedCategory === "all" || c.category === selectedCategory;
-      return matchesSearch && matchesState && matchesParty && matchesCategory;
+      return matchesSearch && matchesState && matchesParty;
     });
-  }, [allConstituencies, searchQuery, selectedState, selectedParty, selectedCategory]);
+  }, [allConstituencies, searchQuery, selectedState, selectedParty]);
 
   // Party-wise count for badges
   const partyWiseCount = useMemo(() => {
@@ -307,23 +327,38 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
-      {/* India Constituency Map */}
+      {/* India Constituency Map - conditional on map type */}
+      {mapType !== "none" && (
       <section className="py-12 bg-background border-b border-border">
         <div className="container max-w-6xl">
           <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground text-center mb-2">
             Constituency Map of India
           </h2>
           <p className="text-muted-foreground text-center mb-8">
-            Hover to see MP details, click to view full candidate profile. Zoom in to explore.
+            {mapType === "leaflet" ? "Hover to see MP details, click to view full candidate profile. Zoom in to explore." : "Visual representation of India's parliamentary constituencies."}
           </p>
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2">
-              <IndiaConstituencyMap
-                data={constituencyMapData}
-                onConstituencyClick={(name) => {
-                  setSearchQuery(name);
-                }}
-              />
+              {mapType === "leaflet" && (
+                <IndiaConstituencyMap
+                  data={constituencyMapData}
+                  onConstituencyClick={(name) => {
+                    setSearchQuery(name);
+                  }}
+                />
+              )}
+              {mapType === "svg" && (
+                <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
+                  <img src="/india_map_svg.svg" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  <p className="text-muted-foreground text-sm">Upload an SVG map at <code>/public/india_map_svg.svg</code></p>
+                </div>
+              )}
+              {mapType === "png" && (
+                <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
+                  <img src="/india_map.png" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  <p className="text-muted-foreground text-sm">Upload a PNG map at <code>/public/india_map.png</code></p>
+                </div>
+              )}
             </div>
             <div className="space-y-4">
               <div className="p-4 rounded-lg bg-card border border-border">
@@ -363,6 +398,7 @@ const ConstituencyPage = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Search & Filter */}
       <section className="py-8 bg-background border-b border-border sticky top-16 z-40">
@@ -409,18 +445,6 @@ const ConstituencyPage = () => {
                 {partyWiseCount.map(([p, count]) => (
                   <option key={p} value={p}>
                     {p} ({count} seats)
-                  </option>
-                ))}
-              </select>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-border rounded-lg bg-background text-foreground text-sm min-w-[140px]"
-              >
-                <option value="all">All Categories</option>
-                {uniqueCategories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat} ({allConstituencies.filter(c => c.category === cat).length})
                   </option>
                 ))}
               </select>

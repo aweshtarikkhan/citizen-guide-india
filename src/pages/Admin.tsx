@@ -11,9 +11,10 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
+import ConstituencyManager from "@/components/ConstituencyManager";
 
 interface Blog {
   id: string;
@@ -59,7 +60,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies";
 
 const Admin = () => {
   const { user, isAdmin, isEditor, loading: authLoading, rolesChecked, signOut } = useAuth();
@@ -427,6 +428,7 @@ const Admin = () => {
     ? [
         { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
         { id: "content" as Tab, label: "Page Content", icon: Globe },
+        { id: "constituencies" as Tab, label: "Constituencies", icon: MapPin },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
         { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
@@ -665,6 +667,9 @@ const Admin = () => {
 
         {/* Content Manager - Admin only */}
         {activeTab === "content" && isAdmin && <ContentManager />}
+
+        {/* Constituency Manager - Admin only */}
+        {activeTab === "constituencies" && isAdmin && <ConstituencyManager />}
       </main>
     </div>
   );

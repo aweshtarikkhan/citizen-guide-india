@@ -143,6 +143,36 @@ export type Database = {
         }
         Relationships: []
       }
+      constituency_overrides: {
+        Row: {
+          constituency_name: string
+          id: string
+          mp_name: string | null
+          party: string | null
+          state_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          constituency_name: string
+          id?: string
+          mp_name?: string | null
+          party?: string | null
+          state_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          constituency_name?: string
+          id?: string
+          mp_name?: string | null
+          party?: string | null
+          state_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       page_content: {
         Row: {
           content: string
@@ -200,6 +230,30 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          id: string
+          setting_key: string
+          setting_value: Json
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          setting_key: string
+          setting_value?: Json
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          setting_key?: string
+          setting_value?: Json
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }
