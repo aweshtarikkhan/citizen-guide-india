@@ -11,6 +11,7 @@ import IndiaConstituencyMap from "@/components/IndiaConstituencyMap";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
 import { mynetaApi, CandidateSummary } from "@/lib/api/myneta";
+import { supabase } from "@/integrations/supabase/client";
 
 // Party color mapping
 const partyColors: Record<string, string> = {
