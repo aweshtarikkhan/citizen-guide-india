@@ -327,23 +327,38 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
-      {/* India Constituency Map */}
+      {/* India Constituency Map - conditional on map type */}
+      {mapType !== "none" && (
       <section className="py-12 bg-background border-b border-border">
         <div className="container max-w-6xl">
           <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground text-center mb-2">
             Constituency Map of India
           </h2>
           <p className="text-muted-foreground text-center mb-8">
-            Hover to see MP details, click to view full candidate profile. Zoom in to explore.
+            {mapType === "leaflet" ? "Hover to see MP details, click to view full candidate profile. Zoom in to explore." : "Visual representation of India's parliamentary constituencies."}
           </p>
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2">
-              <IndiaConstituencyMap
-                data={constituencyMapData}
-                onConstituencyClick={(name) => {
-                  setSearchQuery(name);
-                }}
-              />
+              {mapType === "leaflet" && (
+                <IndiaConstituencyMap
+                  data={constituencyMapData}
+                  onConstituencyClick={(name) => {
+                    setSearchQuery(name);
+                  }}
+                />
+              )}
+              {mapType === "svg" && (
+                <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
+                  <img src="/india_map_svg.svg" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  <p className="text-muted-foreground text-sm">Upload an SVG map at <code>/public/india_map_svg.svg</code></p>
+                </div>
+              )}
+              {mapType === "png" && (
+                <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
+                  <img src="/india_map.png" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  <p className="text-muted-foreground text-sm">Upload a PNG map at <code>/public/india_map.png</code></p>
+                </div>
+              )}
             </div>
             <div className="space-y-4">
               <div className="p-4 rounded-lg bg-card border border-border">
@@ -383,6 +398,7 @@ const ConstituencyPage = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* Search & Filter */}
       <section className="py-8 bg-background border-b border-border sticky top-16 z-40">
