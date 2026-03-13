@@ -142,16 +142,10 @@ const Navbar = () => {
           {user ? (
             <div className="flex items-center gap-2">
               {(isAdmin || isEditor) && (
-                <Link to="/admin" className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
+                <Link to="/admin" className="text-sm font-medium bg-primary text-primary-foreground px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-1">
                   <Settings className="h-4 w-4" /> {isAdmin ? "Admin" : "Editor"}
                 </Link>
               )}
-              <button
-                onClick={() => { signOut(); navigate("/"); }}
-                className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1"
-              >
-                <LogOut className="h-4 w-4" /> Logout
-              </button>
             </div>
           ) : (
             <Link to="/login" className="flex items-center gap-1.5 px-4 py-2 bg-foreground text-background rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors">
@@ -251,16 +245,10 @@ const Navbar = () => {
             {user ? (
               <>
                 {(isAdmin || isEditor) && (
-                  <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground">
+                  <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium bg-primary text-primary-foreground rounded-lg px-3">
                     <Settings className="h-4 w-4" /> {isAdmin ? "Admin Panel" : "Editor Panel"}
                   </Link>
                 )}
-                <button
-                  onClick={() => { signOut(); navigate("/"); setMobileOpen(false); }}
-                  className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/60 hover:text-foreground w-full"
-                >
-                  <LogOut className="h-4 w-4" /> Logout
-                </button>
               </>
             ) : (
               <Link to="/login" className="flex items-center justify-center gap-2 py-2.5 bg-foreground text-background rounded-lg text-sm font-medium">
