@@ -471,9 +471,14 @@ const Admin = () => {
             </button>
           ))}
         </nav>
-        <Button variant="ghost" className="justify-start text-muted-foreground" onClick={() => { signOut(); navigate("/"); }}>
-          <LogOut className="h-4 w-4 mr-2" /> Sign Out
-        </Button>
+        <div className="space-y-1 border-t border-border pt-3">
+          <Button variant="ghost" className="w-full justify-start text-muted-foreground" onClick={() => navigate("/")}>
+            <Eye className="h-4 w-4 mr-2" /> View Live Site
+          </Button>
+          <Button variant="ghost" className="w-full justify-start text-muted-foreground" onClick={() => { signOut(); navigate("/"); }}>
+            <LogOut className="h-4 w-4 mr-2" /> Sign Out
+          </Button>
+        </div>
       </aside>
 
       {/* Main Content */}
