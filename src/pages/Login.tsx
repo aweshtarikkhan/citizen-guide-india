@@ -27,7 +27,7 @@ const Login = () => {
       toast({ title: "Login Failed", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Welcome back!" });
-      navigate("/admin");
+      navigate("/");
     }
     setLoading(false);
   };
