@@ -606,7 +606,7 @@ const ConstituencyPage = () => {
                     )}
                   </CardContent>
                 </Card>
-              );
+                </Link>
             })}
           </div>
 
