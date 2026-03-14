@@ -348,15 +348,49 @@ const ConstituencyPage = () => {
                 />
               )}
               {mapType === "svg" && (
-                <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
-                  <img src="/india_map_svg.svg" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                  <p className="text-muted-foreground text-sm">Upload an SVG map at <code>/public/india_map_svg.svg</code></p>
+                <div className="w-full rounded-lg overflow-hidden border border-border bg-card" style={{ minHeight: "500px" }}>
+                  <ComposableMap
+                    projection="geoMercator"
+                    projectionConfig={{ scale: 1200, center: [82, 22] }}
+                    style={{ width: "100%", height: "600px" }}
+                  >
+                    <Geographies geography="/india_pc_2019_simplified.geojson">
+                      {({ geographies }: { geographies: any[] }) =>
+                        geographies.map((geo: any) => {
+                          const pcName = geo.properties?.pc_name || "";
+                          const match = allConstituencies.find(c => c.name.toUpperCase() === pcName.toUpperCase());
+                          const party = match?.mp?.match(/\(([^)]+)\)/)?.[1] || "";
+                          const svgPartyColors: Record<string, string> = {
+                            BJP: "#f97316", INC: "#3b82f6", SP: "#ef4444", TMC: "#16a34a",
+                            DMK: "#dc2626", TDP: "#eab308", "JD(U)": "#22c55e", AAP: "#06b6d4",
+                            IND: "#6b7280",
+                          };
+                          return (
+                            <Geography
+                              key={geo.rpiKey || geo.properties?.pc_name}
+                              geography={geo}
+                              fill={svgPartyColors[party] || "#d1d5db"}
+                              stroke="#888"
+                              strokeWidth={0.5}
+                              style={{
+                                default: { outline: "none" },
+                                hover: { fill: "#fbbf24", outline: "none", cursor: "pointer" },
+                                pressed: { outline: "none" },
+                              }}
+                              onClick={() => {
+                                if (pcName) setSearchQuery(pcName);
+                              }}
+                            />
+                          );
+                        })
+                      }
+                    </Geographies>
+                  </ComposableMap>
                 </div>
               )}
               {mapType === "png" && (
                 <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
-                  <img src="/india_map.png" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                  <p className="text-muted-foreground text-sm">Upload a PNG map at <code>/public/india_map.png</code></p>
+                  <img src="/india_map.png" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" />
                 </div>
               )}
             </div>
