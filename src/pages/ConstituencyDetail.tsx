@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap } from "@/data/stateConstituencies";
+import { getConstituencyExtra, formatIndianNumber } from "@/data/constituencyExtraData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { mynetaApi, CandidateSummary, CandidateDetail } from "@/lib/api/myneta";
 import {
   MapPin, Users, ArrowLeft, AlertTriangle, GraduationCap,
-  IndianRupee, Building2, Vote, UserCheck, TrendingUp, Scale
+  IndianRupee, Building2, Vote, UserCheck, TrendingUp, Scale,
+  BarChart3, Landmark, Percent, Trophy
 } from "lucide-react";
 
 const partyColors: Record<string, string> = {
@@ -32,9 +34,6 @@ const partyColors: Record<string, string> = {
   "IND": "bg-gray-500 text-white",
 };
 
-// Estimated voter data for constituencies (2024 Lok Sabha)
-const constituencyVoterData: Record<string, { totalVoters: number; votesPolled: number; winningMargin: number }> = {};
-
 const getPartyColor = (party: string) => partyColors[party] || "bg-muted text-foreground";
 
 const ConstituencyDetailPage = () => {
@@ -50,7 +49,11 @@ const ConstituencyDetailPage = () => {
     (c) => c.name.toLowerCase() === decodedName.toLowerCase()
   );
 
-  // Find neighboring constituencies
+  const extraData = useMemo(() => {
+    if (!stateId || !constituency) return null;
+    return getConstituencyExtra(stateId, constituency.name);
+  }, [stateId, constituency]);
+
   const neighbors = useMemo(() => {
     if (!stateData) return [];
     return stateData.constituencies
@@ -102,7 +105,7 @@ const ConstituencyDetailPage = () => {
 
       {/* Hero Header */}
       <section className="bg-gradient-to-br from-primary/10 via-primary/5 to-background border-b border-border">
-        <div className="container max-w-4xl py-8 md:py-12">
+        <div className="container max-w-5xl py-8 md:py-12">
           <Link
             to="/constituency"
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
@@ -134,7 +137,7 @@ const ConstituencyDetailPage = () => {
         </div>
       </section>
 
-      <div className="container max-w-4xl py-8 space-y-6">
+      <div className="container max-w-5xl py-8 space-y-6">
         {/* Current MP Card */}
         <Card className="border-2 border-primary/20">
           <CardHeader>
@@ -169,37 +172,95 @@ const ConstituencyDetailPage = () => {
           </CardContent>
         </Card>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Vote className="h-6 w-6 text-primary mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground">Category</p>
-              <p className="text-lg font-bold text-foreground">{constituency.category || "GEN"}</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Building2 className="h-6 w-6 text-primary mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground">State</p>
-              <p className="text-lg font-bold text-foreground truncate">{stateData.name}</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="h-6 w-6 text-primary mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground">Ruling Party (State)</p>
-              <p className="text-lg font-bold text-foreground truncate">{stateData.rulingParty}</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Scale className="h-6 w-6 text-primary mx-auto mb-2" />
-              <p className="text-xs text-muted-foreground">Total Seats (State)</p>
-              <p className="text-lg font-bold text-foreground">{stateData.totalConstituencies}</p>
-            </CardContent>
-          </Card>
-        </div>
+        {/* Election & Voter Stats */}
+        {extraData && (
+          <div>
+            <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-primary" />
+              Election Statistics (2024 Lok Sabha)
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+              <Card className="bg-gradient-to-br from-primary/5 to-background">
+                <CardContent className="p-4 text-center">
+                  <Users className="h-6 w-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground">Total Voters</p>
+                  <p className="text-lg font-bold text-foreground">{formatIndianNumber(extraData.totalVoters)}</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-primary/5 to-background">
+                <CardContent className="p-4 text-center">
+                  <Vote className="h-6 w-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground">Votes Polled</p>
+                  <p className="text-lg font-bold text-foreground">{formatIndianNumber(extraData.votesPolled)}</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-primary/5 to-background">
+                <CardContent className="p-4 text-center">
+                  <Percent className="h-6 w-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground">Turnout</p>
+                  <p className="text-lg font-bold text-foreground">{extraData.turnoutPercent}%</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-gradient-to-br from-primary/5 to-background">
+                <CardContent className="p-4 text-center">
+                  <Trophy className="h-6 w-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground">Winning Margin</p>
+                  <p className="text-lg font-bold text-foreground">{formatIndianNumber(extraData.winningMargin)}</p>
+                </CardContent>
+              </Card>
+              {extraData.assemblySegments > 0 && (
+                <Card className="bg-gradient-to-br from-primary/5 to-background">
+                  <CardContent className="p-4 text-center">
+                    <Landmark className="h-6 w-6 text-primary mx-auto mb-2" />
+                    <p className="text-xs text-muted-foreground">Vidhan Sabha Seats</p>
+                    <p className="text-lg font-bold text-foreground">{extraData.assemblySegments}</p>
+                  </CardContent>
+                </Card>
+              )}
+              <Card className="bg-gradient-to-br from-primary/5 to-background">
+                <CardContent className="p-4 text-center">
+                  <Building2 className="h-6 w-6 text-primary mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground">Category</p>
+                  <p className="text-lg font-bold text-foreground">{constituency.category || "GEN"}</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Stats Row (fallback if no extra data) */}
+        {!extraData && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-4 text-center">
+                <Vote className="h-6 w-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">Category</p>
+                <p className="text-lg font-bold text-foreground">{constituency.category || "GEN"}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <Building2 className="h-6 w-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">State</p>
+                <p className="text-lg font-bold text-foreground truncate">{stateData.name}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <TrendingUp className="h-6 w-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">Ruling Party (State)</p>
+                <p className="text-lg font-bold text-foreground truncate">{stateData.rulingParty}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <Scale className="h-6 w-6 text-primary mx-auto mb-2" />
+                <p className="text-xs text-muted-foreground">Total Seats (State)</p>
+                <p className="text-lg font-bold text-foreground">{stateData.totalConstituencies}</p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* MyNeta Financial & Criminal Data */}
         {loading ? (
@@ -221,7 +282,6 @@ const ConstituencyDetailPage = () => {
             </CardHeader>
             <CardContent>
               <div className="grid sm:grid-cols-2 gap-6">
-                {/* Criminal Cases */}
                 <div className="space-y-3">
                   <h3 className="font-semibold text-foreground flex items-center gap-2">
                     <AlertTriangle className="h-4 w-4 text-destructive" /> Criminal Record
@@ -237,7 +297,6 @@ const ConstituencyDetailPage = () => {
                   </div>
                 </div>
 
-                {/* Education */}
                 <div className="space-y-3">
                   <h3 className="font-semibold text-foreground flex items-center gap-2">
                     <GraduationCap className="h-4 w-4 text-primary" /> Education
@@ -249,7 +308,6 @@ const ConstituencyDetailPage = () => {
                   </div>
                 </div>
 
-                {/* Total Assets */}
                 <div className="space-y-3">
                   <h3 className="font-semibold text-foreground flex items-center gap-2">
                     <IndianRupee className="h-4 w-4 text-green-600" /> Total Assets
@@ -261,7 +319,6 @@ const ConstituencyDetailPage = () => {
                   </div>
                 </div>
 
-                {/* Liabilities */}
                 <div className="space-y-3">
                   <h3 className="font-semibold text-foreground flex items-center gap-2">
                     <Scale className="h-4 w-4 text-orange-600" /> Liabilities
@@ -274,13 +331,13 @@ const ConstituencyDetailPage = () => {
                 </div>
               </div>
 
-              {mynetaSummary?.candidate_id && (
+              {mynetaSummary?.myneta_url && (
                 <div className="mt-6">
-                  <Link to={`/candidate?id=${mynetaSummary.candidate_id}`}>
-                    <Button className="w-full sm:w-auto">
-                      View Full Candidate Profile on MyNeta →
+                  <a href={mynetaSummary.myneta_url} target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="w-full sm:w-auto">
+                      View Full Profile on MyNeta.info →
                     </Button>
-                  </Link>
+                  </a>
                 </div>
               )}
             </CardContent>
