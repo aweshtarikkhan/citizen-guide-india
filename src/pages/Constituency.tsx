@@ -527,8 +527,12 @@ const ConstituencyPage = () => {
             {filteredConstituencies.map((c, i) => {
               const mynetaInfo = mynetaData[c.name.toUpperCase()];
               return (
-                <Card
+                <Link
+                  to={`/constituency/${c.stateId}/${encodeURIComponent(c.name)}`}
                   key={`${c.stateId}-${c.name}-${i}`}
+                  className="block"
+                >
+                <Card
                   className="group hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
                 >
                   <CardHeader className="pb-2">
