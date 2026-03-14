@@ -24,6 +24,7 @@ import ConstitutionLaws from "./pages/ConstitutionLaws";
 import JoinUs from "./pages/JoinUs";
 import Constituency from "./pages/Constituency";
 import CandidateDetail from "./pages/CandidateDetail";
+import ConstituencyDetailPage from "./pages/ConstituencyDetail";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Admin from "./pages/Admin";
@@ -60,6 +61,7 @@ const App = () => (
             <Route path="/constitution-laws" element={<ConstitutionLaws />} />
             <Route path="/join-us" element={<JoinUs />} />
             <Route path="/constituency" element={<Constituency />} />
+            <Route path="/constituency/:stateId/:name" element={<ConstituencyDetailPage />} />
             <Route path="/candidate" element={<CandidateDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
