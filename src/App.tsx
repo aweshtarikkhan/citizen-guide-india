@@ -24,6 +24,7 @@ import ConstitutionLaws from "./pages/ConstitutionLaws";
 import JoinUs from "./pages/JoinUs";
 import Constituency from "./pages/Constituency";
 import CandidateDetail from "./pages/CandidateDetail";
+import ConstituencyDetailPage from "./pages/ConstituencyDetail";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Admin from "./pages/Admin";
