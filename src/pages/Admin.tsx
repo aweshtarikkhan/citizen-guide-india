@@ -11,10 +11,11 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
 import ConstituencyManager from "@/components/ConstituencyManager";
+import FontSelector from "@/components/FontSelector";
 
 interface Blog {
   id: string;
@@ -60,7 +61,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "settings";
 
 const Admin = () => {
   const { user, isAdmin, isEditor, loading: authLoading, rolesChecked, signOut } = useAuth();
@@ -432,6 +433,7 @@ const Admin = () => {
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
         { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
+        { id: "settings" as Tab, label: "Site Settings", icon: Type },
       ]
     : [
         { id: "blogs" as Tab, label: "My Blogs", icon: FileText },
@@ -675,6 +677,16 @@ const Admin = () => {
 
         {/* Constituency Manager - Admin only */}
         {activeTab === "constituencies" && isAdmin && <ConstituencyManager />}
+
+        {/* Site Settings - Admin only */}
+        {activeTab === "settings" && isAdmin && (
+          <div>
+            <h2 className="text-2xl font-display font-bold mb-6">Site Settings</h2>
+            <div className="max-w-2xl space-y-6">
+              <FontSelector />
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
