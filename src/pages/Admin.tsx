@@ -61,7 +61,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "settings";
 
 const Admin = () => {
   const { user, isAdmin, isEditor, loading: authLoading, rolesChecked, signOut } = useAuth();
