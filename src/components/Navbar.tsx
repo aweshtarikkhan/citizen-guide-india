@@ -138,7 +138,7 @@ const Navbar = () => {
             Contact
           </Link>
 
-          <FontSelector />
+          
           <LanguageSelector />
 
           {/* Auth Buttons */}
