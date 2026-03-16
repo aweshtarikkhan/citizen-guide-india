@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         display: ["var(--font-display)"],
         body: ["var(--font-body)"],
+        logo: ["var(--font-logo)"],
       },
       colors: {
         border: "hsl(var(--border))",

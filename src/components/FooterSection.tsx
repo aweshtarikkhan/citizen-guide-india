@@ -7,8 +7,8 @@ const FooterSection = () => (
     <div className="container">
       <div className="grid md:grid-cols-4 gap-10">
         <div>
-          <Link to="/" className="flex items-center gap-2 font-display text-2xl font-bold text-background tracking-wide">
-            <img src={matdaanLogo} alt="Matdaan Logo" className="h-9 w-9 object-contain brightness-0 invert" />
+          <Link to="/" className="flex items-center gap-1 text-2xl font-bold text-background tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
+            <img src={matdaanLogo} alt="Matdaan Logo" className="h-12 w-12 object-contain brightness-0 invert" />
             MATDAAN
           </Link>
           <p className="text-background/70 text-sm leading-relaxed max-w-xs mt-3">
