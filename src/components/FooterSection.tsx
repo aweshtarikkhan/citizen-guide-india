@@ -1,5 +1,6 @@
 import { Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import matdaanLogo from "@/assets/matdaan-logo.png";
 
 const FooterSection = () => (
   <footer className="py-16 bg-foreground text-background">
