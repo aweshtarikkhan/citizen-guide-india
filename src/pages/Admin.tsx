@@ -433,6 +433,7 @@ const Admin = () => {
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
         { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
+        { id: "settings" as Tab, label: "Site Settings", icon: Type },
       ]
     : [
         { id: "blogs" as Tab, label: "My Blogs", icon: FileText },
