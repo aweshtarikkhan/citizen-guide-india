@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import matdaanLogo from "@/assets/matdaan-logo.png";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSelector from "@/components/LanguageSelector";
-import FontSelector from "@/components/FontSelector";
 
 
 const serviceLinks = [
