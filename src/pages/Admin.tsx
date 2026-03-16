@@ -677,6 +677,16 @@ const Admin = () => {
 
         {/* Constituency Manager - Admin only */}
         {activeTab === "constituencies" && isAdmin && <ConstituencyManager />}
+
+        {/* Site Settings - Admin only */}
+        {activeTab === "settings" && isAdmin && (
+          <div>
+            <h2 className="text-2xl font-display font-bold mb-6">Site Settings</h2>
+            <div className="max-w-2xl space-y-6">
+              <FontSelector />
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
