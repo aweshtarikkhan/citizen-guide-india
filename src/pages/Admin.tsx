@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
 import ConstituencyManager from "@/components/ConstituencyManager";
+import FontSelector from "@/components/FontSelector";
 
 interface Blog {
   id: string;
