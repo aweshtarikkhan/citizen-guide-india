@@ -7,7 +7,10 @@ const FooterSection = () => (
     <div className="container">
       <div className="grid md:grid-cols-4 gap-10">
         <div>
-          <Link to="/" className="font-display text-2xl font-bold text-background tracking-wide">MATDAAN</Link>
+          <Link to="/" className="flex items-center gap-2 font-display text-2xl font-bold text-background tracking-wide">
+            <img src={matdaanLogo} alt="Matdaan Logo" className="h-9 w-9 object-contain brightness-0 invert" />
+            MATDAAN
+          </Link>
           <p className="text-background/70 text-sm leading-relaxed max-w-xs mt-3">
             India's Voter Help Centre — empowering citizens with knowledge, assistance, and tools to participate meaningfully in democracy.
           </p>
