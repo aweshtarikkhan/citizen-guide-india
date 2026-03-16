@@ -237,9 +237,7 @@ const Navbar = () => {
 
           {/* Mobile Language Selector */}
           <div className="border-t border-border pt-3 mt-2">
-            <div className="flex items-center gap-3 pb-2">
-              <span className="text-xs text-muted-foreground">Font:</span>
-              <FontSelector />
+            <div className="flex items-center gap-2 pb-2">
               <span className="text-xs text-muted-foreground">Language:</span>
               <LanguageSelector />
             </div>
