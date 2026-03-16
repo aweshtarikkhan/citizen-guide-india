@@ -56,8 +56,8 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2 font-display text-2xl font-bold text-foreground tracking-wide">
-          <img src={matdaanLogo} alt="Matdaan Logo" className="h-9 w-9 object-contain" />
+        <Link to="/" className="flex items-center gap-1 text-2xl font-bold text-foreground tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
+          <img src={matdaanLogo} alt="Matdaan Logo" className="h-12 w-12 object-contain" />
           MATDAAN
         </Link>
 

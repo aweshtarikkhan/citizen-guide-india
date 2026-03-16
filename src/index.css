@@ -42,8 +42,9 @@
     --shadow-card: 0 4px 24px -4px hsla(0, 0%, 0%, 0.08);
     --shadow-elevated: 0 12px 40px -8px hsla(0, 0%, 0%, 0.15);
 
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body: 'Source Sans 3', system-ui, sans-serif;
+    --font-display: 'Quicksand', system-ui, sans-serif;
+    --font-body: 'Quicksand', system-ui, sans-serif;
+    --font-logo: 'Alegreya', Georgia, serif;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 0 0% 15%;
