@@ -1,15 +1,18 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Users, Landmark, Building2 } from "lucide-react";
+import { ArrowLeft, MapPin, Users, Landmark, Building2, Search } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap } from "@/data/stateConstituencies";
+import { assemblyData } from "@/data/assemblyConstituencies";
 import StateMapHighlight from "@/components/StateMapHighlight";
 import { useState } from "react";
 
 const StatePage = () => {
   const { stateId } = useParams<{ stateId: string }>();
   const [search, setSearch] = useState("");
+  const [assemblySearch, setAssemblySearch] = useState("");
   const state = stateId ? stateDataMap[stateId] : null;
+  const assemblies = stateId ? (assemblyData[stateId] || []) : [];
 
   if (!state) {
     return (
@@ -159,6 +162,97 @@ const StatePage = () => {
               </div>
             </div>
           </div>
+
+          {/* Vidhan Sabha (Assembly) Constituencies */}
+          {assemblies.length > 0 && (
+            <div className="mt-10">
+              <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
+                <h2 className="text-xl font-display font-bold text-foreground">
+                  Vidhan Sabha Constituencies ({assemblies.length})
+                </h2>
+                <div className="relative w-full md:w-72">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Search MLA, constituency, or party..."
+                    value={assemblySearch}
+                    onChange={(e) => setAssemblySearch(e.target.value)}
+                    className="bg-card border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20 w-full"
+                  />
+                </div>
+              </div>
+
+              {(() => {
+                const filteredAssemblies = assemblies.filter((a) =>
+                  a.name.toLowerCase().includes(assemblySearch.toLowerCase()) ||
+                  a.mla.toLowerCase().includes(assemblySearch.toLowerCase()) ||
+                  a.party.toLowerCase().includes(assemblySearch.toLowerCase())
+                );
+
+                const assemblyPartyCount: Record<string, number> = {};
+                assemblies.forEach((a) => {
+                  assemblyPartyCount[a.party] = (assemblyPartyCount[a.party] || 0) + 1;
+                });
+                const sortedAssemblyParties = Object.entries(assemblyPartyCount).sort((a, b) => b[1] - a[1]);
+
+                return (
+                  <>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {sortedAssemblyParties.map(([party, count]) => (
+                        <button
+                          key={party}
+                          onClick={() => setAssemblySearch(assemblySearch === party ? "" : party)}
+                          className={`text-xs rounded-full px-3 py-1 border transition-colors ${
+                            assemblySearch === party
+                              ? "bg-foreground text-background border-foreground"
+                              : "bg-card border-border text-foreground hover:bg-muted"
+                          }`}
+                        >
+                          {party} ({count})
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="border border-border rounded-xl overflow-hidden">
+                      <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
+                        <table className="w-full">
+                          <thead className="sticky top-0 z-10">
+                            <tr className="bg-muted/50 border-b border-border">
+                              <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">#</th>
+                              <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">Constituency</th>
+                              <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">MLA</th>
+                              <th className="text-left text-xs font-semibold text-muted-foreground px-4 py-3">Party</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {filteredAssemblies.map((a, i) => (
+                              <tr key={a.name} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
+                                <td className="text-sm text-muted-foreground px-4 py-3">{i + 1}</td>
+                                <td className="text-sm font-medium text-foreground px-4 py-3">{a.name}</td>
+                                <td className="text-sm text-foreground px-4 py-3">{a.mla}</td>
+                                <td className="text-sm px-4 py-3">
+                                  <span className="bg-foreground/10 text-foreground rounded-full px-2 py-0.5 text-xs font-medium">
+                                    {a.party}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                            {filteredAssemblies.length === 0 && (
+                              <tr>
+                                <td colSpan={4} className="text-center text-muted-foreground py-8 text-sm">
+                                  No assembly constituencies found matching "{assemblySearch}"
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          )}
         </div>
       </main>
       <FooterSection />
