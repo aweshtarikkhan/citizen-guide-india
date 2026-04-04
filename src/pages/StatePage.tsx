@@ -251,6 +251,8 @@ const StatePage = () => {
                   </>
                 );
               })()}
+            </div>
+          )}
         </div>
       </main>
       <FooterSection />
