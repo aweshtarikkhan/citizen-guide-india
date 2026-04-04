@@ -1,8 +1,9 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Users, Landmark, Building2 } from "lucide-react";
+import { ArrowLeft, MapPin, Users, Landmark, Building2, Search } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap } from "@/data/stateConstituencies";
+import { assemblyData } from "@/data/assemblyConstituencies";
 import StateMapHighlight from "@/components/StateMapHighlight";
 import { useState } from "react";
 
