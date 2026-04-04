@@ -13,7 +13,6 @@ const StatePage = () => {
   const [assemblySearch, setAssemblySearch] = useState("");
   const state = stateId ? stateDataMap[stateId] : null;
   const assemblies = stateId ? (assemblyData[stateId] || []) : [];
-  const state = stateId ? stateDataMap[stateId] : null;
 
   if (!state) {
     return (
