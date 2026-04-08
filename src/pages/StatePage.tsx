@@ -78,8 +78,8 @@ const StatePage = () => {
               </div>
             </div>
 
-            {/* Highlighted India Map */}
-            <div className="hidden md:block">
+            {/* State Map - zoomed into the specific state */}
+            <div className="hidden md:block w-72">
               <StateMapHighlight activeStateId={stateId!} />
             </div>
           </div>
