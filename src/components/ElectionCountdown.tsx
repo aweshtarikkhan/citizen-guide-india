@@ -83,7 +83,10 @@ const ElectionCountdown = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-foreground text-background p-8 md:p-10">
+    <div 
+      className="relative overflow-hidden rounded-2xl bg-foreground text-background p-8 md:p-10 cursor-pointer hover:opacity-95 transition-opacity"
+      onClick={() => navigate(`/upcoming-election/${currentElection.slug}`)}
+    >
       {/* Decorative circles */}
       <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-background/5" />
       <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-background/5" />
