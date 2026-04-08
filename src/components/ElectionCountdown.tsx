@@ -42,6 +42,7 @@ const UPCOMING_ELECTIONS = [
 ];
 
 const ElectionCountdown = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(UPCOMING_ELECTIONS[0].date));
 
