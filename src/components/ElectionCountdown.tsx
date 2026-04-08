@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Clock, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 
 // Upcoming 2026 State Assembly Elections
@@ -8,34 +9,40 @@ const UPCOMING_ELECTIONS = [
     date: new Date("2026-04-09T00:00:00+05:30"),
     type: "State Assembly",
     state: "Assam",
+    slug: "assam",
   },
   {
     name: "Kerala Assembly Election 2026",
     date: new Date("2026-04-09T00:00:00+05:30"),
     type: "State Assembly",
     state: "Kerala",
+    slug: "kerala",
   },
   {
     name: "Puducherry Assembly Election 2026",
     date: new Date("2026-04-09T00:00:00+05:30"),
     type: "UT Assembly",
     state: "Puducherry",
+    slug: "puducherry",
   },
   {
     name: "Tamil Nadu Assembly Election 2026",
     date: new Date("2026-04-23T00:00:00+05:30"),
     type: "State Assembly",
     state: "Tamil Nadu",
+    slug: "tamil-nadu",
   },
   {
     name: "West Bengal Assembly Election 2026",
     date: new Date("2026-04-23T00:00:00+05:30"),
     type: "State Assembly (Phase 1: 23 Apr, Phase 2: 29 Apr)",
     state: "West Bengal",
+    slug: "west-bengal",
   },
 ];
 
 const ElectionCountdown = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(UPCOMING_ELECTIONS[0].date));
 
@@ -76,7 +83,10 @@ const ElectionCountdown = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-foreground text-background p-8 md:p-10">
+    <div 
+      className="relative overflow-hidden rounded-2xl bg-foreground text-background p-8 md:p-10 cursor-pointer hover:opacity-95 transition-opacity"
+      onClick={() => navigate(`/upcoming-election/${currentElection.slug}`)}
+    >
       {/* Decorative circles */}
       <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-background/5" />
       <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-background/5" />
@@ -91,14 +101,14 @@ const ElectionCountdown = () => {
           </div>
           <div className="flex items-center gap-1">
             <button 
-              onClick={prevElection}
+              onClick={(e) => { e.stopPropagation(); prevElection(); }}
               className="p-1.5 rounded-lg bg-background/10 hover:bg-background/20 transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <span className="text-xs px-2 opacity-60">{currentIndex + 1}/{UPCOMING_ELECTIONS.length}</span>
             <button 
-              onClick={nextElection}
+              onClick={(e) => { e.stopPropagation(); nextElection(); }}
               className="p-1.5 rounded-lg bg-background/10 hover:bg-background/20 transition-colors"
             >
               <ChevronRight className="h-4 w-4" />
