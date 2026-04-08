@@ -4,28 +4,34 @@ import { Clock, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 // Upcoming 2026 State Assembly Elections
 const UPCOMING_ELECTIONS = [
   {
+    name: "Assam Assembly Election 2026",
+    date: new Date("2026-04-09T00:00:00+05:30"),
+    type: "State Assembly",
+    state: "Assam",
+  },
+  {
     name: "Kerala Assembly Election 2026",
-    date: new Date("2026-04-15T00:00:00+05:30"),
+    date: new Date("2026-04-09T00:00:00+05:30"),
     type: "State Assembly",
     state: "Kerala",
   },
   {
+    name: "Puducherry Assembly Election 2026",
+    date: new Date("2026-04-09T00:00:00+05:30"),
+    type: "UT Assembly",
+    state: "Puducherry",
+  },
+  {
     name: "Tamil Nadu Assembly Election 2026",
-    date: new Date("2026-04-20T00:00:00+05:30"),
+    date: new Date("2026-04-23T00:00:00+05:30"),
     type: "State Assembly",
     state: "Tamil Nadu",
   },
   {
     name: "West Bengal Assembly Election 2026",
-    date: new Date("2026-04-25T00:00:00+05:30"),
-    type: "State Assembly",
+    date: new Date("2026-04-23T00:00:00+05:30"),
+    type: "State Assembly (Phase 1: 23 Apr, Phase 2: 29 Apr)",
     state: "West Bengal",
-  },
-  {
-    name: "Assam Assembly Election 2026",
-    date: new Date("2026-05-01T00:00:00+05:30"),
-    type: "State Assembly",
-    state: "Assam",
   },
 ];
 
