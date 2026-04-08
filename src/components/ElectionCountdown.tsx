@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Clock, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 
 // Upcoming 2026 State Assembly Elections
@@ -8,30 +9,35 @@ const UPCOMING_ELECTIONS = [
     date: new Date("2026-04-09T00:00:00+05:30"),
     type: "State Assembly",
     state: "Assam",
+    slug: "assam",
   },
   {
     name: "Kerala Assembly Election 2026",
     date: new Date("2026-04-09T00:00:00+05:30"),
     type: "State Assembly",
     state: "Kerala",
+    slug: "kerala",
   },
   {
     name: "Puducherry Assembly Election 2026",
     date: new Date("2026-04-09T00:00:00+05:30"),
     type: "UT Assembly",
     state: "Puducherry",
+    slug: "puducherry",
   },
   {
     name: "Tamil Nadu Assembly Election 2026",
     date: new Date("2026-04-23T00:00:00+05:30"),
     type: "State Assembly",
     state: "Tamil Nadu",
+    slug: "tamil-nadu",
   },
   {
     name: "West Bengal Assembly Election 2026",
     date: new Date("2026-04-23T00:00:00+05:30"),
     type: "State Assembly (Phase 1: 23 Apr, Phase 2: 29 Apr)",
     state: "West Bengal",
+    slug: "west-bengal",
   },
 ];
 
