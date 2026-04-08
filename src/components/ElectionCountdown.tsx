@@ -101,14 +101,14 @@ const ElectionCountdown = () => {
           </div>
           <div className="flex items-center gap-1">
             <button 
-              onClick={prevElection}
+              onClick={(e) => { e.stopPropagation(); prevElection(); }}
               className="p-1.5 rounded-lg bg-background/10 hover:bg-background/20 transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <span className="text-xs px-2 opacity-60">{currentIndex + 1}/{UPCOMING_ELECTIONS.length}</span>
             <button 
-              onClick={nextElection}
+              onClick={(e) => { e.stopPropagation(); nextElection(); }}
               className="p-1.5 rounded-lg bg-background/10 hover:bg-background/20 transition-colors"
             >
               <ChevronRight className="h-4 w-4" />
