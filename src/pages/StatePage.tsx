@@ -4,8 +4,9 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap } from "@/data/stateConstituencies";
 import { assemblyData } from "@/data/assemblyConstituencies";
-import StateMapHighlight from "@/components/StateMapHighlight";
+import StateConstituencyMap from "@/components/StateConstituencyMap";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const StatePage = () => {
   const { stateId } = useParams<{ stateId: string }>();
