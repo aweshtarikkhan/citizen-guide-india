@@ -4,8 +4,9 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { stateDataMap } from "@/data/stateConstituencies";
 import { assemblyData } from "@/data/assemblyConstituencies";
-import StateMapHighlight from "@/components/StateMapHighlight";
+import StateConstituencyMap from "@/components/StateConstituencyMap";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const StatePage = () => {
   const { stateId } = useParams<{ stateId: string }>();
@@ -47,53 +48,54 @@ const StatePage = () => {
             <ArrowLeft className="h-4 w-4" /> Back to India Map
           </Link>
 
-          <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start">
-            <div>
+          <div>
               <h1 className="text-4xl md:text-6xl font-display font-bold text-foreground tracking-tight">
                 {state.name}
               </h1>
 
               {/* Info cards */}
-              <div className="grid grid-cols-2 gap-4 mt-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                 <div className="bg-card border border-border rounded-xl p-4">
                   <MapPin className="h-5 w-5 text-muted-foreground mb-2" />
-                  <p className="text-xs text-muted-foreground">Capital</p>
+                  <p className="text-xs text-muted-foreground">राजधानी</p>
                   <p className="font-semibold text-foreground text-sm">{state.capital}</p>
                 </div>
                 <div className="bg-card border border-border rounded-xl p-4">
                   <Landmark className="h-5 w-5 text-muted-foreground mb-2" />
-                  <p className="text-xs text-muted-foreground">Chief Minister</p>
+                  <p className="text-xs text-muted-foreground">मुख्यमंत्री</p>
                   <p className="font-semibold text-foreground text-sm">{state.cm}</p>
                 </div>
                 <div className="bg-card border border-border rounded-xl p-4">
                   <Building2 className="h-5 w-5 text-muted-foreground mb-2" />
-                  <p className="text-xs text-muted-foreground">Ruling Party</p>
+                  <p className="text-xs text-muted-foreground">सत्ताधारी दल</p>
                   <p className="font-semibold text-foreground text-sm">{state.rulingParty}</p>
                 </div>
                 <div className="bg-card border border-border rounded-xl p-4">
                   <Users className="h-5 w-5 text-muted-foreground mb-2" />
-                  <p className="text-xs text-muted-foreground">Lok Sabha Seats</p>
+                  <p className="text-xs text-muted-foreground">लोकसभा सीटें</p>
                   <p className="font-semibold text-foreground text-sm">{state.totalConstituencies}</p>
                 </div>
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <p className="text-xs text-muted-foreground">क्षेत्रफल</p>
+                  <p className="font-semibold text-foreground">{state.area}</p>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-4">
+                  <p className="text-xs text-muted-foreground">जनसंख्या</p>
+                  <p className="font-semibold text-foreground">{state.population}</p>
+                </div>
               </div>
-            </div>
-
-            {/* State Map - zoomed into the specific state */}
-            <div className="hidden md:block w-72">
-              <StateMapHighlight activeStateId={stateId!} />
-            </div>
           </div>
 
-
-          <div className="grid md:grid-cols-2 gap-4 mt-4">
-            <div className="bg-card border border-border rounded-xl p-4">
-              <p className="text-xs text-muted-foreground">Area</p>
-              <p className="font-semibold text-foreground">{state.area}</p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-4">
-              <p className="text-xs text-muted-foreground">Population</p>
-              <p className="font-semibold text-foreground">{state.population}</p>
-            </div>
+          {/* State Constituency Map */}
+          <div className="mt-8">
+            <h2 className="text-xl font-display font-bold text-foreground mb-4">लोकसभा क्षेत्र का नक्शा</h2>
+            <StateConstituencyMap
+              stateId={stateId!}
+              constituencies={state.constituencies}
+              onConstituencyClick={(name) => {
+                window.location.href = `/constituency/${stateId}/${encodeURIComponent(name)}`;
+              }}
+            />
           </div>
 
           {/* Party breakdown */}
