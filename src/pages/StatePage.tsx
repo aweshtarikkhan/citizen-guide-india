@@ -79,14 +79,18 @@ const StatePage = () => {
               </div>
             </div>
 
-            {/* State Map - zoomed into the specific state */}
-            <div className="hidden md:block w-72">
-              <StateMapHighlight activeStateId={stateId!} />
+            {/* State Constituency Map */}
+            <div className="mt-8">
+              <StateConstituencyMap
+                stateId={stateId!}
+                constituencies={state.constituencies}
+                onConstituencyClick={(name) => {
+                  const navigate = window.location;
+                  // Navigate to constituency detail
+                  window.location.href = `/constituency/${stateId}/${encodeURIComponent(name)}`;
+                }}
+              />
             </div>
-          </div>
-
-
-          <div className="grid md:grid-cols-2 gap-4 mt-4">
             <div className="bg-card border border-border rounded-xl p-4">
               <p className="text-xs text-muted-foreground">Area</p>
               <p className="font-semibold text-foreground">{state.area}</p>
