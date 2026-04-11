@@ -1,6 +1,4 @@
 import { memo, useEffect, useRef, useState, useCallback } from "react";
-import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -15,7 +13,7 @@ const STATE_ID_TO_GEOJSON: Record<string, string> = {
   py: "Puducherry", pb: "Punjab", rj: "Rajasthan", sk: "Sikkim",
   tn: "Tamil Nadu", tg: "Telangana", ts: "Telangana", tr: "Tripura",
   up: "Uttar Pradesh", uk: "Uttarakhand", wb: "West Bengal",
-  la: "Jammu & Kashmir", // Ladakh mapped to J&K in old geojson
+  la: "Jammu & Kashmir",
 };
 
 const PARTY_HEX: Record<string, string> = {
@@ -56,25 +54,29 @@ const StateConstituencyMap = memo(({ stateId, constituencies, onConstituencyClic
   useEffect(() => {
     if (!mapRef.current || leafletMap.current) return;
 
-    const map = L.map(mapRef.current, {
-      center: [22, 82],
-      zoom: 5,
-      minZoom: 4,
-      maxZoom: 12,
-      zoomControl: false,
-      attributionControl: false,
-    });
-
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png").addTo(map);
-    leafletMap.current = map;
-
     const geoName = STATE_ID_TO_GEOJSON[stateId];
     if (!geoName) { setLoading(false); return; }
+
+    // Create map with NO tile layer - just white background
+    const map = L.map(mapRef.current, {
+      zoomControl: false,
+      attributionControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      touchZoom: false,
+      boxZoom: false,
+      keyboard: false,
+    });
+
+    // White background
+    map.getContainer().style.background = "hsl(var(--card))";
+
+    leafletMap.current = map;
 
     fetch("/india_pc_2019_simplified.geojson")
       .then((r) => r.json())
       .then((geoData) => {
-        // Filter features for this state only
         const filtered = {
           ...geoData,
           features: geoData.features.filter(
@@ -92,20 +94,35 @@ const StateConstituencyMap = memo(({ stateId, constituencies, onConstituencyClic
               fillColor: match ? (PARTY_HEX[match.party] || "#94a3b8") : "#cbd5e1",
               weight: 1.5,
               opacity: 1,
-              color: "#64748b",
-              fillOpacity: 0.7,
+              color: "#fff",
+              fillOpacity: 0.8,
             };
           },
           onEachFeature: (feature, featureLayer) => {
             const pcName = feature.properties?.pc_name || "";
             const pcNameHi = feature.properties?.pc_name_hi || pcName;
+
+            // Add permanent label
+            const center = (featureLayer as any).getBounds?.()?.getCenter?.();
+            if (center) {
+              L.marker(center, {
+                icon: L.divIcon({
+                  className: "!bg-transparent !border-0",
+                  html: `<div style="font-size:9px;font-weight:600;color:#1e293b;text-align:center;white-space:nowrap;text-shadow:0 0 3px #fff,0 0 3px #fff;">${pcNameHi}</div>`,
+                  iconSize: [80, 20],
+                  iconAnchor: [40, 10],
+                }),
+                interactive: false,
+              }).addTo(map);
+            }
+
             featureLayer.on({
               mouseover: (e) => {
-                e.target.setStyle({ weight: 3, fillOpacity: 0.9, color: "#1e293b" });
+                e.target.setStyle({ weight: 3, fillOpacity: 1, color: "#1e293b" });
                 e.target.bringToFront();
               },
               mouseout: (e) => {
-                e.target.setStyle({ weight: 1.5, fillOpacity: 0.7, color: "#64748b" });
+                e.target.setStyle({ weight: 1.5, fillOpacity: 0.8, color: "#fff" });
                 setTooltip((t) => ({ ...t, content: "" }));
               },
               mousemove: (e) => {
@@ -122,9 +139,15 @@ const StateConstituencyMap = memo(({ stateId, constituencies, onConstituencyClic
           },
         }).addTo(map);
 
-        // Zoom to state bounds
+        // Fit tightly to state bounds only
         const bounds = layer.getBounds();
-        map.fitBounds(bounds, { padding: [20, 20] });
+        map.fitBounds(bounds, { padding: [10, 10], animate: false });
+
+        // Lock the view so user can't pan/zoom away
+        map.setMaxBounds(bounds.pad(0.1));
+        map.setMinZoom(map.getZoom());
+        map.setMaxZoom(map.getZoom());
+
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -135,38 +158,13 @@ const StateConstituencyMap = memo(({ stateId, constituencies, onConstituencyClic
     };
   }, [stateId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleZoomIn = () => leafletMap.current?.zoomIn();
-  const handleZoomOut = () => leafletMap.current?.zoomOut();
-  const handleReset = () => {
-    if (leafletMap.current) {
-      // re-fit to bounds
-      leafletMap.current.eachLayer((l: any) => {
-        if (l.getBounds) {
-          try { leafletMap.current!.fitBounds(l.getBounds(), { padding: [20, 20] }); } catch {}
-        }
-      });
-    }
-  };
-
   return (
-    <div className="relative w-full rounded-xl overflow-hidden border border-border bg-card" style={{ minHeight: "400px" }}>
+    <div className="relative w-full rounded-xl overflow-hidden border border-border bg-card">
       {loading && (
         <div className="absolute inset-0 z-[1001] flex items-center justify-center bg-card/80">
           <div className="animate-spin h-8 w-8 border-2 border-foreground border-t-transparent rounded-full" />
         </div>
       )}
-
-      <div className="absolute top-3 right-3 z-[1000] flex flex-col gap-1">
-        <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={handleZoomIn}>
-          <ZoomIn className="h-4 w-4" />
-        </Button>
-        <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={handleZoomOut}>
-          <ZoomOut className="h-4 w-4" />
-        </Button>
-        <Button size="icon" variant="outline" className="h-8 w-8 bg-card" onClick={handleReset}>
-          <RotateCcw className="h-4 w-4" />
-        </Button>
-      </div>
 
       {tooltip.content && (
         <div
@@ -177,7 +175,7 @@ const StateConstituencyMap = memo(({ stateId, constituencies, onConstituencyClic
         </div>
       )}
 
-      <div ref={mapRef} style={{ height: "450px", width: "100%" }} />
+      <div ref={mapRef} style={{ height: "500px", width: "100%" }} />
 
       <div className="px-4 py-2 text-xs text-muted-foreground text-center border-t border-border">
         लोकसभा क्षेत्र — क्लिक करके विवरण देखें
