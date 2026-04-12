@@ -28,7 +28,7 @@ export const stateDataMap: Record<string, StateData> = {
   "ap": {
     id: "ap", name: "Andhra Pradesh", capital: "Amaravati", cm: "N. Chandrababu Naidu", governor: "S. Abdul Nazeer", rulingParty: "TDP-led NDA", totalConstituencies: 25, area: "1,62,975 km²", population: "4.96 Cr",
     constituencies: [
-      { name: "Araku", mp: "Kothapalli Geetha", party: "YSRCP", category: "ST" },
+      { name: "Araku", mp: "Gumma Thanuja Rani", party: "YSRCP", category: "ST" },
       { name: "Srikakulam", mp: "Kinjarapu Ram Mohan Naidu", party: "TDP", category: "GEN" },
       { name: "Vizianagaram", mp: "Appalanaidu Kalisetti", party: "TDP", category: "GEN" },
       { name: "Visakhapatnam", mp: "Sribharat Mathukumilli", party: "TDP", category: "GEN" },
@@ -69,7 +69,7 @@ export const stateDataMap: Record<string, StateData> = {
       { name: "Silchar", mp: "Parimal Suklabaidya", party: "BJP", category: "GEN" },
       { name: "Autonomous District", mp: "Aon War Jyrwa", party: "BJP", category: "ST" },
       { name: "Dhubri", mp: "Rakibul Hussain", party: "INC", category: "GEN" },
-      { name: "Kokrajhar", mp: "Kampa Borgoyari", party: "UPPL", category: "ST" },
+      { name: "Kokrajhar", mp: "Joyanta Basumatary", party: "UPPL", category: "ST" },
       { name: "Barpeta", mp: "Phani Bhushan Choudhury", party: "AGP", category: "GEN" },
       { name: "Darrang-Udalguri", mp: "Dilip Saikia", party: "BJP", category: "GEN" },
       { name: "Guwahati", mp: "Bijuli Kalita Medhi", party: "BJP", category: "GEN" },
@@ -94,7 +94,7 @@ export const stateDataMap: Record<string, StateData> = {
       { name: "Supaul", mp: "Dileshwar Kamait", party: "JD(U)", category: "SC" },
       { name: "Araria", mp: "Pradeep Kumar Singh", party: "BJP", category: "GEN" },
       { name: "Kishanganj", mp: "Mohammad Jawed", party: "INC", category: "GEN" },
-      { name: "Katihar", mp: "Dulal Chandra Goswami", party: "JD(U)", category: "GEN" },
+      { name: "Katihar", mp: "Tariq Anwar", party: "JD(U)", category: "GEN" },
       { name: "Purnia", mp: "Pappu Yadav", party: "IND", category: "SC" },
       { name: "Madhepura", mp: "Dinesh Chandra Yadav", party: "JD(U)", category: "GEN" },
       { name: "Darbhanga", mp: "Gopal Jee Thakur", party: "BJP", category: "GEN" },
