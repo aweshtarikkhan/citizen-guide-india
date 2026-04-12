@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import matdaanLogo from "@/assets/matdaan-logo.png";
 import { useAuth } from "@/hooks/useAuth";
 import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/hooks/useLanguage";
 
 
 const serviceLinks = [
@@ -19,8 +20,25 @@ const serviceLinks = [
   { icon: Landmark, label: "Constitution & Laws", desc: "Electoral legal framework", href: "/constitution-laws" },
 ];
 
+const BRAND_NAME: Record<string, string> = {
+  en: "MATDAAN",
+  hi: "मतदान",
+  bn: "মতদান",
+  ta: "வாக்களிப்பு",
+  te: "మతదానం",
+  kn: "ಮತದಾನ",
+  ml: "മതദാനം",
+  mr: "मतदान",
+  gu: "મતદાન",
+  pa: "ਮਤਦਾਨ",
+  or: "ମତଦାନ",
+  as: "মতদান",
+  ur: "ووٹنگ",
+};
+
 const Navbar = () => {
   const { user, isAdmin, isEditor, signOut } = useAuth();
+  const { currentLang } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -57,8 +75,10 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-1.5 text-2xl font-bold text-foreground tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
-          <img src={matdaanLogo} alt="Matdaan Logo" className="h-14 w-14 object-contain rounded-full border-2 border-foreground/10 shadow-sm" />
-          <span className="-ml-0.5">MATDAAN</span>
+          <div className="h-14 w-14 rounded-full border-2 border-foreground/10 shadow-sm flex items-center justify-center overflow-hidden">
+            <img src={matdaanLogo} alt="Matdaan Logo" className="h-[120%] w-[120%] object-contain scale-125" />
+          </div>
+          <span className="-ml-0.5">{BRAND_NAME[currentLang] || BRAND_NAME.en}</span>
         </Link>
 
         {/* Desktop Nav */}

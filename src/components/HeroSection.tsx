@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import IndiaMapInteractive from "@/components/IndiaMapInteractive";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -23,16 +24,16 @@ const HeroSection = () => {
               {getContent("hero_subtitle", "Your non-partisan guide to understanding and exercising your democratic rights.")}
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
-              <a href="#help-desk">
+              <Link to="/help-desk">
                 <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base px-8 rounded-full">
                   {getContent("hero_cta_primary", "Get Help")} <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </a>
-              <a href="#knowledge">
+              </Link>
+              <Link to="/knowledge">
                 <Button size="lg" variant="outline" className="border-foreground/20 text-foreground hover:bg-foreground/10 font-semibold text-base px-8 rounded-full">
                   {getContent("hero_cta_secondary", "Learn More")}
                 </Button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="hidden md:flex items-center justify-center">
