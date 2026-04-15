@@ -37,7 +37,7 @@ const BRAND_NAME: Record<string, string> = {
 };
 
 const Navbar = () => {
-  const { user, isAdmin, isEditor, signOut } = useAuth();
+  const { user, isAdmin, isEditor, signOut, profileName, profileAvatar } = useAuth();
   const { currentLang } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
