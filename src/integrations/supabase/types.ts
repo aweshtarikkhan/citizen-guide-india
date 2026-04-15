@@ -397,6 +397,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_super_admin: { Args: { uid: string }; Returns: boolean }
+      is_super_or_vice: { Args: { uid: string }; Returns: boolean }
     }
     Enums: {
       app_role:
