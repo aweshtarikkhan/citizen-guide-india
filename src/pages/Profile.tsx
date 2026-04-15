@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { User, BookOpen, Clock, LogOut, Save, Loader2 } from "lucide-react";
+import { User, BookOpen, Clock, LogOut, Save, Loader2, Upload, Sparkles, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface ReadingHistoryItem {
@@ -26,15 +26,70 @@ interface ReadingHistoryItem {
   } | null;
 }
 
+const MAX_FILE_SIZE = 500 * 1024; // 500KB
+
+const compressImage = (file: File, maxSizeKB = 500): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let { width, height } = img;
+
+      // Scale down if too large
+      const maxDim = 512;
+      if (width > maxDim || height > maxDim) {
+        const ratio = Math.min(maxDim / width, maxDim / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Try progressively lower quality
+      let quality = 0.85;
+      const tryCompress = () => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) return reject(new Error("Compression failed"));
+            if (blob.size <= maxSizeKB * 1024 || quality <= 0.3) {
+              resolve(blob);
+            } else {
+              quality -= 0.1;
+              tryCompress();
+            }
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+      tryCompress();
+    };
+    img.onerror = reject;
+  });
+};
+
 const Profile = () => {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading, signOut, profileName: ctxName, profileAvatar: ctxAvatar, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [fullName, setFullName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [generatingAvatar, setGeneratingAvatar] = useState(false);
   const [readingHistory, setReadingHistory] = useState<ReadingHistoryItem[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -73,6 +128,73 @@ const Profile = () => {
     setLoadingHistory(false);
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Invalid file", description: "Please select an image file", variant: "destructive" });
+      return;
+    }
+
+    setUploading(true);
+    try {
+      let uploadBlob: Blob = file;
+
+      // Compress if larger than 500KB
+      if (file.size > MAX_FILE_SIZE) {
+        toast({ title: "Compressing image...", description: "File is larger than 500KB, compressing automatically" });
+        uploadBlob = await compressImage(file);
+      }
+
+      const ext = "jpg";
+      const filePath = `${user.id}/avatar.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, uploadBlob, { upsert: true, contentType: "image/jpeg" });
+
+      if (uploadError) throw uploadError;
+
+      const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(filePath);
+      const newUrl = `${urlData.publicUrl}?t=${Date.now()}`;
+
+      await supabase.from("profiles").update({ avatar_url: newUrl }).eq("id", user.id);
+      setAvatarUrl(newUrl);
+      await refreshProfile();
+      toast({ title: "Profile picture updated!" });
+    } catch (err: any) {
+      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleGenerateAvatar = async () => {
+    if (!user) return;
+    setGeneratingAvatar(true);
+    try {
+      const prompt = `Generate a simple, friendly, colorful cartoon avatar portrait for a person named "${fullName || "User"}". Clean background, vibrant colors, suitable as a profile picture. on a solid white background`;
+
+      const { data, error } = await supabase.functions.invoke("generate-avatar", {
+        body: { prompt, userId: user.id },
+      });
+
+      if (error) throw error;
+      if (data?.avatarUrl) {
+        setAvatarUrl(data.avatarUrl);
+        await supabase.from("profiles").update({ avatar_url: data.avatarUrl }).eq("id", user.id);
+        await refreshProfile();
+        toast({ title: "AI Avatar generated!" });
+      }
+    } catch (err: any) {
+      toast({ title: "Avatar generation failed", description: err.message || "Try again later", variant: "destructive" });
+    } finally {
+      setGeneratingAvatar(false);
+    }
+  };
+
   const handleSave = async () => {
     if (!user) return;
     setSaving(true);
@@ -83,6 +205,7 @@ const Profile = () => {
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
+      await refreshProfile();
       toast({ title: "Profile updated!" });
     }
     setSaving(false);
@@ -110,7 +233,6 @@ const Profile = () => {
   if (!user) return null;
 
   const continueReading = readingHistory.filter((r) => r.read_progress < 100);
-  const completedReading = readingHistory.filter((r) => r.read_progress >= 100);
 
   return (
     <div className="min-h-screen bg-background">
@@ -121,21 +243,41 @@ const Profile = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display">
-                <User className="h-5 w-5" /> My Profile
+                <User className="h-5 w-5" /> {fullName || user.email?.split("@")[0] || "My Profile"}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center text-2xl font-bold text-foreground/60 border-2 border-border overflow-hidden">
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
-                  ) : (
-                    fullName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"
-                  )}
+              {/* Avatar Section */}
+              <div className="flex items-center gap-5 mb-4">
+                <div className="relative group">
+                  <div className="h-20 w-20 rounded-full bg-muted flex items-center justify-center text-3xl font-bold text-foreground/60 border-2 border-border overflow-hidden">
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      fullName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"
+                    )}
+                  </div>
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute inset-0 flex items-center justify-center bg-foreground/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    disabled={uploading}
+                  >
+                    {uploading ? <Loader2 className="h-5 w-5 text-background animate-spin" /> : <Camera className="h-5 w-5 text-background" />}
+                  </button>
+                  <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
                 </div>
-                <div>
+                <div className="flex-1">
                   <p className="font-display font-bold text-lg text-foreground">{fullName || "User"}</p>
                   <p className="text-sm text-muted-foreground">{user.email}</p>
+                  <div className="flex gap-2 mt-2">
+                    <Button size="sm" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={uploading}>
+                      <Upload className="h-3.5 w-3.5 mr-1" /> {uploading ? "Uploading..." : "Upload Photo"}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={handleGenerateAvatar} disabled={generatingAvatar}>
+                      <Sparkles className="h-3.5 w-3.5 mr-1" /> {generatingAvatar ? "Generating..." : "AI Avatar"}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">Max 500KB • Auto-compressed if larger</p>
                 </div>
               </div>
 
@@ -148,10 +290,6 @@ const Profile = () => {
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" value={user.email || ""} disabled className="opacity-60" />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="avatar">Avatar URL</Label>
-                <Input id="avatar" value={avatarUrl} onChange={(e) => setAvatarUrl(e.target.value)} placeholder="https://..." />
               </div>
 
               <div className="flex items-center gap-3 pt-2">

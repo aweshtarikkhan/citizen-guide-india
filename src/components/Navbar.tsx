@@ -228,7 +228,12 @@ const Navbar = () => {
             {user ? (
               <>
                 <Link to="/profile" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground">
-                  <UserCircle className="h-4 w-4" /> My Profile
+                  {profileAvatar ? (
+                    <img src={profileAvatar} alt="" className="h-5 w-5 rounded-full object-cover" />
+                  ) : (
+                    <UserCircle className="h-4 w-4" />
+                  )}
+                  {profileName || user.email?.split("@")[0] || "My Profile"}
                 </Link>
                 {(isAdmin || isEditor) && (
                   <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium bg-primary text-primary-foreground rounded-lg px-3">
