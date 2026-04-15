@@ -25,15 +25,15 @@ interface Enemy {
   y: number;
   size: number;
   speed: number;
-  shape: number; // 0-4
+  shape: number;
   rotation: number;
   rotSpeed: number;
-  hp: number;
 }
 
 interface Bullet {
   x: number;
   y: number;
+  vx: number;
   vy: number;
 }
 
@@ -61,20 +61,22 @@ const NotFound = () => {
   const starsRef = useRef<Star[]>([]);
   const scoreRef = useRef(0);
   const missedRef = useRef(0);
-  const gunXRef = useRef(0);
+  const mouseXRef = useRef(0);
+  const mouseYRef = useRef(0);
   const frameRef = useRef(0);
   const nextIdRef = useRef(0);
   const spawnTimerRef = useRef(0);
   const shootTimerRef = useRef(0);
   const difficultyRef = useRef(1);
   const gameOverRef = useRef(false);
+  const playingRef = useRef(false);
 
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [highScore, setHighScore] = useState(0);
+  const [playing, setPlaying] = useState(false);
   const { user } = useAuth();
 
-  // Load high score
   useEffect(() => {
     if (!user) return;
     supabase
@@ -99,13 +101,13 @@ const NotFound = () => {
     [user, highScore]
   );
 
-  const createParticles = (x: number, y: number, count = 6) => {
-    for (let i = 0; i < count; i++) {
-      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+  const createParticles = (x: number, y: number) => {
+    for (let i = 0; i < 8; i++) {
+      const angle = (Math.PI * 2 * i) / 8 + Math.random() * 0.4;
       particlesRef.current.push({
         x, y,
-        vx: Math.cos(angle) * (1.5 + Math.random() * 3),
-        vy: Math.sin(angle) * (1.5 + Math.random() * 3),
+        vx: Math.cos(angle) * (2 + Math.random() * 3),
+        vy: Math.sin(angle) * (2 + Math.random() * 3),
         life: 1,
         size: 1.5 + Math.random() * 3,
       });
@@ -118,46 +120,79 @@ const NotFound = () => {
       starsRef.current.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        speed: 0.3 + Math.random() * 1.2,
+        speed: 0.3 + Math.random() * 1,
         size: 0.5 + Math.random() * 1.5,
       });
     }
   };
 
-  const drawGun = (ctx: CanvasRenderingContext2D, x: number, h: number) => {
-    const gunW = 28;
-    const gunH = 40;
-    const barrelW = 4;
-    const barrelH = 18;
+  const GUN_Y_OFFSET = 60; // gun sits this far from bottom
 
+  const drawGun = (ctx: CanvasRenderingContext2D, cx: number, h: number, aimX: number, aimY: number) => {
+    const gunBaseY = h - GUN_Y_OFFSET;
+    const barrelLen = 22;
+    const angle = Math.atan2(aimY - gunBaseY, aimX - cx);
+
+    ctx.save();
+    ctx.translate(cx, gunBaseY);
+
+    // body (trapezoid)
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
     ctx.fillStyle = "#fff";
-
-    // barrel
-    ctx.fillRect(x - barrelW / 2, h - gunH - barrelH, barrelW, barrelH);
-    ctx.strokeRect(x - barrelW / 2, h - gunH - barrelH, barrelW, barrelH);
-
-    // body
     ctx.beginPath();
-    ctx.moveTo(x - gunW / 2, h - 5);
-    ctx.lineTo(x - gunW / 2 + 4, h - gunH);
-    ctx.lineTo(x + gunW / 2 - 4, h - gunH);
-    ctx.lineTo(x + gunW / 2, h - 5);
+    ctx.moveTo(-14, 0);
+    ctx.lineTo(-10, -20);
+    ctx.lineTo(10, -20);
+    ctx.lineTo(14, 0);
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
 
-    // small detail lines
+    // barrel rotates toward mouse
+    ctx.save();
+    ctx.translate(0, -20);
+    ctx.rotate(angle + Math.PI / 2);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(-2.5, 0, 5, -barrelLen);
+    ctx.strokeRect(-2.5, 0, 5, -barrelLen);
+    ctx.restore();
+
+    // detail lines
     ctx.lineWidth = 1;
+    ctx.strokeStyle = "#000";
     ctx.beginPath();
-    ctx.moveTo(x - 6, h - gunH + 8);
-    ctx.lineTo(x + 6, h - gunH + 8);
+    ctx.moveTo(-6, -8);
+    ctx.lineTo(6, -8);
     ctx.stroke();
+
+    ctx.restore();
+  };
+
+  const drawCrosshair = (ctx: CanvasRenderingContext2D, x: number, y: number) => {
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 1.5;
+    const s = 10;
+    // circle
     ctx.beginPath();
-    ctx.moveTo(x - 8, h - gunH + 14);
-    ctx.lineTo(x + 8, h - gunH + 14);
+    ctx.arc(x, y, s, 0, Math.PI * 2);
     ctx.stroke();
+    // cross lines
+    ctx.beginPath();
+    ctx.moveTo(x - s - 4, y);
+    ctx.lineTo(x - s + 4, y);
+    ctx.moveTo(x + s - 4, y);
+    ctx.lineTo(x + s + 4, y);
+    ctx.moveTo(x, y - s - 4);
+    ctx.lineTo(x, y - s + 4);
+    ctx.moveTo(x, y + s - 4);
+    ctx.lineTo(x, y + s + 4);
+    ctx.stroke();
+    // center dot
+    ctx.fillStyle = "#000";
+    ctx.beginPath();
+    ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+    ctx.fill();
   };
 
   const drawEnemy = (ctx: CanvasRenderingContext2D, e: Enemy) => {
@@ -167,70 +202,43 @@ const NotFound = () => {
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 1.5;
     const s = e.size;
-
     switch (e.shape) {
-      case 0: // circle
-        ctx.beginPath();
-        ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
-        ctx.stroke();
-        // inner circle
-        ctx.beginPath();
-        ctx.arc(0, 0, s / 4, 0, Math.PI * 2);
-        ctx.stroke();
+      case 0:
+        ctx.beginPath(); ctx.arc(0, 0, s / 2, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, s / 4, 0, Math.PI * 2); ctx.stroke();
         break;
-      case 1: // square with X
+      case 1:
         ctx.strokeRect(-s / 2, -s / 2, s, s);
         ctx.beginPath();
-        ctx.moveTo(-s / 3, -s / 3);
-        ctx.lineTo(s / 3, s / 3);
-        ctx.moveTo(s / 3, -s / 3);
-        ctx.lineTo(-s / 3, s / 3);
+        ctx.moveTo(-s / 3, -s / 3); ctx.lineTo(s / 3, s / 3);
+        ctx.moveTo(s / 3, -s / 3); ctx.lineTo(-s / 3, s / 3);
         ctx.stroke();
         break;
-      case 2: // triangle
+      case 2:
         ctx.beginPath();
-        ctx.moveTo(0, -s / 2);
-        ctx.lineTo(-s / 2, s / 2);
-        ctx.lineTo(s / 2, s / 2);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(0, -s / 6);
-        ctx.lineTo(-s / 6, s / 6);
-        ctx.lineTo(s / 6, s / 6);
-        ctx.closePath();
-        ctx.stroke();
+        ctx.moveTo(0, -s / 2); ctx.lineTo(-s / 2, s / 2); ctx.lineTo(s / 2, s / 2);
+        ctx.closePath(); ctx.stroke();
         break;
-      case 3: // diamond
+      case 3:
         ctx.beginPath();
-        ctx.moveTo(0, -s / 2);
-        ctx.lineTo(s / 2, 0);
-        ctx.lineTo(0, s / 2);
-        ctx.lineTo(-s / 2, 0);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0, 0, s / 6, 0, Math.PI * 2);
-        ctx.stroke();
+        ctx.moveTo(0, -s / 2); ctx.lineTo(s / 2, 0); ctx.lineTo(0, s / 2); ctx.lineTo(-s / 2, 0);
+        ctx.closePath(); ctx.stroke();
         break;
-      case 4: { // star / asteroid
+      case 4: {
         ctx.beginPath();
         for (let i = 0; i < 8; i++) {
           const a = (Math.PI * 2 * i) / 8;
           const r = i % 2 === 0 ? s / 2 : s / 3.5;
-          const px = Math.cos(a) * r;
-          const py = Math.sin(a) * r;
-          i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+          i === 0 ? ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r) : ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
         }
-        ctx.closePath();
-        ctx.stroke();
+        ctx.closePath(); ctx.stroke();
         break;
       }
     }
     ctx.restore();
   };
 
-  const restartGame = useCallback(() => {
+  const startGame = useCallback(() => {
     enemiesRef.current = [];
     bulletsRef.current = [];
     particlesRef.current = [];
@@ -240,11 +248,13 @@ const NotFound = () => {
     spawnTimerRef.current = 0;
     shootTimerRef.current = 0;
     gameOverRef.current = false;
+    playingRef.current = true;
     setScore(0);
     setGameOver(false);
+    setPlaying(true);
   }, []);
 
-  // Main game loop
+  // Game loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -254,28 +264,31 @@ const NotFound = () => {
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      gunXRef.current = canvas.width / 2;
+      mouseXRef.current = canvas.width / 2;
+      mouseYRef.current = canvas.height / 2;
       initStars(canvas.width, canvas.height);
     };
     resize();
     window.addEventListener("resize", resize);
 
-    // Input handlers
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      gunXRef.current = (e.clientX - rect.left) * (canvas.width / rect.width);
+      mouseXRef.current = (e.clientX - rect.left) * (canvas.width / rect.width);
+      mouseYRef.current = (e.clientY - rect.top) * (canvas.height / rect.height);
     };
     const onTouchMove = (e: TouchEvent) => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       const t = e.touches[0];
-      gunXRef.current = (t.clientX - rect.left) * (canvas.width / rect.width);
+      mouseXRef.current = (t.clientX - rect.left) * (canvas.width / rect.width);
+      mouseYRef.current = (t.clientY - rect.top) * (canvas.height / rect.height);
     };
     const onTouchStart = (e: TouchEvent) => {
       e.preventDefault();
       const rect = canvas.getBoundingClientRect();
       const t = e.touches[0];
-      gunXRef.current = (t.clientX - rect.left) * (canvas.width / rect.width);
+      mouseXRef.current = (t.clientX - rect.left) * (canvas.width / rect.width);
+      mouseYRef.current = (t.clientY - rect.top) * (canvas.height / rect.height);
     };
 
     canvas.addEventListener("mousemove", onMouseMove);
@@ -283,36 +296,33 @@ const NotFound = () => {
     canvas.addEventListener("touchstart", onTouchStart, { passive: false });
 
     let running = true;
-
     const loop = () => {
       if (!running) return;
       const W = canvas.width;
       const H = canvas.height;
+      const gunCX = W / 2;
+      const gunBaseY = H - GUN_Y_OFFSET;
 
-      // White background
       ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, W, H);
 
-      // Stars (moving down for space feel)
-      ctx.fillStyle = "#ccc";
-      starsRef.current.forEach((star) => {
-        star.y += star.speed;
-        if (star.y > H) {
-          star.y = 0;
-          star.x = Math.random() * W;
-        }
-        ctx.fillRect(star.x, star.y, star.size, star.size);
+      // Stars
+      ctx.fillStyle = "#ddd";
+      starsRef.current.forEach((s) => {
+        s.y += s.speed;
+        if (s.y > H) { s.y = 0; s.x = Math.random() * W; }
+        ctx.fillRect(s.x, s.y, s.size, s.size);
       });
 
-      // Big 404 in background
+      // 404 bg text
       ctx.fillStyle = "rgba(0,0,0,0.03)";
       ctx.font = `bold ${Math.min(W * 0.35, 300)}px Quicksand, sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("404", W / 2, H / 2);
 
-      if (!gameOverRef.current) {
-        // Spawn enemies
+      if (playingRef.current && !gameOverRef.current) {
+        // Spawn
         spawnTimerRef.current++;
         const spawnRate = Math.max(15, 55 - scoreRef.current * 0.5);
         if (spawnTimerRef.current >= spawnRate) {
@@ -326,55 +336,58 @@ const NotFound = () => {
             shape: Math.floor(Math.random() * 5),
             rotation: Math.random() * Math.PI * 2,
             rotSpeed: (Math.random() - 0.5) * 0.06,
-            hp: 1,
           });
           spawnTimerRef.current = 0;
         }
 
-        // Auto-shoot bullets
+        // Auto-shoot toward mouse
         shootTimerRef.current++;
         if (shootTimerRef.current >= 8) {
+          const dx = mouseXRef.current - gunCX;
+          const dy = mouseYRef.current - gunBaseY;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const speed = 11;
           bulletsRef.current.push({
-            x: gunXRef.current,
-            y: H - 62,
-            vy: -10,
+            x: gunCX,
+            y: gunBaseY - 20,
+            vx: (dx / dist) * speed,
+            vy: (dy / dist) * speed,
           });
           shootTimerRef.current = 0;
         }
 
         // Update bullets
         bulletsRef.current = bulletsRef.current.filter((b) => {
+          b.x += b.vx;
           b.y += b.vy;
-          if (b.y < -10) return false;
+          if (b.y < -10 || b.y > H + 10 || b.x < -10 || b.x > W + 10) return false;
 
-          // Draw bullet as a line
+          // Draw bullet line
           ctx.strokeStyle = "#000";
           ctx.lineWidth = 1.5;
           ctx.beginPath();
           ctx.moveTo(b.x, b.y);
-          ctx.lineTo(b.x, b.y + 8);
+          ctx.lineTo(b.x - b.vx * 0.6, b.y - b.vy * 0.6);
           ctx.stroke();
-
-          // Small dot at tip
           ctx.fillStyle = "#000";
           ctx.beginPath();
-          ctx.arc(b.x, b.y, 1.5, 0, Math.PI * 2);
+          ctx.arc(b.x, b.y, 2, 0, Math.PI * 2);
           ctx.fill();
 
-          // Check collision with enemies
+          // Collision
           let hitIdx = -1;
           for (let i = 0; i < enemiesRef.current.length; i++) {
             const e = enemiesRef.current[i];
-            const dx = e.x - b.x;
-            const dy = e.y - b.y;
-            if (Math.sqrt(dx * dx + dy * dy) < e.size * 0.6) {
+            const edx = e.x - b.x;
+            const edy = e.y - b.y;
+            if (Math.sqrt(edx * edx + edy * edy) < e.size * 0.6) {
               hitIdx = i;
               break;
             }
           }
           if (hitIdx >= 0) {
             const e = enemiesRef.current[hitIdx];
-            createParticles(e.x, e.y, 8);
+            createParticles(e.x, e.y);
             enemiesRef.current.splice(hitIdx, 1);
             scoreRef.current++;
             setScore(scoreRef.current);
@@ -389,7 +402,6 @@ const NotFound = () => {
           e.y += e.speed;
           e.rotation += e.rotSpeed;
           drawEnemy(ctx, e);
-
           if (e.y > H + e.size) {
             missedRef.current++;
             if (missedRef.current >= 10) {
@@ -402,29 +414,41 @@ const NotFound = () => {
           return true;
         });
 
-        // Draw gun
-        drawGun(ctx, gunXRef.current, H);
-
-        // Muzzle flash (every other shot frame)
+        // Muzzle flash
         if (shootTimerRef.current <= 2) {
           ctx.strokeStyle = "#000";
           ctx.lineWidth = 1;
-          const muzzleY = H - 58;
+          const angle = Math.atan2(mouseYRef.current - gunBaseY, mouseXRef.current - gunCX);
           for (let i = 0; i < 3; i++) {
-            const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.6;
-            const len = 8 + Math.random() * 6;
+            const a = angle + (Math.random() - 0.5) * 0.5;
+            const len = 6 + Math.random() * 8;
             ctx.beginPath();
-            ctx.moveTo(gunXRef.current, muzzleY);
-            ctx.lineTo(
-              gunXRef.current + Math.cos(angle) * len,
-              muzzleY + Math.sin(angle) * len
-            );
+            ctx.moveTo(gunCX, gunBaseY - 20);
+            ctx.lineTo(gunCX + Math.cos(a) * len, gunBaseY - 20 + Math.sin(a) * len);
             ctx.stroke();
           }
         }
+
+        // Draw gun (fixed at bottom center)
+        drawGun(ctx, gunCX, H, mouseXRef.current, mouseYRef.current);
+
+        // Crosshair at mouse position
+        drawCrosshair(ctx, mouseXRef.current, mouseYRef.current);
+
+        // HUD
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 16px Quicksand, sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        ctx.fillText(`Score: ${scoreRef.current}`, 16, 16);
+        const missed = missedRef.current;
+        ctx.fillText(`Lives: ${"●".repeat(Math.max(0, 10 - missed))}${"○".repeat(Math.min(missed, 10))}`, 16, 40);
+        const rank = getRank(scoreRef.current);
+        ctx.textAlign = "right";
+        ctx.fillText(`${rank.emoji} ${rank.label}`, W - 16, 16);
       }
 
-      // Update particles
+      // Particles (always render)
       particlesRef.current = particlesRef.current.filter((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -439,38 +463,17 @@ const NotFound = () => {
         return true;
       });
 
-      // HUD
-      ctx.fillStyle = "#000";
-      ctx.font = "bold 16px Quicksand, sans-serif";
-      ctx.textAlign = "left";
-      ctx.textBaseline = "top";
-      ctx.fillText(`Score: ${scoreRef.current}`, 16, 16);
-
-      // Missed bar
-      const missed = missedRef.current;
-      ctx.fillText(`Lives: ${"●".repeat(Math.max(0, 10 - missed))}${"○".repeat(missed)}`, 16, 40);
-
-      const rank = getRank(scoreRef.current);
-      ctx.textAlign = "right";
-      ctx.fillText(`${rank.emoji} ${rank.label}`, W - 16, 16);
-
-      if (user && highScore > 0) {
-        ctx.fillStyle = "rgba(0,0,0,0.4)";
-        ctx.font = "12px Quicksand, sans-serif";
-        ctx.fillText(`Best: ${highScore}`, W - 16, 40);
-      }
-
-      // "Page not found" subtitle
-      ctx.fillStyle = "rgba(0,0,0,0.15)";
-      ctx.font = "14px Quicksand, sans-serif";
+      // Subtle footer
+      ctx.fillStyle = "rgba(0,0,0,0.12)";
+      ctx.font = "12px Quicksand, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("page not found — enjoy the game!", W / 2, H - 10);
+      ctx.textBaseline = "bottom";
+      ctx.fillText("page not found", W / 2, H - 4);
 
       frameRef.current = requestAnimationFrame(loop);
     };
 
     frameRef.current = requestAnimationFrame(loop);
-
     return () => {
       running = false;
       cancelAnimationFrame(frameRef.current);
@@ -487,10 +490,31 @@ const NotFound = () => {
     <div className="relative w-full h-screen bg-white overflow-hidden select-none" style={{ cursor: "none" }}>
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Game Over overlay */}
+      {/* Start screen */}
+      {!playing && !gameOver && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+          <h1 className="text-7xl md:text-9xl font-black text-black mb-2" style={{ fontFamily: "Quicksand, sans-serif" }}>404</h1>
+          <p className="text-base text-black/50 mb-8" style={{ fontFamily: "Quicksand, sans-serif" }}>This page doesn't exist</p>
+          <button
+            onClick={startGame}
+            className="px-10 py-3 bg-white text-black font-bold text-lg border-2 border-black rounded-none hover:bg-black hover:text-white transition-all duration-200"
+            style={{ fontFamily: "Quicksand, sans-serif", cursor: "pointer" }}
+          >
+            PLAY GAME
+          </button>
+          {highScore > 0 && (
+            <p className="mt-4 text-xs text-black/40">Best: {highScore} {getRank(highScore).emoji} {getRank(highScore).label}</p>
+          )}
+          <Link to="/" className="mt-6 text-sm text-black/30 underline hover:text-black transition-colors" style={{ cursor: "pointer" }}>
+            ← Back to Home
+          </Link>
+        </div>
+      )}
+
+      {/* Game Over */}
       {gameOver && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-white/90">
-          <h2 className="text-4xl md:text-6xl font-black text-black mb-1 font-[Quicksand]">GAME OVER</h2>
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 bg-white/90" style={{ cursor: "default" }}>
+          <h2 className="text-4xl md:text-6xl font-black text-black mb-1" style={{ fontFamily: "Quicksand, sans-serif" }}>GAME OVER</h2>
           <p className="text-5xl mb-2">{rank.emoji}</p>
           <p className="text-xl font-bold text-black mb-1">{rank.label}</p>
           <p className="text-base text-black/60 mb-1">Score: {score}</p>
@@ -502,36 +526,30 @@ const NotFound = () => {
           )}
           {!user && (
             <p className="text-xs text-black/40 mb-3">
-              <Link to="/signup" className="underline">Sign up</Link> to save scores
+              <Link to="/signup" className="underline" style={{ cursor: "pointer" }}>Sign up</Link> to save scores
             </p>
           )}
-
-          {/* Rank progression */}
           <div className="flex gap-2 flex-wrap justify-center px-4 mb-6">
             {RANKS.map((r) => (
-              <div
-                key={r.label}
-                className={`text-center text-[10px] px-2 py-1 border ${
-                  score >= r.min ? "border-black text-black" : "border-black/15 text-black/25"
-                }`}
-              >
+              <div key={r.label} className={`text-center text-[10px] px-2 py-1 border ${score >= r.min ? "border-black text-black" : "border-black/15 text-black/25"}`}>
                 <span className="text-sm">{r.emoji}</span>
                 <p className="font-semibold">{r.label}</p>
                 <p>{r.min}+</p>
               </div>
             ))}
           </div>
-
           <div className="flex gap-3">
             <button
-              onClick={restartGame}
-              className="px-6 py-2.5 bg-black text-white font-bold rounded-none border-2 border-black hover:bg-white hover:text-black transition-colors"
+              onClick={startGame}
+              className="px-6 py-2.5 bg-white text-black font-bold border-2 border-black rounded-none hover:bg-black hover:text-white transition-all duration-200"
+              style={{ cursor: "pointer" }}
             >
               PLAY AGAIN
             </button>
             <Link
               to="/"
-              className="px-6 py-2.5 bg-white text-black font-bold rounded-none border-2 border-black hover:bg-black hover:text-white transition-colors flex items-center"
+              className="px-6 py-2.5 bg-white text-black font-bold border-2 border-black rounded-none hover:bg-black hover:text-white transition-all duration-200 flex items-center"
+              style={{ cursor: "pointer" }}
             >
               GO HOME
             </Link>
