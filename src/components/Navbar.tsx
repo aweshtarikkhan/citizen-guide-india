@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, LogIn, LogOut, Settings } from "lucide-react";
+import { Menu, X, ChevronDown, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, LogIn, LogOut, Settings, UserCircle } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import matdaanLogo from "@/assets/matdaan-logo.png";
 import { useAuth } from "@/hooks/useAuth";
@@ -137,6 +137,9 @@ const Navbar = () => {
           {/* Auth Buttons */}
           {user ? (
             <div className="flex items-center gap-2">
+              <Link to="/profile" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-muted transition-colors">
+                <UserCircle className="h-4 w-4" /> Profile
+              </Link>
               {(isAdmin || isEditor) && (
                 <Link to="/admin" className="text-sm font-medium bg-primary text-primary-foreground px-3 py-1.5 rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-1">
                   <Settings className="h-4 w-4" /> {isAdmin ? "Admin" : "Editor"}
@@ -219,6 +222,9 @@ const Navbar = () => {
           <div className="border-t border-border pt-3 mt-2">
             {user ? (
               <>
+                <Link to="/profile" className="flex items-center gap-2 py-2.5 text-sm font-medium text-foreground/70 hover:text-foreground">
+                  <UserCircle className="h-4 w-4" /> My Profile
+                </Link>
                 {(isAdmin || isEditor) && (
                   <Link to="/admin" className="flex items-center gap-2 py-2.5 text-sm font-medium bg-primary text-primary-foreground rounded-lg px-3">
                     <Settings className="h-4 w-4" /> {isAdmin ? "Admin Panel" : "Editor Panel"}
