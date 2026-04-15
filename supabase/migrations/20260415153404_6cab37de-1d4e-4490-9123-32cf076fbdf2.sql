@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN game_high_score integer NOT NULL DEFAULT 0;
