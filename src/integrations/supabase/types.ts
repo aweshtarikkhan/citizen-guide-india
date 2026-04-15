@@ -233,6 +233,44 @@ export type Database = {
         }
         Relationships: []
       }
+      reading_history: {
+        Row: {
+          blog_id: string
+          created_at: string
+          id: string
+          last_read_at: string
+          read_progress: number
+          reading_time_seconds: number
+          user_id: string
+        }
+        Insert: {
+          blog_id: string
+          created_at?: string
+          id?: string
+          last_read_at?: string
+          read_progress?: number
+          reading_time_seconds?: number
+          user_id: string
+        }
+        Update: {
+          blog_id?: string
+          created_at?: string
+          id?: string
+          last_read_at?: string
+          read_progress?: number
+          reading_time_seconds?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_history_blog_id_fkey"
+            columns: ["blog_id"]
+            isOneToOne: false
+            referencedRelation: "blogs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_settings: {
         Row: {
           id: string
