@@ -370,7 +370,6 @@ const ConstituencyPage = () => {
           </div>
         </div>
       </section>
-      )}
 
       {/* Search & Filter */}
       <section className="py-8 bg-background border-b border-border sticky top-16 z-40">
