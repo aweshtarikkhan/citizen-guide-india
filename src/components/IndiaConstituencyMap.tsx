@@ -6,15 +6,17 @@ import "leaflet/dist/leaflet.css";
 
 const PARTY_HEX: Record<string, string> = {
   BJP: "#f97316", INC: "#3b82f6", SP: "#ef4444", TMC: "#16a34a",
-  DMK: "#dc2626", TDP: "#eab308", "JD(U)": "#22c55e", "SS (UBT)": "#fb923c",
-  "Shiv Sena": "#ea580c", NCP: "#60a5fa", YSRCP: "#1d4ed8", AAP: "#06b6d4",
+  DMK: "#dc2626", TDP: "#eab308", "JD(U)": "#22c55e", "SS(UBT)": "#fb923c",
+  SHS: "#ea580c", NCP: "#60a5fa", "NCP-SCP": "#60a5fa", YSRCP: "#1d4ed8", AAP: "#06b6d4",
   BJD: "#4ade80", RJD: "#15803d", "CPI(M)": "#b91c1c", CPI: "#dc2626",
   JKNC: "#dc2626", IND: "#6b7280", SAD: "#3b82f6", NPP: "#eab308",
   "LJP(RV)": "#3b82f6", IUML: "#16a34a", "KC(M)": "#eab308", RSP: "#dc2626",
   VCK: "#1e40af", AGP: "#4ade80", UPPL: "#8b5cf6", JMM: "#16a34a",
   NC: "#b91c1c", PDP: "#15803d", AIUDF: "#22c55e", "HAM(S)": "#eab308",
   SKM: "#ef4444", NDPP: "#3b82f6", ZPM: "#22c55e", MNF: "#3b82f6",
-  NPF: "#3b82f6", UDP: "#8b5cf6", Congress: "#3b82f6",
+  NPF: "#3b82f6", UDP: "#8b5cf6", JSP: "#eab308", "JD(S)": "#22c55e",
+  RLD: "#16a34a", ADSL: "#3b82f6", ASPKR: "#6b7280", AJSU: "#f97316",
+  BAP: "#16a34a", RLP: "#eab308", AIMIM: "#22c55e", VPP: "#8b5cf6",
 };
 
 const DEFAULT_COLOR = "#d1d5db";
