@@ -46,8 +46,19 @@ const FooterSection = () => (
           </div>
         </div>
       </div>
-      <div className="border-t border-background/10 mt-12 pt-6 text-center text-xs text-background/50">
-        © {new Date().getFullYear()} Matdaan Initiative. Non-partisan civic platform. Not affiliated with any political party or government body.
+      <div className="border-t border-background/10 mt-12 pt-6">
+        <div className="flex flex-wrap justify-center gap-4 text-xs text-background/60 mb-4">
+          <Link to="/privacy-policy" className="hover:text-background transition-colors">Privacy Policy</Link>
+          <span className="text-background/30">|</span>
+          <Link to="/terms-of-service" className="hover:text-background transition-colors">Terms of Service</Link>
+          <span className="text-background/30">|</span>
+          <Link to="/disclaimer" className="hover:text-background transition-colors">Disclaimer</Link>
+          <span className="text-background/30">|</span>
+          <Link to="/cookie-policy" className="hover:text-background transition-colors">Cookie Policy</Link>
+        </div>
+        <p className="text-center text-xs text-background/50">
+          © {new Date().getFullYear()} Matdaan Initiative. Non-partisan civic platform. Not affiliated with any political party or government body.
+        </p>
       </div>
     </div>
   </footer>
