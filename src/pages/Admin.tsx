@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type, Crown, Star
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
 import ConstituencyManager from "@/components/ConstituencyManager";
@@ -63,8 +63,43 @@ interface UserRole {
 
 type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "settings";
 
+const ROLE_HIERARCHY: Record<string, number> = {
+  super_admin: 4,
+  vice_super_admin: 3,
+  admin: 2,
+  editor: 1,
+  moderator: 1,
+  user: 0,
+};
+
+const getRoleIcon = (role: string) => {
+  switch (role) {
+    case "super_admin": return <Crown className="h-3 w-3" />;
+    case "vice_super_admin": return <Star className="h-3 w-3" />;
+    case "admin": return <Shield className="h-3 w-3" />;
+    default: return <Edit className="h-3 w-3" />;
+  }
+};
+
+const getRoleBadgeVariant = (role: string) => {
+  if (role === "super_admin" || role === "vice_super_admin") return "default" as const;
+  if (role === "admin") return "default" as const;
+  return "secondary" as const;
+};
+
+const getRoleLabel = (role: string) => {
+  switch (role) {
+    case "super_admin": return "Super Admin";
+    case "vice_super_admin": return "Vice Super Admin";
+    case "admin": return "Admin";
+    case "editor": return "Editor";
+    case "moderator": return "Moderator";
+    default: return role;
+  }
+};
+
 const Admin = () => {
-  const { user, isAdmin, isEditor, loading: authLoading, rolesChecked, signOut } = useAuth();
+  const { user, isAdmin, isEditor, isSuperAdmin, isViceSuperAdmin, loading: authLoading, rolesChecked, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
@@ -85,6 +120,7 @@ const Admin = () => {
   const [linkUrl, setLinkUrl] = useState("");
 
   const hasAccess = isAdmin || isEditor;
+  const canManageRoles = isSuperAdmin || isViceSuperAdmin;
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -115,7 +151,6 @@ const Admin = () => {
       setActiveTab("blogs");
     }
   }, [isEditor, isAdmin]);
-
 
   const fetchBlogs = async () => {
     setLoadingData(true);
@@ -154,6 +189,54 @@ const Admin = () => {
     return userRoles.filter((r) => r.user_id === userId).map((r) => r.role);
   };
 
+  // Check if current user can manage a target user based on role hierarchy
+  const canManageUser = (targetUserId: string, targetRoles: string[]) => {
+    if (targetUserId === user?.id) return false; // Can't manage yourself
+
+    const targetMaxLevel = Math.max(0, ...targetRoles.map(r => ROLE_HIERARCHY[r] || 0));
+    
+    if (isSuperAdmin) return true; // Super admin can manage anyone
+    if (isViceSuperAdmin) {
+      // Vice super admin can manage admins and below, but not super_admin
+      return targetMaxLevel < ROLE_HIERARCHY.vice_super_admin;
+    }
+    return false;
+  };
+
+  // Check if a user should be visible to the current admin
+  const isUserVisible = (targetUserId: string, targetRoles: string[]) => {
+    if (isSuperAdmin) return true; // Super admin sees everyone
+    if (isViceSuperAdmin) {
+      // Vice super admin can see everyone except super_admin is hidden
+      return !targetRoles.includes("super_admin");
+    }
+    // Regular admin: can't see super_admin or vice_super_admin
+    return !targetRoles.includes("super_admin") && !targetRoles.includes("vice_super_admin");
+  };
+
+  const canRemoveRole = (targetUserId: string, role: string) => {
+    if (targetUserId === user?.id) return false;
+    if (role === "super_admin") return false; // Nobody can remove super_admin
+    if (role === "vice_super_admin") return isSuperAdmin; // Only super can remove vice
+    if (isSuperAdmin || isViceSuperAdmin) return true;
+    return false;
+  };
+
+  const getAssignableRoles = (targetUserId: string, currentRoles: string[]) => {
+    const roles: { role: string; label: string }[] = [];
+    
+    if (isSuperAdmin) {
+      if (!currentRoles.includes("vice_super_admin")) roles.push({ role: "vice_super_admin", label: "Vice Super Admin" });
+      if (!currentRoles.includes("admin")) roles.push({ role: "admin", label: "Admin" });
+      if (!currentRoles.includes("editor")) roles.push({ role: "editor", label: "Editor" });
+    } else if (isViceSuperAdmin) {
+      if (!currentRoles.includes("admin")) roles.push({ role: "admin", label: "Admin" });
+      if (!currentRoles.includes("editor")) roles.push({ role: "editor", label: "Editor" });
+    }
+    
+    return roles;
+  };
+
   const assignRole = async (userId: string, role: string) => {
     const { error } = await supabase.from("user_roles").insert({ user_id: userId, role } as any);
     if (error) {
@@ -163,7 +246,7 @@ const Admin = () => {
         toast({ title: "Error assigning role", description: error.message, variant: "destructive" });
       }
     } else {
-      toast({ title: `${role} role assigned!` });
+      toast({ title: `${getRoleLabel(role)} role assigned!` });
       fetchUserRoles();
     }
   };
@@ -177,7 +260,7 @@ const Admin = () => {
     if (error) {
       toast({ title: "Error removing role", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: `${role} role removed` });
+      toast({ title: `${getRoleLabel(role)} role removed` });
       fetchUserRoles();
     }
   };
@@ -424,6 +507,22 @@ const Admin = () => {
     );
   }
 
+  // Get current user's display role
+  const getCurrentRoleLabel = () => {
+    if (isSuperAdmin) return "Super Admin";
+    if (isViceSuperAdmin) return "Vice Super Admin";
+    if (isAdmin) return "Admin";
+    if (isEditor) return "Editor";
+    return "User";
+  };
+
+  const getCurrentRoleIcon = () => {
+    if (isSuperAdmin) return <Crown className="h-3 w-3 mr-1" />;
+    if (isViceSuperAdmin) return <Star className="h-3 w-3 mr-1" />;
+    if (isAdmin) return <Shield className="h-3 w-3 mr-1" />;
+    return <Edit className="h-3 w-3 mr-1" />;
+  };
+
   // Sidebar tabs based on role
   const sidebarTabs = isAdmin
     ? [
@@ -432,7 +531,7 @@ const Admin = () => {
         { id: "constituencies" as Tab, label: "Constituencies", icon: MapPin },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
-        { id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck },
+        ...(canManageRoles ? [{ id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck }] : []),
         { id: "settings" as Tab, label: "Site Settings", icon: Type },
       ]
     : [
@@ -453,10 +552,13 @@ const Admin = () => {
       <aside className="w-64 border-r border-border bg-card min-h-screen p-4 flex flex-col">
         <div className="mb-8 px-2">
           <h1 className="text-xl font-display font-bold">
-            {isAdmin ? "Admin Panel" : "Editor Panel"}
+            {getCurrentRoleLabel()} Panel
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
-            {isAdmin ? <Badge variant="default" className="text-xs"><Shield className="h-3 w-3 mr-1" />Admin</Badge> : <Badge variant="secondary" className="text-xs"><Edit className="h-3 w-3 mr-1" />Editor</Badge>}
+            <Badge variant="default" className="text-xs">
+              {getCurrentRoleIcon()}
+              {getCurrentRoleLabel()}
+            </Badge>
           </p>
         </div>
         <nav className="flex-1 space-y-1">
@@ -485,7 +587,7 @@ const Admin = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-8">
-        {/* Dashboard - Admin only */}
+        {/* Dashboard */}
         {activeTab === "dashboard" && isAdmin && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-6">Dashboard</h2>
@@ -557,7 +659,7 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Leads - Admin only */}
+        {/* Leads */}
         {activeTab === "leads" && isAdmin && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-6">Volunteer Applications ({leads.length})</h2>
@@ -603,34 +705,53 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Users & Role Management - Admin only */}
-        {activeTab === "users" && isAdmin && (
+        {/* Users & Role Management - Super/Vice only */}
+        {activeTab === "users" && canManageRoles && (
           <div>
-            <h2 className="text-2xl font-display font-bold mb-6">Users & Role Management ({users.length})</h2>
+            <h2 className="text-2xl font-display font-bold mb-2">Users & Role Management</h2>
+            <p className="text-sm text-muted-foreground mb-6">
+              {isSuperAdmin 
+                ? "You have full control over all roles and users." 
+                : "You can manage admins and editors. Super Admin is protected."}
+            </p>
             {users.length === 0 ? (
               <p className="text-muted-foreground text-center py-8">No users signed up yet.</p>
             ) : (
               <div className="space-y-3">
                 {users.map((u) => {
                   const roles = getUserRoles(u.id);
+                  
+                  // Filter visibility based on current user's role
+                  if (!isUserVisible(u.id, roles)) return null;
+                  
+                  const assignableRoles = getAssignableRoles(u.id, roles);
+                  const isCurrentUser = u.id === user?.id;
+
                   return (
-                    <Card key={u.id} className="p-4">
+                    <Card key={u.id} className={`p-4 ${isCurrentUser ? "border-primary/30 bg-primary/5" : ""}`}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
-                            {u.full_name ? u.full_name.charAt(0).toUpperCase() : "?"}
+                          <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground overflow-hidden">
+                            {u.avatar_url ? (
+                              <img src={u.avatar_url} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              u.full_name ? u.full_name.charAt(0).toUpperCase() : "?"
+                            )}
                           </div>
                           <div>
-                            <h3 className="font-medium text-foreground">{u.full_name || "No Name"}</h3>
+                            <h3 className="font-medium text-foreground flex items-center gap-2">
+                              {u.full_name || "No Name"}
+                              {isCurrentUser && <span className="text-xs text-muted-foreground">(You)</span>}
+                            </h3>
                             <p className="text-xs text-muted-foreground">
                               Joined: {new Date(u.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                             </p>
                             <div className="flex flex-wrap gap-1 mt-1">
                               {roles.map((r) => (
-                                <Badge key={r} variant={r === "admin" ? "default" : "secondary"} className="text-xs gap-1">
-                                  {r === "admin" ? <Shield className="h-3 w-3" /> : <Edit className="h-3 w-3" />}
-                                  {r}
-                                  {u.id !== user?.id && (
+                                <Badge key={r} variant={getRoleBadgeVariant(r)} className="text-xs gap-1">
+                                  {getRoleIcon(r)}
+                                  {getRoleLabel(r)}
+                                  {canRemoveRole(u.id, r) && (
                                     <button onClick={() => removeRole(u.id, r)} className="ml-1 hover:text-destructive">
                                       <X className="h-3 w-3" />
                                     </button>
@@ -641,28 +762,22 @@ const Admin = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="flex gap-2">
-                          {!roles.includes("admin") && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => assignRole(u.id, "admin")}
-                              className="text-xs"
-                            >
-                              <Shield className="h-3 w-3 mr-1" /> Make Admin
-                            </Button>
-                          )}
-                          {!roles.includes("editor") && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => assignRole(u.id, "editor")}
-                              className="text-xs"
-                            >
-                              <Edit className="h-3 w-3 mr-1" /> Make Editor
-                            </Button>
-                          )}
-                        </div>
+                        {!isCurrentUser && assignableRoles.length > 0 && (
+                          <div className="flex gap-2">
+                            {assignableRoles.map(({ role, label }) => (
+                              <Button
+                                key={role}
+                                variant="outline"
+                                size="sm"
+                                onClick={() => assignRole(u.id, role)}
+                                className="text-xs"
+                              >
+                                {getRoleIcon(role)}
+                                <span className="ml-1">Make {label}</span>
+                              </Button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </Card>
                   );
@@ -672,13 +787,13 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Content Manager - Admin only */}
+        {/* Content Manager */}
         {activeTab === "content" && isAdmin && <ContentManager />}
 
-        {/* Constituency Manager - Admin only */}
+        {/* Constituency Manager */}
         {activeTab === "constituencies" && isAdmin && <ConstituencyManager />}
 
-        {/* Site Settings - Admin only */}
+        {/* Site Settings */}
         {activeTab === "settings" && isAdmin && (
           <div>
             <h2 className="text-2xl font-display font-bold mb-6">Site Settings</h2>

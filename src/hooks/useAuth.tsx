@@ -7,6 +7,8 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   rolesChecked: boolean;
+  isSuperAdmin: boolean;
+  isViceSuperAdmin: boolean;
   isAdmin: boolean;
   isEditor: boolean;
   profileName: string;
@@ -20,6 +22,8 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   loading: true,
   rolesChecked: false,
+  isSuperAdmin: false,
+  isViceSuperAdmin: false,
   isAdmin: false,
   isEditor: false,
   profileName: "",
@@ -35,29 +39,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [rolesChecked, setRolesChecked] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [isViceSuperAdmin, setIsViceSuperAdmin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isEditor, setIsEditor] = useState(false);
   const [profileName, setProfileName] = useState("");
   const [profileAvatar, setProfileAvatar] = useState("");
 
   const checkRoles = async (userId: string) => {
-    const [adminRes, editorRes] = await Promise.allSettled([
+    const [superRes, viceRes, adminRes, editorRes] = await Promise.allSettled([
+      supabase.rpc("has_role", { _user_id: userId, _role: "super_admin" }),
+      supabase.rpc("has_role", { _user_id: userId, _role: "vice_super_admin" }),
       supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
       supabase.rpc("has_role", { _user_id: userId, _role: "editor" }),
     ]);
 
-    const adminValue =
-      adminRes.status === "fulfilled" && !adminRes.value.error
-        ? Boolean(adminRes.value.data)
-        : false;
+    const val = (r: PromiseSettledResult<any>) =>
+      r.status === "fulfilled" && !r.value.error ? Boolean(r.value.data) : false;
 
-    const editorValue =
-      editorRes.status === "fulfilled" && !editorRes.value.error
-        ? Boolean(editorRes.value.data)
-        : false;
-
-    setIsAdmin(adminValue);
-    setIsEditor(editorValue);
+    setIsSuperAdmin(val(superRes));
+    setIsViceSuperAdmin(val(viceRes));
+    setIsAdmin(val(adminRes) || val(superRes) || val(viceRes)); // super/vice get admin access too
+    setIsEditor(val(editorRes));
     setRolesChecked(true);
   };
 
@@ -89,11 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         void checkRoles(nextSession.user.id);
         void fetchProfile(nextSession.user.id);
       } else {
-        setIsAdmin(false);
-        setIsEditor(false);
-        setRolesChecked(true);
-        setProfileName("");
-        setProfileAvatar("");
+        resetState();
       }
 
       setLoading(false);
@@ -108,9 +107,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         void checkRoles(initialSession.user.id);
         void fetchProfile(initialSession.user.id);
       } else {
-        setIsAdmin(false);
-        setIsEditor(false);
-        setRolesChecked(true);
+        resetState();
       }
 
       setLoading(false);
@@ -119,10 +116,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setSession(null);
+  const resetState = () => {
+    setIsSuperAdmin(false);
+    setIsViceSuperAdmin(false);
     setIsAdmin(false);
     setIsEditor(false);
     setRolesChecked(true);
@@ -130,8 +126,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setProfileAvatar("");
   };
 
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
+    resetState();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, session, loading, rolesChecked, isAdmin, isEditor, profileName, profileAvatar, refreshProfile, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, rolesChecked, isSuperAdmin, isViceSuperAdmin, isAdmin, isEditor, profileName, profileAvatar, refreshProfile, signOut }}>
       {children}
     </AuthContext.Provider>
   );
