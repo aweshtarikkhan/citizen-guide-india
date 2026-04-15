@@ -1,8 +1,10 @@
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { stateDataMap } from "@/data/stateConstituencies";
 
 const PARTY_HEX: Record<string, string> = {
   BJP: "#f97316", INC: "#3b82f6", SP: "#ef4444", TMC: "#16a34a",
@@ -21,6 +23,21 @@ const PARTY_HEX: Record<string, string> = {
 
 const DEFAULT_COLOR = "#d1d5db";
 
+// Map GeoJSON st_name to stateDataMap id
+const GEOJSON_STATE_TO_ID: Record<string, string> = {
+  "Andaman & Nicobar": "an", "Andhra Pradesh": "ap", "Arunachal Pradesh": "ar",
+  "Assam": "as", "Bihar": "br", "Chandigarh": "ch", "Chhattisgarh": "ct",
+  "Dadra & Nagar Haveli": "dn", "Daman & Diu": "dd", "Delhi": "dl", "Goa": "ga",
+  "Gujarat": "gj", "Haryana": "hr", "Himachal Pradesh": "hp", "Jammu & Kashmir": "jk",
+  "Jharkhand": "jh", "Karnataka": "ka", "Kerala": "kl", "Lakshadweep": "ld",
+  "Madhya Pradesh": "mp", "Maharashtra": "mh", "Manipur": "mn", "Meghalaya": "ml",
+  "Mizoram": "mz", "Nagaland": "nl", "Orissa": "or", "Odisha": "or",
+  "Puducherry": "py", "Punjab": "pb", "Rajasthan": "rj", "Sikkim": "sk",
+  "Tamil Nadu": "tn", "Telangana": "tg", "Tripura": "tr",
+  "Uttar Pradesh": "up", "Uttarakhand": "uk", "West Bengal": "wb",
+  "Ladakh": "la",
+};
+
 interface ConstituencyData {
   party: string;
   mp: string;
@@ -36,12 +53,35 @@ function normalizeName(name: string): string {
   return name.toUpperCase().replace(/[^A-Z0-9\s]/g, "").replace(/\s+/g, " ").trim();
 }
 
+function findStateIdForConstituency(pcName: string, stName: string): string | null {
+  // First try GeoJSON state name mapping
+  const stateId = GEOJSON_STATE_TO_ID[stName];
+  if (stateId) {
+    const state = stateDataMap[stateId];
+    if (state) {
+      const found = state.constituencies.find(
+        c => normalizeName(c.name) === normalizeName(pcName)
+      );
+      if (found) return stateId;
+    }
+  }
+  // Fallback: search all states
+  for (const [id, state] of Object.entries(stateDataMap)) {
+    const found = state.constituencies.find(
+      c => normalizeName(c.name) === normalizeName(pcName)
+    );
+    if (found) return id;
+  }
+  return null;
+}
+
 const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMap = useRef<L.Map | null>(null);
   const geoLayerRef = useRef<L.GeoJSON | null>(null);
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const navigate = useNavigate();
 
   const normalizedData = useMemo(() => {
     if (!data) return {};
@@ -79,7 +119,8 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
       attributionControl: false,
     });
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png").addTo(map);
+    // White/card background - no tile layer for clean India-only look
+    map.getContainer().style.background = "hsl(var(--card))";
 
     leafletMap.current = map;
 
@@ -102,6 +143,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
           },
           onEachFeature: (feature, featureLayer) => {
             const pcName = feature.properties?.pc_name || "";
+            const stName = feature.properties?.st_name || "";
             featureLayer.on({
               mouseover: (e) => {
                 const l = e.target;
@@ -122,12 +164,22 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
                 setTooltipPos({ x: e.originalEvent.clientX, y: e.originalEvent.clientY });
               },
               click: () => {
-                if (onConstituencyClick) onConstituencyClick(pcName);
+                // Navigate to constituency detail page
+                const stateId = findStateIdForConstituency(pcName, stName);
+                if (stateId) {
+                  navigate(`/constituency/${stateId}/${encodeURIComponent(pcName)}`);
+                } else if (onConstituencyClick) {
+                  onConstituencyClick(pcName);
+                }
               },
             });
           },
         }).addTo(map);
         geoLayerRef.current = layer;
+
+        // Fit to India bounds
+        const bounds = layer.getBounds();
+        map.fitBounds(bounds, { padding: [10, 10] });
       });
 
     return () => {
@@ -155,7 +207,11 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
 
   const handleZoomIn = () => leafletMap.current?.zoomIn();
   const handleZoomOut = () => leafletMap.current?.zoomOut();
-  const handleReset = () => leafletMap.current?.setView([22, 82], 5);
+  const handleReset = () => {
+    if (leafletMap.current && geoLayerRef.current) {
+      leafletMap.current.fitBounds(geoLayerRef.current.getBounds(), { padding: [10, 10] });
+    }
+  };
 
   return (
     <div className="relative w-full rounded-lg overflow-hidden border border-border" style={{ minHeight: "500px" }}>
@@ -182,7 +238,7 @@ const IndiaConstituencyMap = memo(({ data, onConstituencyClick }: Props) => {
         </div>
       )}
 
-      <div ref={mapRef} style={{ height: "600px", width: "100%" }} />
+      <div ref={mapRef} style={{ height: "600px", width: "100%", cursor: "pointer" }} />
     </div>
   );
 });
