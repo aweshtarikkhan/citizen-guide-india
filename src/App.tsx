@@ -35,6 +35,12 @@ import NotFound from "./pages/NotFound";
 import UpcomingElection from "./pages/UpcomingElection";
 import VotingAssistant from "./components/VotingAssistant";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+};
+
 const queryClient = new QueryClient();
 
 const App = () => {
