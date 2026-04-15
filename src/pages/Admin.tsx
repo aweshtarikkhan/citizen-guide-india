@@ -75,7 +75,7 @@ const ROLE_HIERARCHY: Record<string, number> = {
 const getRoleIcon = (role: string) => {
   switch (role) {
     case "super_admin": return <Crown className="h-3 w-3" />;
-    case "vice_super_admin": return <Star className="h-3 w-3" />;
+    case "vice_super_admin": return <Crown className="h-3 w-3" />;
     case "admin": return <Shield className="h-3 w-3" />;
     default: return <Edit className="h-3 w-3" />;
   }
@@ -90,7 +90,7 @@ const getRoleBadgeVariant = (role: string) => {
 const getRoleLabel = (role: string) => {
   switch (role) {
     case "super_admin": return "Super Admin";
-    case "vice_super_admin": return "Vice Super Admin";
+    case "vice_super_admin": return "Super Admin";
     case "admin": return "Admin";
     case "editor": return "Editor";
     case "moderator": return "Moderator";
@@ -226,7 +226,7 @@ const Admin = () => {
     const roles: { role: string; label: string }[] = [];
     
     if (isSuperAdmin) {
-      if (!currentRoles.includes("vice_super_admin")) roles.push({ role: "vice_super_admin", label: "Vice Super Admin" });
+      if (!currentRoles.includes("vice_super_admin")) roles.push({ role: "vice_super_admin", label: "Super Admin" });
       if (!currentRoles.includes("admin")) roles.push({ role: "admin", label: "Admin" });
       if (!currentRoles.includes("editor")) roles.push({ role: "editor", label: "Editor" });
     } else if (isViceSuperAdmin) {
@@ -510,7 +510,7 @@ const Admin = () => {
   // Get current user's display role
   const getCurrentRoleLabel = () => {
     if (isSuperAdmin) return "Super Admin";
-    if (isViceSuperAdmin) return "Vice Super Admin";
+    if (isViceSuperAdmin) return "Super Admin";
     if (isAdmin) return "Admin";
     if (isEditor) return "Editor";
     return "User";
