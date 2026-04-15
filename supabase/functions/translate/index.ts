@@ -80,11 +80,13 @@ Deno.serve(async (req) => {
       const prompt = `You are a professional ${langName} translator. Translate the following English texts to natural, fluent ${langName}.
 
 IMPORTANT RULES:
-- Do NOT transliterate English words into ${langName} script. Instead, find the proper ${langName} equivalent.
-- For example: "Explore" should become "जानें" or "खोजें" in Hindi, NOT "एक्सप्लोर"
-- "Download" should become "डाउनलोड" only if no native word exists, otherwise use the native word
-- Brand names and proper nouns can stay as-is
-- The translation should sound like a native ${langName} speaker wrote it
+- Use SIMPLE, everyday ${langName} that common people speak and understand easily. Avoid formal, literary, or Sanskritized words.
+- For Hindi specifically: use "आकार देता है" instead of "संवारता", "मदद" instead of "सहायता", "शुरू" instead of "आरंभ", "बदलाव" instead of "परिवर्तन", "समझना" instead of "अवगत होना", "जानकारी" instead of "सूचना", "हक" instead of "अधिकार", "सही" instead of "उचित", "तरीका" instead of "विधि", etc.
+- The language should feel like how a normal person talks in daily life, NOT like a textbook or government document.
+- Do NOT transliterate English words into ${langName} script. Find the proper ${langName} equivalent.
+- For example: "Explore" should become "जानें" or "देखें" in Hindi, NOT "एक्सप्लोर"
+- Brand names like "Matdaan" and proper nouns can stay as-is
+- The translation should sound like a native ${langName} speaker wrote it in casual, clear language
 - Keep the meaning and intent, not just word-for-word translation
 
 Return ONLY a JSON array of translated strings in the same order. No explanations, no markdown.
