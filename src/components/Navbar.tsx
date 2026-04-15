@@ -95,41 +95,14 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Services Dropdown */}
-          <div ref={dropdownRef} className="relative">
-            <button
-              onClick={() => setServicesOpen(!servicesOpen)}
-              className={`text-sm font-medium transition-colors flex items-center gap-1 ${
-                isServicePage || servicesOpen ? "text-foreground" : "text-foreground/60 hover:text-foreground"
-              }`}
-            >
-              Services
-            </button>
-
-            {servicesOpen && (
-              <div className="absolute top-full right-0 mt-3 w-[640px] bg-card border border-border rounded-xl shadow-elevated p-4 grid grid-cols-2 gap-1 animate-in fade-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
-                {serviceLinks.map((s) => (
-                  <Link
-                    key={s.href}
-                    to={s.href}
-                    className={`flex items-start gap-3 p-3 rounded-lg transition-colors group ${
-                      location.pathname === s.href
-                        ? "bg-foreground/5"
-                        : "hover:bg-muted"
-                    }`}
-                  >
-                    <div className="h-9 w-9 rounded-lg bg-foreground flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-105 transition-transform">
-                      <s.icon className="h-4 w-4 text-background" />
-                    </div>
-                    <div>
-                      <span className="text-sm font-semibold text-foreground block leading-tight">{s.label}</span>
-                      <span className="text-xs text-muted-foreground leading-snug">{s.desc}</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          <Link
+            to="/services"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/services" || isServicePage ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Services
+          </Link>
 
           <Link
             to="/constituency"
@@ -198,35 +171,14 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Mobile Services Accordion */}
-          <button
-            onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-            className={`w-full flex items-center justify-between py-2.5 text-sm font-medium ${
-              isServicePage ? "text-foreground" : "text-foreground/60"
+          <Link
+            to="/services"
+            className={`block py-2.5 text-sm font-medium ${
+              location.pathname === "/services" || isServicePage ? "text-foreground" : "text-foreground/60 hover:text-foreground"
             }`}
           >
             Services
-            <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`} />
-
-          </button>
-          {mobileServicesOpen && (
-            <div className="pl-3 space-y-0.5 pb-2">
-              {serviceLinks.map((s) => (
-                <Link
-                  key={s.href}
-                  to={s.href}
-                  className={`flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm ${
-                    location.pathname === s.href
-                      ? "bg-foreground/5 text-foreground font-semibold"
-                      : "text-foreground/60 hover:text-foreground hover:bg-muted"
-                  }`}
-                >
-                  <s.icon className="h-4 w-4 flex-shrink-0" />
-                  {s.label}
-                </Link>
-              ))}
-            </div>
-          )}
+          </Link>
 
           <Link
             to="/constituency"

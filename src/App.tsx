@@ -33,6 +33,7 @@ import Admin from "./pages/Admin";
 import VoterQuiz from "./pages/VoterQuiz";
 import NotFound from "./pages/NotFound";
 import UpcomingElection from "./pages/UpcomingElection";
+import Services from "./pages/Services";
 import VotingAssistant from "./components/VotingAssistant";
 
 const ScrollToTop = () => {
@@ -57,6 +58,7 @@ const App = () => {
           <AutoTranslateWrapper>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/help-desk" element={<HelpDesk />} />
             <Route path="/knowledge" element={<Knowledge />} />
             <Route path="/myths" element={<Myths />} />
