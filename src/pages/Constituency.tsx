@@ -78,28 +78,14 @@ const ConstituencyPage = () => {
   const [mynetaData, setMynetaData] = useState<Record<string, CandidateSummary>>({});
   const [mynetaLoading, setMynetaLoading] = useState(false);
   const [overrides, setOverrides] = useState<any[]>([]);
-  const [mapType, setMapType] = useState("leaflet");
+  const mapType = "leaflet";
 
-  // Load overrides and map type from DB
+  // Load overrides from DB
   useEffect(() => {
     supabase
       .from("constituency_overrides")
       .select("*")
       .then(({ data }) => setOverrides(data || []));
-
-    supabase
-      .from("site_settings")
-      .select("setting_value")
-      .eq("setting_key", "constituency_map_type")
-      .single()
-      .then(({ data }) => {
-        if (data?.setting_value) {
-          const val = typeof data.setting_value === "string" 
-            ? data.setting_value 
-            : JSON.stringify(data.setting_value).replace(/"/g, "");
-          setMapType(val);
-        }
-      });
   }, []);
 
   // Load MyNeta data
