@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, MapPin, Users, Filter, ChevronDown, AlertTriangle, GraduationCap, IndianRupee, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import IndiaConstituencyMap from "@/components/IndiaConstituencyMap";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
 import { mynetaApi, CandidateSummary } from "@/lib/api/myneta";
@@ -78,28 +78,14 @@ const ConstituencyPage = () => {
   const [mynetaData, setMynetaData] = useState<Record<string, CandidateSummary>>({});
   const [mynetaLoading, setMynetaLoading] = useState(false);
   const [overrides, setOverrides] = useState<any[]>([]);
-  const [mapType, setMapType] = useState("leaflet");
+  const mapType = "leaflet";
 
-  // Load overrides and map type from DB
+  // Load overrides from DB
   useEffect(() => {
     supabase
       .from("constituency_overrides")
       .select("*")
       .then(({ data }) => setOverrides(data || []));
-
-    supabase
-      .from("site_settings")
-      .select("setting_value")
-      .eq("setting_key", "constituency_map_type")
-      .single()
-      .then(({ data }) => {
-        if (data?.setting_value) {
-          const val = typeof data.setting_value === "string" 
-            ? data.setting_value 
-            : JSON.stringify(data.setting_value).replace(/"/g, "");
-          setMapType(val);
-        }
-      });
   }, []);
 
   // Load MyNeta data
@@ -329,71 +315,22 @@ const ConstituencyPage = () => {
       </section>
 
       {/* India Constituency Map - conditional on map type */}
-      {mapType !== "none" && (
       <section className="py-12 bg-background border-b border-border">
         <div className="container max-w-6xl">
           <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground text-center mb-2">
             Constituency Map of India
           </h2>
           <p className="text-muted-foreground text-center mb-8">
-            {mapType === "leaflet" ? "Hover to see MP details, click to view full candidate profile. Zoom in to explore." : "Visual representation of India's parliamentary constituencies."}
+            Hover to see MP details, click to view full candidate profile. Zoom in to explore.
           </p>
           <div className="grid lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2">
-              {mapType === "leaflet" && (
-                <IndiaConstituencyMap
-                  data={constituencyMapData}
-                  onConstituencyClick={(name) => {
-                    setSearchQuery(name);
-                  }}
-                />
-              )}
-              {mapType === "svg" && (
-                <div className="w-full rounded-lg overflow-hidden border border-border bg-card" style={{ minHeight: "500px" }}>
-                  <ComposableMap
-                    projection="geoMercator"
-                    projectionConfig={{ scale: 1200, center: [82, 22] }}
-                    style={{ width: "100%", height: "600px" }}
-                  >
-                    <Geographies geography="/india_pc_2019_simplified.geojson">
-                      {({ geographies }: { geographies: any[] }) =>
-                        geographies.map((geo: any) => {
-                          const pcName = geo.properties?.pc_name || "";
-                          const match = allConstituencies.find(c => c.name.toUpperCase() === pcName.toUpperCase());
-                          const party = match?.mp?.match(/\(([^)]+)\)/)?.[1] || "";
-                          const svgPartyColors: Record<string, string> = {
-                            BJP: "#f97316", INC: "#3b82f6", SP: "#ef4444", TMC: "#16a34a",
-                            DMK: "#dc2626", TDP: "#eab308", "JD(U)": "#22c55e", AAP: "#06b6d4",
-                            IND: "#6b7280",
-                          };
-                          return (
-                            <Geography
-                              key={geo.rpiKey || geo.properties?.pc_name}
-                              geography={geo}
-                              fill={svgPartyColors[party] || "#d1d5db"}
-                              stroke="#888"
-                              strokeWidth={0.5}
-                              style={{
-                                default: { outline: "none" },
-                                hover: { fill: "#fbbf24", outline: "none", cursor: "pointer" },
-                                pressed: { outline: "none" },
-                              }}
-                              onClick={() => {
-                                if (pcName) setSearchQuery(pcName);
-                              }}
-                            />
-                          );
-                        })
-                      }
-                    </Geographies>
-                  </ComposableMap>
-                </div>
-              )}
-              {mapType === "png" && (
-                <div className="w-full rounded-lg overflow-hidden border border-border bg-card flex items-center justify-center" style={{ minHeight: "500px" }}>
-                  <img src="/india_map.png" alt="India Constituency Map" className="max-w-full max-h-[600px] object-contain" />
-                </div>
-              )}
+              <IndiaConstituencyMap
+                data={constituencyMapData}
+                onConstituencyClick={(name) => {
+                  setSearchQuery(name);
+                }}
+              />
             </div>
             <div className="space-y-4">
               <div className="p-4 rounded-lg bg-card border border-border">
@@ -433,7 +370,6 @@ const ConstituencyPage = () => {
           </div>
         </div>
       </section>
-      )}
 
       {/* Search & Filter */}
       <section className="py-8 bg-background border-b border-border sticky top-16 z-40">
