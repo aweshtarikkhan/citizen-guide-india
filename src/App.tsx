@@ -31,6 +31,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Admin from "./pages/Admin";
 import VoterQuiz from "./pages/VoterQuiz";
+import Profile from "./pages/Profile";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import UpcomingElection from "./pages/UpcomingElection";
 import Services from "./pages/Services";
@@ -81,6 +83,8 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/voter-quiz" element={<VoterQuiz />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/upcoming-election/:stateSlug" element={<UpcomingElection />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
