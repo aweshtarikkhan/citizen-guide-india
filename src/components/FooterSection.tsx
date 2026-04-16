@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import matdaanLogo from "@/assets/matdaan-logo.png";
 
 const FooterSection = () => (
-  <footer className="py-16 bg-foreground text-background">
+  <footer className="py-10 md:py-16 bg-foreground text-background">
     <div className="container">
-      <div className="grid md:grid-cols-4 gap-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
         <div>
           <Link to="/" className="flex items-center gap-1 text-2xl font-bold text-background tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
             <img src={matdaanLogo} alt="Matdaan Logo" className="h-12 w-12 object-contain brightness-0 invert" />
@@ -16,7 +16,7 @@ const FooterSection = () => (
           </p>
         </div>
         <div>
-          <h4 className="font-display font-semibold text-lg mb-4">Voter Services</h4>
+          <h4 className="font-display font-semibold text-base md:text-lg mb-3 md:mb-4">Voter Services</h4>
           <ul className="space-y-2 text-sm text-background/70">
             <li><Link to="/help-desk" className="hover:text-background transition-colors">Voter Help Desk</Link></li>
             <li><Link to="/important-forms" className="hover:text-background transition-colors">Important Forms</Link></li>
