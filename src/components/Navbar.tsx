@@ -73,9 +73,9 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
-      <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-1.5 text-2xl font-bold text-foreground tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
-          <div className="h-14 w-14 rounded-full border-2 border-foreground/10 shadow-sm flex items-center justify-center overflow-hidden">
+      <div className="container flex items-center justify-between h-14 md:h-16 lg:h-18">
+        <Link to="/" className="flex items-center gap-1.5 text-xl md:text-2xl font-bold text-foreground tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
+          <div className="h-10 w-10 md:h-14 md:w-14 rounded-full border-2 border-foreground/10 shadow-sm flex items-center justify-center overflow-hidden">
             <img src={matdaanLogo} alt="Matdaan Logo" className="h-[120%] w-[120%] object-contain scale-125" />
           </div>
           <span className="-ml-0.5">{BRAND_NAME[currentLang] || BRAND_NAME.en}</span>

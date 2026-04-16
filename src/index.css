@@ -84,6 +84,10 @@
     @apply border-border;
   }
 
+  html {
+    font-size: clamp(15px, 0.85vw + 10px, 18px);
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);

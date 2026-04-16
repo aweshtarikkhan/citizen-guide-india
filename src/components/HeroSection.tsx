@@ -8,11 +8,11 @@ const HeroSection = () => {
   const { getContent } = usePageContent("home");
 
   return (
-    <section className="relative min-h-[85vh] flex items-center bg-transparent overflow-hidden">
-      <div className="container relative z-10 py-24 md:py-32">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-8 animate-fade-up">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-foreground leading-[1.05] tracking-tight">
+    <section className="relative min-h-[80vh] md:min-h-[85vh] flex items-center bg-transparent overflow-hidden">
+      <div className="container relative z-10 py-16 md:py-24 lg:py-32">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+          <div className="space-y-5 md:space-y-8 animate-fade-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold text-foreground leading-[1.08] tracking-tight">
               {getContent("hero_title", "Every Vote\nShapes India.").split("\n").map((line, i) => (
                 <span key={i}>
                   {i === 0 ? line : <span className="text-gradient-warm">{line}</span>}
@@ -20,7 +20,7 @@ const HeroSection = () => {
                 </span>
               ))}
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground font-body max-w-md leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl text-muted-foreground font-body max-w-md leading-relaxed">
               {getContent("hero_subtitle", "Your non-partisan guide to understanding and exercising your democratic rights.")}
             </p>
             <div className="flex flex-wrap gap-4 pt-2">
