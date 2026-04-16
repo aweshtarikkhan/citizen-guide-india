@@ -88,9 +88,9 @@ const Index = () => {
     <HeroSection />
 
     {/* Countdown + Daily Fact */}
-    <section className="py-12 md:py-16 bg-background">
+    <section className="py-8 md:py-12 lg:py-16 bg-background">
       <div className="container max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
           <ElectionCountdown />
           <DailyFact />
         </div>
@@ -98,12 +98,12 @@ const Index = () => {
     </section>
 
     {/* Latest Blogs Section */}
-    <section className="py-12 md:py-16 bg-muted/30">
+    <section className="py-10 md:py-14 lg:py-16 bg-muted/30">
       <div className="container max-w-5xl">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6 md:mb-8">
           <div>
-            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Blog</span>
-            <h2 className="text-2xl md:text-3xl font-display font-bold mt-2 text-foreground">Latest Articles</h2>
+            <span className="text-xs md:text-sm font-semibold text-foreground uppercase tracking-widest">Blog</span>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold mt-1 md:mt-2 text-foreground">Latest Articles</h2>
           </div>
           <Link 
             to="/blogs" 
@@ -153,17 +153,17 @@ const Index = () => {
     </section>
 
     {/* 2. Who We Are */}
-    <section className="py-20 md:py-28 bg-muted/50">
+    <section className="py-14 md:py-20 lg:py-28 bg-muted/50">
       <div className="container max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div>
-            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">
+            <span className="text-xs md:text-sm font-semibold text-foreground uppercase tracking-widest">
               {getContent("whoweare_label", "Who We Are")}
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold mt-2 md:mt-3 text-foreground">
               {getContent("whoweare_title", "Empowering Every Indian Voter")}
             </h2>
-            <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
+            <p className="mt-3 md:mt-5 text-muted-foreground text-base md:text-lg leading-relaxed">
               {getContent("whoweare_desc", "Matdaan is a non-partisan civic awareness platform dedicated to making democracy accessible. We simplify voter registration, explain your rights, and bust myths — so every citizen can vote with confidence.")}
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
@@ -190,17 +190,17 @@ const Index = () => {
     </section>
 
     {/* 3. Explore Matdaan */}
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-14 md:py-20 lg:py-28 bg-background">
       <div className="container">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-foreground">
+        <div className="text-center max-w-2xl mx-auto mb-8 md:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-foreground">
             {getContent("explore_title", "Explore Matdaan")}
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg">
+          <p className="mt-3 md:mt-4 text-muted-foreground text-base md:text-lg">
             Everything you need to be an informed, empowered citizen.
           </p>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
           {sections.map((s, i) => (
             <Link
               key={i}
@@ -222,14 +222,14 @@ const Index = () => {
     </section>
 
     {/* 4. Testimonials */}
-    <section className="py-20 md:py-28 bg-muted/50">
+    <section className="py-14 md:py-20 lg:py-28 bg-muted/50">
       <div className="container max-w-5xl">
-        <div className="text-center mb-14">
-          <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Testimonials</span>
-          <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
+        <div className="text-center mb-8 md:mb-14">
+          <span className="text-xs md:text-sm font-semibold text-foreground uppercase tracking-widest">Testimonials</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold mt-2 md:mt-3 text-foreground">
             What Citizens Say
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg">Real stories from voters empowered by Matdaan.</p>
+          <p className="mt-3 md:mt-4 text-muted-foreground text-base md:text-lg">Real stories from voters empowered by Matdaan.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {cmsTestimonials.map((t: any, i: number) => (
@@ -247,15 +247,15 @@ const Index = () => {
     </section>
 
     {/* 5. Contact */}
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-14 md:py-20 lg:py-28 bg-background">
       <div className="container max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <div>
-            <span className="text-sm font-semibold text-foreground uppercase tracking-widest">Contact Us</span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mt-3 text-foreground">
+            <span className="text-xs md:text-sm font-semibold text-foreground uppercase tracking-widest">Contact Us</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold mt-2 md:mt-3 text-foreground">
               Get in Touch
             </h2>
-            <p className="mt-4 text-muted-foreground text-lg leading-relaxed">
+            <p className="mt-3 md:mt-4 text-muted-foreground text-base md:text-lg leading-relaxed">
               Have questions or suggestions? Reach out — we'd love to hear from you.
             </p>
             <div className="mt-8 space-y-4">
