@@ -17,12 +17,12 @@ const corsHeaders = {
 }
 
 const EMAIL_SUBJECTS: Record<string, string> = {
-  signup: 'Confirm your email',
-  invite: "You've been invited",
-  magiclink: 'Your login link',
-  recovery: 'Reset your password',
-  email_change: 'Confirm your new email',
-  reauthentication: 'Your verification code',
+  signup: 'Welcome to Matdaan - Please Verify Your Email',
+  invite: "You've been invited to Matdaan",
+  magiclink: 'Your Matdaan Login Link',
+  recovery: 'Reset Your Matdaan Password',
+  email_change: 'Confirm Your New Email Address',
+  reauthentication: 'Your Matdaan Verification Code',
 }
 
 // Template mapping
@@ -36,7 +36,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "citizen-guide-india"
+const SITE_NAME = "Matdaan"
 const SENDER_DOMAIN = "notify.matdaan.com"
 const ROOT_DOMAIN = "matdaan.com"
 const FROM_DOMAIN = "matdaan.com" // Domain shown in From address (may be root or sender subdomain)
