@@ -43,6 +43,7 @@ import TermsOfService from "./pages/TermsOfService";
 import Disclaimer from "./pages/Disclaimer";
 import CookiePolicy from "./pages/CookiePolicy";
 import VotingAssistant from "./components/VotingAssistant";
+import CookieConsent from "./components/CookieConsent";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -102,6 +103,7 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <VotingAssistant />
+          <CookieConsent />
           </AutoTranslateWrapper>
         </AuthProvider>
       </BrowserRouter>
