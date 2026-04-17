@@ -1001,7 +1001,9 @@ const UpcomingElection = () => {
                   >
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">{p.symbol}</span>
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted text-foreground font-mono text-[10px] font-semibold">
+                          {p.short.slice(0, 3)}
+                        </span>
                         <span className="font-semibold">{p.short}</span>
                       </div>
                     </td>
