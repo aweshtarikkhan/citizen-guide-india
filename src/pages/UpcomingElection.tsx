@@ -343,6 +343,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["NEET परीक्षा", "सामाजिक न्याय / आरक्षण", "द्रविड़ अस्मिता", "बेरोजगारी", "जल संकट", "मंदिर प्रशासन", "शिक्षा नीति"],
+    schedule: [PHASE_LATE],
   },
   "west-bengal": {
     stateName: "West Bengal",
