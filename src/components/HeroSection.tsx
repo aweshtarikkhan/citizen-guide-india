@@ -36,7 +36,7 @@ const HeroSection = () => {
               </Link>
             </div>
           </div>
-          <div className="hidden md:flex items-center justify-center">
+          <div className="flex items-center justify-center scale-75 sm:scale-90 md:scale-100 origin-center -my-8 md:my-0">
             <IndiaMapInteractive />
           </div>
         </div>
