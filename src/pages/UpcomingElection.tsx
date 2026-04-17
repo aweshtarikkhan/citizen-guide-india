@@ -38,414 +38,455 @@ interface ElectionData {
 }
 
 const PHASE_1_EARLY: SchedulePhase = {
-  label: "एकल चरण (All ACs)",
-  gazette: "16 मार्च 2026 (सोमवार)",
-  lastNomination: "23 मार्च 2026 (सोमवार)",
-  scrutiny: "24 मार्च 2026 (मंगलवार)",
-  withdrawal: "26 मार्च 2026 (गुरुवार)",
-  poll: "9 अप्रैल 2026 (गुरुवार)",
-  counting: "4 मई 2026 (सोमवार)",
-  completion: "6 मई 2026 (बुधवार)",
+  label: "Single Phase (All ACs)",
+  gazette: "16 March 2026 (Monday)",
+  lastNomination: "23 March 2026 (Monday)",
+  scrutiny: "24 March 2026 (Tuesday)",
+  withdrawal: "26 March 2026 (Thursday)",
+  poll: "9 April 2026 (Thursday)",
+  counting: "4 May 2026 (Monday)",
+  completion: "6 May 2026 (Wednesday)",
 };
 
 const PHASE_LATE: SchedulePhase = {
-  label: "एकल चरण (All ACs)",
-  gazette: "30 मार्च 2026 (सोमवार)",
-  lastNomination: "6 अप्रैल 2026 (सोमवार)",
-  scrutiny: "7 अप्रैल 2026 (मंगलवार)",
-  withdrawal: "9 अप्रैल 2026 (गुरुवार)",
-  poll: "23 अप्रैल 2026 (गुरुवार)",
-  counting: "4 मई 2026 (सोमवार)",
-  completion: "6 मई 2026 (बुधवार)",
+  label: "Single Phase (All ACs)",
+  gazette: "30 March 2026 (Monday)",
+  lastNomination: "6 April 2026 (Monday)",
+  scrutiny: "7 April 2026 (Tuesday)",
+  withdrawal: "9 April 2026 (Thursday)",
+  poll: "23 April 2026 (Thursday)",
+  counting: "4 May 2026 (Monday)",
+  completion: "6 May 2026 (Wednesday)",
 };
 
 const electionData: Record<string, ElectionData> = {
   assam: {
     stateName: "Assam",
-    dateInfo: "9 अप्रैल 2026",
+    dateInfo: "9 April 2026",
     totalSeats: 126,
-    totalVoters: "~2.4 करोड़",
-    currentRuling: "BJP (हिमन्त बिस्वा शर्मा)",
-    overview: "असम विधानसभा चुनाव 2026 में 126 सीटों पर मतदान होगा। वर्तमान में BJP सरकार है जिसका नेतृत्व मुख्यमंत्री हिमन्त बिस्वा शर्मा कर रहे हैं। यह चुनाव NDA और विपक्षी गठबंधन के बीच कड़ी टक्कर का होने की उम्मीद है।",
+    totalVoters: "~24 million",
+    currentRuling: "BJP (Himanta Biswa Sarma)",
+    overview:
+      "The 2026 Assam Assembly Election will be held across 126 constituencies. The BJP is currently in power, led by Chief Minister Himanta Biswa Sarma. The contest is expected to be tight between the NDA and the opposition INDIA alliance.",
     parties: [
       {
-        name: "भारतीय जनता पार्टी (BJP)",
+        name: "Bharatiya Janata Party (BJP)",
         symbol: "🪷",
         alliance: "NDA",
-        keyLeaders: ["हिमन्त बिस्वा शर्मा", "सर्बानन्द सोनोवाल"],
+        keyLeaders: ["Himanta Biswa Sarma", "Sarbananda Sonowal"],
         manifesto: [
-          "असम को भारत का विकास इंजन बनाना",
-          "बाढ़ नियंत्रण और जल प्रबंधन में बड़ा निवेश",
-          "चाय बागान श्रमिकों के लिए ₹5000 मासिक वेतन गारंटी",
-          "अवैध घुसपैठ रोकने के लिए कड़े कदम",
-          "NRC अपडेट और नागरिकता सुनिश्चित करना",
+          "Make Assam India's growth engine",
+          "Major investment in flood control and water management",
+          "Guaranteed monthly wage of ₹5,000 for tea garden workers",
+          "Strict measures to stop illegal immigration",
+          "NRC update and citizenship security",
         ],
         schemes: [
-          "ओरुनोदोई योजना – महिलाओं को ₹1250/माह",
-          "अरुंधति गोल्ड स्कीम – शादी में सोना",
-          "असम दर्शन – पर्यटन विकास",
-          "मिशन बसुंधरा – भूमि अधिकार",
+          "Orunodoi Scheme – ₹1,250/month for women",
+          "Arundhati Gold Scheme – gold for weddings",
+          "Assam Darshan – tourism development",
+          "Mission Basundhara – land rights",
         ],
       },
       {
-        name: "भारतीय राष्ट्रीय कांग्रेस (INC)",
+        name: "Indian National Congress (INC)",
         symbol: "✋",
         alliance: "INDIA Alliance",
-        keyLeaders: ["भूपेन बोरा", "गौरव गोगोई"],
+        keyLeaders: ["Bhupen Kumar Borah", "Gaurav Gogoi"],
         manifesto: [
-          "चाय बागान श्रमिकों को ₹600 दैनिक मजदूरी",
-          "CAA और NRC का विरोध",
-          "बेरोजगारी भत्ता ₹5000/माह",
-          "महिला सशक्तिकरण और शिक्षा में निवेश",
-          "किसानों के लिए MSP गारंटी",
+          "₹600 daily wage for tea garden workers",
+          "Opposition to CAA and NRC",
+          "Unemployment allowance of ₹5,000/month",
+          "Investment in women's empowerment and education",
+          "MSP guarantee for farmers",
         ],
         schemes: [
-          "5 गारंटी – रोजगार, शिक्षा, स्वास्थ्य, महिला, किसान",
-          "युवा रोजगार मिशन",
-          "फ्री बिजली 200 यूनिट",
+          "5 Guarantees – jobs, education, health, women, farmers",
+          "Youth Employment Mission",
+          "Free 200 units of electricity",
         ],
       },
       {
-        name: "असम गण परिषद (AGP)",
+        name: "Asom Gana Parishad (AGP)",
         symbol: "🐘",
         alliance: "NDA",
-        keyLeaders: ["अतुल बोरा", "फणीभूषण चौधरी"],
+        keyLeaders: ["Atul Bora", "Phani Bhushan Choudhury"],
         manifesto: [
-          "असमीया जाति-मात अस्मिता की रक्षा",
-          "क्लॉज 6 लागू करने की मांग",
-          "स्थानीय लोगों को रोजगार में प्राथमिकता",
+          "Protection of Assamese identity and culture",
+          "Implementation of Clause 6 of Assam Accord",
+          "Priority for locals in employment",
         ],
         schemes: [
-          "स्थानीय उद्योग विकास योजना",
-          "असमीया भाषा संरक्षण कोष",
+          "Local industry development scheme",
+          "Assamese language preservation fund",
         ],
       },
       {
-        name: "ऑल इंडिया यूनाइटेड डेमोक्रेटिक फ्रंट (AIUDF)",
+        name: "All India United Democratic Front (AIUDF)",
         symbol: "🔒",
         alliance: "INDIA Alliance",
-        keyLeaders: ["बदरुद्दीन अजमल"],
+        keyLeaders: ["Badruddin Ajmal"],
         manifesto: [
-          "अल्पसंख्यक अधिकारों की रक्षा",
-          "समान शिक्षा और स्वास्थ्य सुविधाएं",
-          "गरीबी उन्मूलन कार्यक्रम",
+          "Protection of minority rights",
+          "Equal access to education and healthcare",
+          "Poverty eradication programmes",
         ],
         schemes: [
-          "अल्पसंख्यक कल्याण कोष",
-          "शिक्षा छात्रवृत्ति योजना",
+          "Minority welfare fund",
+          "Education scholarship scheme",
         ],
       },
     ],
-    keyIssues: ["बाढ़ और जल प्रबंधन", "NRC और नागरिकता", "चाय बागान श्रमिकों की मजदूरी", "बेरोजगारी", "अवैध घुसपैठ", "असमीया अस्मिता"],
+    keyIssues: [
+      "Floods and water management",
+      "NRC and citizenship",
+      "Tea garden workers' wages",
+      "Unemployment",
+      "Illegal immigration",
+      "Assamese identity",
+    ],
     schedule: [PHASE_1_EARLY],
   },
   kerala: {
     stateName: "Kerala",
-    dateInfo: "9 अप्रैल 2026",
+    dateInfo: "9 April 2026",
     totalSeats: 140,
-    totalVoters: "~2.7 करोड़",
-    currentRuling: "LDF – CPM (पिनराई विजयन)",
-    overview: "केरल में 140 सीटों पर मतदान होगा। LDF (वामपंथी) और UDF (कांग्रेस गठबंधन) के बीच पारंपरिक मुकाबला है। BJP भी यहां अपनी उपस्थिति बढ़ाने की कोशिश में है।",
+    totalVoters: "~27 million",
+    currentRuling: "LDF – CPI(M) (Pinarayi Vijayan)",
+    overview:
+      "Kerala will vote across 140 constituencies. The traditional contest is between the LDF (Left) and the UDF (Congress-led alliance). The BJP is also working to expand its footprint in the state.",
     parties: [
       {
-        name: "CPI(M) – वामपंथी लोकतांत्रिक मोर्चा (LDF)",
+        name: "CPI(M) – Left Democratic Front (LDF)",
         symbol: "⚒️",
         alliance: "LDF",
-        keyLeaders: ["पिनराई विजयन", "एम.बी. राजेश"],
+        keyLeaders: ["Pinarayi Vijayan", "M. B. Rajesh"],
         manifesto: [
-          "केरल को ज्ञान आधारित अर्थव्यवस्था बनाना",
-          "K-Rail (सिल्वर लाइन) परियोजना",
-          "सभी के लिए आवास – LIFE Mission विस्तार",
-          "सार्वजनिक स्वास्थ्य प्रणाली मजबूत करना",
-          "IT और स्टार्टअप इकोसिस्टम विकास",
+          "Build Kerala into a knowledge economy",
+          "K-Rail (Silver Line) project",
+          "Housing for all – LIFE Mission expansion",
+          "Strengthen the public health system",
+          "Develop IT and startup ecosystem",
         ],
         schemes: [
-          "LIFE Mission – गरीबों को पक्का घर",
-          "कुदुम्बश्री – महिला सशक्तिकरण",
-          "K-DISC – नवाचार परिषद",
-          "सामाजिक सुरक्षा पेंशन ₹1600/माह",
+          "LIFE Mission – pucca housing for the poor",
+          "Kudumbashree – women's empowerment",
+          "K-DISC – innovation council",
+          "Social security pension of ₹1,600/month",
         ],
       },
       {
-        name: "भारतीय राष्ट्रीय कांग्रेस (UDF)",
+        name: "Indian National Congress (UDF)",
         symbol: "✋",
         alliance: "UDF",
-        keyLeaders: ["वी.डी. सतीशन", "के. सुधाकरन", "ऊमन चांडी"],
+        keyLeaders: ["V. D. Satheesan", "K. Sudhakaran", "Oommen Chandy"],
         manifesto: [
-          "K-Rail परियोजना रद्द करना",
-          "भ्रष्टाचार मुक्त शासन",
-          "NREGA मजदूरी बढ़ाना",
-          "कृषि और मत्स्य पालन में निवेश",
-          "युवा रोजगार पैकेज",
+          "Cancel the K-Rail project",
+          "Corruption-free governance",
+          "Increase NREGA wages",
+          "Investment in agriculture and fisheries",
+          "Youth employment package",
         ],
         schemes: [
-          "युवा स्वरोजगार मिशन",
-          "किसान ऋण माफी",
-          "महिला उद्यमी कोष",
+          "Youth self-employment mission",
+          "Farmer loan waiver",
+          "Women entrepreneurs fund",
         ],
       },
       {
-        name: "भारतीय जनता पार्टी (BJP)",
+        name: "Bharatiya Janata Party (BJP)",
         symbol: "🪷",
         alliance: "NDA",
-        keyLeaders: ["के. सुरेंद्रन", "मेट्रोमैन श्रीधरन"],
+        keyLeaders: ["K. Surendran", "Metroman E. Sreedharan"],
         manifesto: [
-          "केरल में विकास का BJP मॉडल",
-          "Love Jihad विरोधी कानून",
-          "मंदिर प्रशासन में सुधार",
-          "पर्यटन और IT निवेश बढ़ाना",
+          "BJP's development model for Kerala",
+          "Anti-Love Jihad legislation",
+          "Reforms in temple administration",
+          "Boost tourism and IT investment",
         ],
         schemes: [
-          "वन नेशन वन राशन कार्ड",
-          "PM आवास योजना विस्तार",
-          "स्टार्टअप इंडिया केरल",
+          "One Nation One Ration Card",
+          "PM Awas Yojana expansion",
+          "Startup India Kerala",
         ],
       },
     ],
-    keyIssues: ["K-Rail परियोजना", "बेरोजगारी", "भ्रष्टाचार", "गल्फ प्रवासी संकट", "बाढ़ प्रबंधन", "स्वास्थ्य सेवाएं"],
+    keyIssues: [
+      "K-Rail project",
+      "Unemployment",
+      "Corruption",
+      "Gulf migrant crisis",
+      "Flood management",
+      "Healthcare services",
+    ],
     schedule: [PHASE_1_EARLY],
   },
   puducherry: {
     stateName: "Puducherry",
-    dateInfo: "9 अप्रैल 2026",
+    dateInfo: "9 April 2026",
     totalSeats: 30,
-    totalVoters: "~10.5 लाख",
-    currentRuling: "NR Congress-BJP (एन. रंगासामी)",
-    overview: "पुडुचेरी में 30 सीटों पर मतदान होगा। NR Congress-BJP गठबंधन वर्तमान में सत्ता में है। कांग्रेस और DMK गठबंधन विपक्ष में है।",
+    totalVoters: "~1.05 million",
+    currentRuling: "NR Congress–BJP (N. Rangasamy)",
+    overview:
+      "Puducherry will vote across 30 constituencies. The NR Congress–BJP alliance is currently in power. The Congress and DMK alliance is the principal opposition.",
     parties: [
       {
         name: "NR Congress",
         symbol: "🏠",
         alliance: "NDA",
-        keyLeaders: ["एन. रंगासामी"],
+        keyLeaders: ["N. Rangasamy"],
         manifesto: [
-          "पुडुचेरी को पूर्ण राज्य का दर्जा दिलाना",
-          "रोजगार सृजन और उद्योग विकास",
-          "पर्यटन को बढ़ावा देना",
-          "मछुआरों के लिए कल्याण योजनाएं",
+          "Full statehood for Puducherry",
+          "Job creation and industrial growth",
+          "Tourism promotion",
+          "Welfare schemes for fishermen",
         ],
         schemes: [
-          "मुफ्त चावल योजना",
-          "मछुआरा कल्याण कोष",
-          "शिक्षा छात्रवृत्ति",
+          "Free rice scheme",
+          "Fishermen welfare fund",
+          "Education scholarships",
         ],
       },
       {
-        name: "भारतीय राष्ट्रीय कांग्रेस (INC)",
+        name: "Indian National Congress (INC)",
         symbol: "✋",
-        alliance: "INDIA Alliance / DMK गठबंधन",
-        keyLeaders: ["वी. नारायणसामी"],
+        alliance: "INDIA Alliance / DMK alliance",
+        keyLeaders: ["V. Narayanasamy"],
         manifesto: [
-          "पूर्ण राज्य का दर्जा",
-          "केंद्र शासित प्रदेश के अधिकारों की रक्षा",
-          "बेरोजगारी भत्ता",
-          "महिला सशक्तिकरण",
+          "Full statehood",
+          "Protect the rights of the Union Territory",
+          "Unemployment allowance",
+          "Women's empowerment",
         ],
         schemes: [
-          "5 गारंटी योजना",
-          "महिला सम्मान निधि",
+          "5 Guarantees scheme",
+          "Mahila Samman Nidhi",
         ],
       },
       {
         name: "DMK",
         symbol: "☀️",
         alliance: "INDIA Alliance",
-        keyLeaders: ["आर. श्रीधर"],
+        keyLeaders: ["R. Siva"],
         manifesto: [
-          "सामाजिक न्याय और समानता",
-          "शिक्षा और स्वास्थ्य में सुधार",
-          "तमिल भाषा और संस्कृति की रक्षा",
+          "Social justice and equality",
+          "Improvements in education and health",
+          "Protection of Tamil language and culture",
         ],
         schemes: [
-          "कलैगनार बीमा योजना",
-          "मुफ्त बस पास",
+          "Kalaignar insurance scheme",
+          "Free bus passes",
         ],
       },
     ],
-    keyIssues: ["पूर्ण राज्य का दर्जा", "बेरोजगारी", "LG vs CM अधिकार विवाद", "मछुआरों की समस्याएं", "पर्यटन विकास"],
+    keyIssues: [
+      "Full statehood",
+      "Unemployment",
+      "LG vs CM powers dispute",
+      "Fishermen's issues",
+      "Tourism development",
+    ],
     schedule: [PHASE_1_EARLY],
   },
   "tamil-nadu": {
     stateName: "Tamil Nadu",
-    dateInfo: "23 अप्रैल 2026",
+    dateInfo: "23 April 2026",
     totalSeats: 234,
-    totalVoters: "~6.2 करोड़",
-    currentRuling: "DMK (एम.के. स्टालिन)",
-    overview: "तमिलनाडु में 234 सीटों पर मतदान होगा। DMK वर्तमान में सत्ता में है। AIADMK और BJP गठबंधन मुख्य विपक्ष है। द्रविड़ राजनीति यहां का प्रमुख कारक है।",
+    totalVoters: "~62 million",
+    currentRuling: "DMK (M. K. Stalin)",
+    overview:
+      "Tamil Nadu will vote across 234 constituencies. The DMK is currently in power. The AIADMK and BJP alliance is the main opposition. Dravidian politics remains the dominant factor in the state.",
     parties: [
       {
-        name: "DMK (द्रविड़ मुनेत्र कड़गम)",
+        name: "DMK (Dravida Munnetra Kazhagam)",
         symbol: "☀️",
         alliance: "INDIA Alliance",
-        keyLeaders: ["एम.के. स्टालिन", "उदयनिधि स्टालिन"],
+        keyLeaders: ["M. K. Stalin", "Udhayanidhi Stalin"],
         manifesto: [
-          "तमिलनाडु को $1 ट्रिलियन अर्थव्यवस्था बनाना",
-          "सामाजिक न्याय और आरक्षण की रक्षा",
-          "NEET परीक्षा से छूट",
-          "महिलाओं के लिए 1000 रुपये मासिक सहायता",
-          "EV और ग्रीन एनर्जी हब बनाना",
+          "Make Tamil Nadu a $1 trillion economy",
+          "Protect social justice and reservations",
+          "Exemption from NEET examination",
+          "₹1,000 monthly assistance for women",
+          "Build an EV and green energy hub",
         ],
         schemes: [
-          "कलैगनार मगलिर उरिमै थोगाई – ₹1000/माह महिलाओं को",
-          "मुख्यमंत्री नाश्ता योजना – सरकारी स्कूलों में मुफ्त नाश्ता",
-          "நம் कुडुम्बम் நம் உரிமை – परिवार कार्ड",
-          "इलम तमिलगम – युवा कौशल विकास",
+          "Kalaignar Magalir Urimai Thogai – ₹1,000/month for women",
+          "Chief Minister's Breakfast Scheme – free breakfast in government schools",
+          "Naam Kudumbam Naam Urimai – family card",
+          "Ilam Tamilagam – youth skill development",
         ],
       },
       {
         name: "AIADMK",
         symbol: "🍃",
-        alliance: "NDA (संभावित)",
-        keyLeaders: ["एडप्पादी के. पलानीस्वामी"],
+        alliance: "NDA (likely)",
+        keyLeaders: ["Edappadi K. Palaniswami"],
         manifesto: [
-          "अम्मा ब्रांड योजनाएं पुनः शुरू करना",
-          "कानून-व्यवस्था सुधार",
-          "किसानों के लिए मुफ्त बिजली जारी रखना",
-          "शिक्षा और स्वास्थ्य में सुधार",
+          "Restart Amma brand schemes",
+          "Improve law and order",
+          "Continue free electricity for farmers",
+          "Improve education and healthcare",
         ],
         schemes: [
-          "अम्मा कैंटीन – सस्ता भोजन",
-          "अम्मा फार्मेसी – सस्ती दवाइयां",
-          "कृषि ऋण माफी",
+          "Amma Canteen – affordable meals",
+          "Amma Pharmacy – cheap medicines",
+          "Farm loan waiver",
         ],
       },
       {
-        name: "भारतीय जनता पार्टी (BJP)",
+        name: "Bharatiya Janata Party (BJP)",
         symbol: "🪷",
         alliance: "NDA",
-        keyLeaders: ["के. अन्नामलई"],
+        keyLeaders: ["K. Annamalai"],
         manifesto: [
-          "तमिलनाडु में विकास का BJP मॉडल",
-          "भ्रष्टाचार मुक्त शासन",
-          "हिंदू मंदिरों को सरकारी नियंत्रण से मुक्त करना",
-          "रक्षा और IT उद्योग विकास",
+          "BJP's development model for Tamil Nadu",
+          "Corruption-free governance",
+          "Free Hindu temples from government control",
+          "Defence and IT industry growth",
         ],
         schemes: [
-          "PM आवास योजना",
-          "आयुष्मान भारत",
-          "स्टार्टअप इंडिया",
+          "PM Awas Yojana",
+          "Ayushman Bharat",
+          "Startup India",
         ],
       },
       {
-        name: "पट्टालि मक्कल कट्चि (PMK)",
+        name: "Pattali Makkal Katchi (PMK)",
         symbol: "🥭",
         alliance: "NDA",
-        keyLeaders: ["अनबुमणि रामदास"],
+        keyLeaders: ["Anbumani Ramadoss"],
         manifesto: [
-          "वन्नियार समुदाय के लिए 20% आरक्षण",
-          "शराबबंदी",
-          "कृषि विकास",
+          "20% reservation for Vanniyar community",
+          "Prohibition of liquor",
+          "Agricultural development",
         ],
         schemes: [
-          "समुदाय कल्याण कोष",
-          "शराब मुक्त तमिलनाडु अभियान",
+          "Community welfare fund",
+          "Liquor-free Tamil Nadu campaign",
         ],
       },
     ],
-    keyIssues: ["NEET परीक्षा", "सामाजिक न्याय / आरक्षण", "द्रविड़ अस्मिता", "बेरोजगारी", "जल संकट", "मंदिर प्रशासन", "शिक्षा नीति"],
+    keyIssues: [
+      "NEET examination",
+      "Social justice / reservations",
+      "Dravidian identity",
+      "Unemployment",
+      "Water crisis",
+      "Temple administration",
+      "Education policy",
+    ],
     schedule: [PHASE_LATE],
   },
   "west-bengal": {
     stateName: "West Bengal",
-    dateInfo: "23 और 29 अप्रैल 2026 (2 चरण)",
+    dateInfo: "23 & 29 April 2026 (2 phases)",
     totalSeats: 294,
-    totalVoters: "~7.3 करोड़",
-    currentRuling: "TMC (ममता बनर्जी)",
-    overview: "पश्चिम बंगाल में 294 सीटों पर 2 चरणों में मतदान होगा। TMC वर्तमान में सत्ता में है और ममता बनर्जी मुख्यमंत्री हैं। BJP मुख्य विपक्ष है और कांग्रेस-वाम गठबंधन भी मैदान में है।",
+    totalVoters: "~73 million",
+    currentRuling: "TMC (Mamata Banerjee)",
+    overview:
+      "West Bengal will vote across 294 constituencies in two phases. The TMC is currently in power with Mamata Banerjee as Chief Minister. The BJP is the main opposition, while the Congress–Left alliance is also contesting.",
     parties: [
       {
-        name: "तृणमूल कांग्रेस (TMC)",
+        name: "Trinamool Congress (TMC)",
         symbol: "🌸",
         alliance: "INDIA Alliance",
-        keyLeaders: ["ममता बनर्जी", "अभिषेक बनर्जी"],
+        keyLeaders: ["Mamata Banerjee", "Abhishek Banerjee"],
         manifesto: [
-          "बंगाल की अस्मिता और संस्कृति की रक्षा",
-          "महिला सशक्तिकरण – लक्ष्मीर भंडार विस्तार",
-          "युवा रोजगार और कौशल विकास",
-          "किसानों के लिए MSP गारंटी",
-          "अल्पसंख्यक कल्याण कार्यक्रम",
+          "Protect Bengal's identity and culture",
+          "Women's empowerment – Lakshmir Bhandar expansion",
+          "Youth employment and skill development",
+          "MSP guarantee for farmers",
+          "Minority welfare programmes",
         ],
         schemes: [
-          "लक्ष्मीर भंडार – ₹1000/माह महिलाओं को",
-          "कन्याश्री – बालिका शिक्षा प्रोत्साहन",
-          "स्वास्थ्य साथी – मुफ्त स्वास्थ्य बीमा ₹5 लाख",
-          "सबूज साथी – छात्रों को साइकिल",
-          "रूपश्री – विवाह सहायता",
+          "Lakshmir Bhandar – ₹1,000/month for women",
+          "Kanyashree – incentive for girls' education",
+          "Swasthya Sathi – free health insurance up to ₹5 lakh",
+          "Sabuj Sathi – bicycles for students",
+          "Rupashree – marriage assistance",
         ],
       },
       {
-        name: "भारतीय जनता पार्टी (BJP)",
+        name: "Bharatiya Janata Party (BJP)",
         symbol: "🪷",
         alliance: "NDA",
-        keyLeaders: ["सुकांत मजूमदार", "दिलीप घोष"],
+        keyLeaders: ["Sukanta Majumdar", "Dilip Ghosh"],
         manifesto: [
-          "बंगाल में भ्रष्टाचार मुक्त शासन",
-          "कानून-व्यवस्था में सुधार",
-          "उद्योग और निवेश आकर्षित करना",
-          "शिक्षा भर्ती घोटाला जांच",
-          "CAA लागू करना",
+          "Corruption-free governance in Bengal",
+          "Improve law and order",
+          "Attract industry and investment",
+          "Probe the teacher recruitment scam",
+          "Implement the CAA",
         ],
         schemes: [
-          "PM किसान सम्मान निधि",
-          "आयुष्मान भारत",
-          "PM आवास योजना",
-          "उज्ज्वला योजना",
+          "PM Kisan Samman Nidhi",
+          "Ayushman Bharat",
+          "PM Awas Yojana",
+          "Ujjwala Yojana",
         ],
       },
       {
-        name: "CPI(M) – वामपंथी मोर्चा",
+        name: "CPI(M) – Left Front",
         symbol: "⚒️",
-        alliance: "वाम-कांग्रेस गठबंधन",
-        keyLeaders: ["मोहम्मद सलीम", "सूर्यकांत मिश्र"],
+        alliance: "Left–Congress alliance",
+        keyLeaders: ["Mohammed Salim", "Suryakanta Mishra"],
         manifesto: [
-          "भूमि सुधार और किसान अधिकार",
-          "श्रमिक अधिकारों की रक्षा",
-          "शिक्षा और स्वास्थ्य का सार्वजनिक विस्तार",
-          "सांप्रदायिकता का विरोध",
+          "Land reforms and farmer rights",
+          "Protection of workers' rights",
+          "Public expansion of education and health",
+          "Opposition to communalism",
         ],
         schemes: [
-          "ऑपरेशन बर्गा – भूमि वितरण",
-          "पंचायती राज सुदृढ़ीकरण",
+          "Operation Barga – land redistribution",
+          "Strengthening of Panchayati Raj",
         ],
       },
       {
-        name: "भारतीय राष्ट्रीय कांग्रेस (INC)",
+        name: "Indian National Congress (INC)",
         symbol: "✋",
-        alliance: "वाम-कांग्रेस गठबंधन",
-        keyLeaders: ["अधीर रंजन चौधरी"],
+        alliance: "Left–Congress alliance",
+        keyLeaders: ["Adhir Ranjan Chowdhury"],
         manifesto: [
-          "बंगाल में लोकतंत्र बहाली",
-          "बेरोजगारी भत्ता",
-          "महिला सुरक्षा",
-          "MNREGA मजदूरी बढ़ाना",
+          "Restoration of democracy in Bengal",
+          "Unemployment allowance",
+          "Women's safety",
+          "Increase MGNREGA wages",
         ],
         schemes: [
-          "5 गारंटी योजना",
-          "महिला सम्मान निधि",
+          "5 Guarantees scheme",
+          "Mahila Samman Nidhi",
         ],
       },
     ],
-    keyIssues: ["शिक्षा भर्ती घोटाला", "कानून-व्यवस्था", "बेरोजगारी", "CAA/NRC", "महिला सुरक्षा", "भ्रष्टाचार", "बंगाल की अस्मिता"],
+    keyIssues: [
+      "Teacher recruitment scam",
+      "Law and order",
+      "Unemployment",
+      "CAA / NRC",
+      "Women's safety",
+      "Corruption",
+      "Bengali identity",
+    ],
     schedule: [
       {
-        label: "चरण 1 (152 ACs)",
-        gazette: "30 मार्च 2026 (सोमवार)",
-        lastNomination: "6 अप्रैल 2026 (सोमवार)",
-        scrutiny: "7 अप्रैल 2026 (मंगलवार)",
-        withdrawal: "9 अप्रैल 2026 (गुरुवार)",
-        poll: "23 अप्रैल 2026 (गुरुवार)",
-        counting: "4 मई 2026 (सोमवार)",
-        completion: "6 मई 2026 (बुधवार)",
+        label: "Phase 1 (152 ACs)",
+        gazette: "30 March 2026 (Monday)",
+        lastNomination: "6 April 2026 (Monday)",
+        scrutiny: "7 April 2026 (Tuesday)",
+        withdrawal: "9 April 2026 (Thursday)",
+        poll: "23 April 2026 (Thursday)",
+        counting: "4 May 2026 (Monday)",
+        completion: "6 May 2026 (Wednesday)",
       },
       {
-        label: "चरण 2 (142 ACs)",
-        gazette: "2 अप्रैल 2026 (गुरुवार)",
-        lastNomination: "9 अप्रैल 2026 (गुरुवार)",
-        scrutiny: "10 अप्रैल 2026 (शुक्रवार)",
-        withdrawal: "13 अप्रैल 2026 (सोमवार)",
-        poll: "29 अप्रैल 2026 (बुधवार)",
-        counting: "4 मई 2026 (सोमवार)",
-        completion: "6 मई 2026 (बुधवार)",
+        label: "Phase 2 (142 ACs)",
+        gazette: "2 April 2026 (Thursday)",
+        lastNomination: "9 April 2026 (Thursday)",
+        scrutiny: "10 April 2026 (Friday)",
+        withdrawal: "13 April 2026 (Monday)",
+        poll: "29 April 2026 (Wednesday)",
+        counting: "4 May 2026 (Monday)",
+        completion: "6 May 2026 (Wednesday)",
       },
     ],
   },
@@ -460,8 +501,8 @@ const UpcomingElection = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-2xl font-bold mb-4">चुनाव डेटा उपलब्ध नहीं</h1>
-          <Link to="/" className="text-primary underline">होम पेज पर जाएं</Link>
+          <h1 className="text-2xl font-bold mb-4">Election data not available</h1>
+          <Link to="/" className="text-primary underline">Go to Home</Link>
         </div>
         <FooterSection />
       </div>
@@ -474,7 +515,7 @@ const UpcomingElection = () => {
       <main className="container mx-auto px-4 py-10">
         {/* Back */}
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="h-4 w-4" /> होम पेज पर वापस
+          <ArrowLeft className="h-4 w-4" /> Back to Home
         </Link>
 
         {/* Header */}
@@ -483,7 +524,7 @@ const UpcomingElection = () => {
             <Calendar className="h-3 w-3 mr-1" /> {data.dateInfo}
           </Badge>
           <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
-            {data.stateName} विधानसभा चुनाव 2026
+            {data.stateName} Assembly Election 2026
           </h1>
           <p className="text-muted-foreground max-w-3xl">{data.overview}</p>
         </div>
@@ -491,10 +532,10 @@ const UpcomingElection = () => {
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           {[
-            { icon: MapPin, label: "कुल सीटें", value: data.totalSeats },
-            { icon: Users, label: "कुल मतदाता", value: data.totalVoters },
-            { icon: Vote, label: "वर्तमान सत्ता", value: data.currentRuling },
-            { icon: Calendar, label: "मतदान तिथि", value: data.dateInfo },
+            { icon: MapPin, label: "Total Seats", value: data.totalSeats },
+            { icon: Users, label: "Total Voters", value: data.totalVoters },
+            { icon: Vote, label: "Current Government", value: data.currentRuling },
+            { icon: Calendar, label: "Polling Date", value: data.dateInfo },
           ].map((s) => (
             <Card key={s.label} className="border-border">
               <CardContent className="p-4 flex items-start gap-3">
@@ -512,7 +553,7 @@ const UpcomingElection = () => {
         {data.schedule && data.schedule.length > 0 && (
           <div className="mb-10">
             <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> ECI आधिकारिक चुनाव कार्यक्रम
+              <Calendar className="h-5 w-5 text-primary" /> Official ECI Election Schedule
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
               {data.schedule.map((p) => (
@@ -523,13 +564,13 @@ const UpcomingElection = () => {
                   <CardContent className="pt-0">
                     <dl className="text-sm divide-y divide-border">
                       {[
-                        ["गजट अधिसूचना जारी", p.gazette],
-                        ["नामांकन की अंतिम तिथि", p.lastNomination],
-                        ["नामांकन की जांच", p.scrutiny],
-                        ["नाम वापसी की अंतिम तिथि", p.withdrawal],
-                        ["मतदान तिथि", p.poll],
-                        ["मतगणना", p.counting],
-                        ["चुनाव पूर्ण होने की तिथि", p.completion],
+                        ["Gazette Notification", p.gazette],
+                        ["Last Date of Nominations", p.lastNomination],
+                        ["Scrutiny of Nominations", p.scrutiny],
+                        ["Last Date of Withdrawal", p.withdrawal],
+                        ["Date of Poll", p.poll],
+                        ["Date of Counting", p.counting],
+                        ["Election to be Completed By", p.completion],
                       ].map(([k, v]) => (
                         <div key={k} className="flex justify-between gap-4 py-2">
                           <dt className="text-muted-foreground">{k}</dt>
@@ -542,7 +583,7 @@ const UpcomingElection = () => {
               ))}
             </div>
             <p className="text-xs text-muted-foreground mt-3">
-              स्रोत: भारत निर्वाचन आयोग (ECI) आधिकारिक अधिसूचना
+              Source: Election Commission of India (ECI) official notification
             </p>
           </div>
         )}
@@ -550,7 +591,7 @@ const UpcomingElection = () => {
         {/* Key Issues */}
         <div className="mb-10">
           <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
-            <Target className="h-5 w-5 text-primary" /> प्रमुख चुनावी मुद्दे
+            <Target className="h-5 w-5 text-primary" /> Key Election Issues
           </h2>
           <div className="flex flex-wrap gap-2">
             {data.keyIssues.map((issue) => (
@@ -563,7 +604,7 @@ const UpcomingElection = () => {
 
         {/* Parties */}
         <h2 className="text-xl font-display font-bold mb-6 flex items-center gap-2">
-          <Users className="h-5 w-5 text-primary" /> प्रमुख राजनीतिक दल
+          <Users className="h-5 w-5 text-primary" /> Major Political Parties
         </h2>
         <div className="space-y-6 mb-10">
           {data.parties.map((party) => (
@@ -579,13 +620,13 @@ const UpcomingElection = () => {
                   </div>
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  प्रमुख नेता: {party.keyLeaders.join(", ")}
+                  Key Leaders: {party.keyLeaders.join(", ")}
                 </p>
               </CardHeader>
               <CardContent className="pt-0 space-y-4">
                 <div>
                   <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-primary" /> घोषणापत्र (Manifesto) के प्रमुख बिंदु
+                    <FileText className="h-4 w-4 text-primary" /> Manifesto Highlights
                   </h4>
                   <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                     {party.manifesto.map((point, i) => (
@@ -595,7 +636,7 @@ const UpcomingElection = () => {
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
-                    <Target className="h-4 w-4 text-primary" /> प्रमुख योजनाएं (Schemes)
+                    <Target className="h-4 w-4 text-primary" /> Key Schemes
                   </h4>
                   <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                     {party.schemes.map((scheme, i) => (
@@ -609,7 +650,18 @@ const UpcomingElection = () => {
         </div>
 
         <div className="bg-muted/50 rounded-xl p-6 text-center text-sm text-muted-foreground">
-          <p>⚠️ यह डेटा शैक्षिक उद्देश्यों के लिए है। आधिकारिक जानकारी के लिए <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" className="text-primary underline">भारत निर्वाचन आयोग</a> की वेबसाइट देखें।</p>
+          <p>
+            ⚠️ This data is for educational purposes. For official information, visit the{" "}
+            <a
+              href="https://eci.gov.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline"
+            >
+              Election Commission of India
+            </a>{" "}
+            website.
+          </p>
         </div>
       </main>
       <FooterSection />
