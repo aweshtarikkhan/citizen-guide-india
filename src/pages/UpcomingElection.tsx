@@ -512,142 +512,179 @@ const UpcomingElection = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container mx-auto px-4 py-10">
+      <main className="container mx-auto px-4 py-10 max-w-6xl">
         {/* Back */}
         <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="h-4 w-4" /> Back to Home
         </Link>
 
-        {/* Header */}
-        <div className="mb-8">
-          <Badge variant="outline" className="mb-3">
+        {/* Header — centered hero */}
+        <div className="mb-12 text-center">
+          <Badge variant="outline" className="mb-4 mx-auto">
             <Calendar className="h-3 w-3 mr-1" /> {data.dateInfo}
           </Badge>
-          <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
+          <h1 className="text-3xl md:text-5xl font-display font-bold text-foreground mb-4 tracking-tight">
             {data.stateName} Assembly Election 2026
           </h1>
-          <p className="text-muted-foreground max-w-3xl">{data.overview}</p>
+          <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">{data.overview}</p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14">
           {[
             { icon: MapPin, label: "Total Seats", value: data.totalSeats },
             { icon: Users, label: "Total Voters", value: data.totalVoters },
             { icon: Vote, label: "Current Government", value: data.currentRuling },
             { icon: Calendar, label: "Polling Date", value: data.dateInfo },
           ].map((s) => (
-            <Card key={s.label} className="border-border">
-              <CardContent className="p-4 flex items-start gap-3">
-                <s.icon className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-                <div>
-                  <p className="text-xs text-muted-foreground">{s.label}</p>
-                  <p className="font-semibold text-foreground text-sm">{s.value}</p>
-                </div>
+            <Card key={s.label} className="border-border text-center">
+              <CardContent className="p-5 flex flex-col items-center gap-2">
+                <s.icon className="h-6 w-6 text-primary" />
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">{s.label}</p>
+                <p className="font-semibold text-foreground text-sm leading-snug">{s.value}</p>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* ECI Schedule */}
+        {/* ECI Schedule — vertical tree timeline */}
         {data.schedule && data.schedule.length > 0 && (
-          <div className="mb-10">
-            <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" /> Official ECI Election Schedule
-            </h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              {data.schedule.map((p) => (
-                <Card key={p.label} className="border-border">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base">{p.label}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <dl className="text-sm divide-y divide-border">
-                      {[
-                        ["Gazette Notification", p.gazette],
-                        ["Last Date of Nominations", p.lastNomination],
-                        ["Scrutiny of Nominations", p.scrutiny],
-                        ["Last Date of Withdrawal", p.withdrawal],
-                        ["Date of Poll", p.poll],
-                        ["Date of Counting", p.counting],
-                        ["Election to be Completed By", p.completion],
-                      ].map(([k, v]) => (
-                        <div key={k} className="flex justify-between gap-4 py-2">
-                          <dt className="text-muted-foreground">{k}</dt>
-                          <dd className="font-medium text-foreground text-right">{v}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </CardContent>
-                </Card>
-              ))}
+          <section className="mb-16">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">
+                Official ECI Election Schedule
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Key dates from the Election Commission of India
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground mt-3">
+
+            <div className={`grid gap-8 ${data.schedule.length > 1 ? "md:grid-cols-2" : "max-w-2xl mx-auto"}`}>
+              {data.schedule.map((p) => {
+                const steps = [
+                  { label: "Gazette Notification", value: p.gazette },
+                  { label: "Last Date of Nominations", value: p.lastNomination },
+                  { label: "Scrutiny of Nominations", value: p.scrutiny },
+                  { label: "Last Date of Withdrawal", value: p.withdrawal },
+                  { label: "Date of Poll", value: p.poll, highlight: true },
+                  { label: "Date of Counting", value: p.counting, highlight: true },
+                  { label: "Election to be Completed By", value: p.completion },
+                ];
+                return (
+                  <Card key={p.label} className="border-border shadow-card">
+                    <CardHeader className="text-center border-b border-border pb-4">
+                      <Badge variant="outline" className="mx-auto mb-2 w-fit">
+                        <Calendar className="h-3 w-3 mr-1" /> Schedule
+                      </Badge>
+                      <CardTitle className="text-lg">{p.label}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-8 pb-6">
+                      <ol className="relative border-l-2 border-border ml-4 space-y-6">
+                        {steps.map((step, i) => (
+                          <li key={step.label} className="ml-6 relative">
+                            <span
+                              className={`absolute -left-[34px] flex items-center justify-center w-7 h-7 rounded-full ring-4 ring-background text-xs font-semibold ${
+                                step.highlight
+                                  ? "bg-primary text-primary-foreground"
+                                  : "bg-muted text-foreground border border-border"
+                              }`}
+                            >
+                              {i + 1}
+                            </span>
+                            <p className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">
+                              {step.label}
+                            </p>
+                            <p
+                              className={`font-semibold ${
+                                step.highlight ? "text-primary text-base" : "text-foreground text-sm"
+                              }`}
+                            >
+                              {step.value}
+                            </p>
+                          </li>
+                        ))}
+                      </ol>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground mt-6 text-center">
               Source: Election Commission of India (ECI) official notification
             </p>
-          </div>
+          </section>
         )}
 
         {/* Key Issues */}
-        <div className="mb-10">
-          <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
-            <Target className="h-5 w-5 text-primary" /> Key Election Issues
-          </h2>
-          <div className="flex flex-wrap gap-2">
+        <section className="mb-16 text-center">
+          <div className="mb-6">
+            <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Key Election Issues</h2>
+            <p className="text-sm text-muted-foreground">Topics shaping the voter conversation</p>
+          </div>
+          <div className="flex flex-wrap gap-2 justify-center max-w-3xl mx-auto">
             {data.keyIssues.map((issue) => (
-              <Badge key={issue} variant="secondary" className="text-sm py-1.5 px-3">
+              <Badge key={issue} variant="secondary" className="text-sm py-1.5 px-4">
                 {issue}
               </Badge>
             ))}
           </div>
-        </div>
+        </section>
 
         {/* Parties */}
-        <h2 className="text-xl font-display font-bold mb-6 flex items-center gap-2">
-          <Users className="h-5 w-5 text-primary" /> Major Political Parties
-        </h2>
-        <div className="space-y-6 mb-10">
-          {data.parties.map((party) => (
-            <Card key={party.name} className="border-border overflow-hidden">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-3 text-lg">
-                  <span className="text-2xl">{party.symbol}</span>
+        <section className="mb-12">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">Major Political Parties</h2>
+            <p className="text-sm text-muted-foreground">Manifestos, leadership and flagship schemes</p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {data.parties.map((party) => (
+              <Card key={party.name} className="border-border overflow-hidden flex flex-col shadow-card">
+                <CardHeader className="text-center bg-muted/40 border-b border-border pb-5">
+                  <div className="text-4xl mb-2">{party.symbol}</div>
+                  <CardTitle className="text-lg leading-tight">{party.name}</CardTitle>
+                  {party.alliance && (
+                    <Badge variant="outline" className="mx-auto mt-2 w-fit text-xs">
+                      {party.alliance}
+                    </Badge>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-3">
+                    <span className="font-medium text-foreground">Key Leaders:</span>{" "}
+                    {party.keyLeaders.join(", ")}
+                  </p>
+                </CardHeader>
+                <CardContent className="pt-5 space-y-5 flex-1">
                   <div>
-                    <span className="text-foreground">{party.name}</span>
-                    {party.alliance && (
-                      <Badge variant="outline" className="ml-2 text-xs">{party.alliance}</Badge>
-                    )}
+                    <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
+                      <FileText className="h-4 w-4 text-primary" /> Manifesto Highlights
+                    </h4>
+                    <ul className="space-y-1.5 text-sm text-muted-foreground">
+                      {party.manifesto.map((point, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span className="text-primary mt-1">•</span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Key Leaders: {party.keyLeaders.join(", ")}
-                </p>
-              </CardHeader>
-              <CardContent className="pt-0 space-y-4">
-                <div>
-                  <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-primary" /> Manifesto Highlights
-                  </h4>
-                  <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                    {party.manifesto.map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
-                    <Target className="h-4 w-4 text-primary" /> Key Schemes
-                  </h4>
-                  <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                    {party.schemes.map((scheme, i) => (
-                      <li key={i}>{scheme}</li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                  <div>
+                    <h4 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
+                      <Target className="h-4 w-4 text-primary" /> Key Schemes
+                    </h4>
+                    <ul className="space-y-1.5 text-sm text-muted-foreground">
+                      {party.schemes.map((scheme, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span className="text-primary mt-1">•</span>
+                          <span>{scheme}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
 
         <div className="bg-muted/50 rounded-xl p-6 text-center text-sm text-muted-foreground">
           <p>
