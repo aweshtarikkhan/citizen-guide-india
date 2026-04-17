@@ -508,6 +508,45 @@ const UpcomingElection = () => {
           ))}
         </div>
 
+        {/* ECI Schedule */}
+        {data.schedule && data.schedule.length > 0 && (
+          <div className="mb-10">
+            <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" /> ECI आधिकारिक चुनाव कार्यक्रम
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {data.schedule.map((p) => (
+                <Card key={p.label} className="border-border">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{p.label}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <dl className="text-sm divide-y divide-border">
+                      {[
+                        ["गजट अधिसूचना जारी", p.gazette],
+                        ["नामांकन की अंतिम तिथि", p.lastNomination],
+                        ["नामांकन की जांच", p.scrutiny],
+                        ["नाम वापसी की अंतिम तिथि", p.withdrawal],
+                        ["मतदान तिथि", p.poll],
+                        ["मतगणना", p.counting],
+                        ["चुनाव पूर्ण होने की तिथि", p.completion],
+                      ].map(([k, v]) => (
+                        <div key={k} className="flex justify-between gap-4 py-2">
+                          <dt className="text-muted-foreground">{k}</dt>
+                          <dd className="font-medium text-foreground text-right">{v}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground mt-3">
+              स्रोत: भारत निर्वाचन आयोग (ECI) आधिकारिक अधिसूचना
+            </p>
+          </div>
+        )}
+
         {/* Key Issues */}
         <div className="mb-10">
           <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
