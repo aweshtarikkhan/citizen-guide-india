@@ -90,6 +90,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/upcoming-election/:stateSlug" element={<UpcomingElection />} />
+            <Route path="/bye-elections-2026" element={<ByeElections />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/disclaimer" element={<Disclaimer />} />
