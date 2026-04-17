@@ -860,113 +860,59 @@ const UpcomingElection = () => {
           </Card>
         </section>
 
-        {/* CANDIDATES TEASER */}
-        <Card className="mb-16 border-border shadow-card overflow-hidden">
-          <div className="grid md:grid-cols-3 items-center">
-            <div className="p-6 md:p-8 md:col-span-2">
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Candidate Database
-                </p>
-              </div>
-              <h3 className="text-xl md:text-2xl font-display font-bold mb-2">
-                {candidateCount
-                  ? `${candidateCount.toLocaleString()}+ candidates indexed`
-                  : "Candidate profiles, criminal cases & assets"}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Search candidates contesting in {data.stateName} — view criminal
-                records, education, declared assets and liabilities.
-              </p>
-              <Link to="/constituency">
-                <Button variant="default" className="rounded-full">
-                  Browse Candidates <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
-              </Link>
-            </div>
-            <div className="hidden md:flex items-center justify-center bg-muted/40 h-full p-8">
-              <Users className="h-24 w-24 text-foreground/20" strokeWidth={1} />
-            </div>
-          </div>
-        </Card>
-
-        {/* ECI Schedule — vertical tree timeline */}
+        {/* Key Dates — Poll Day + Counting Day only */}
         {data.schedule && data.schedule.length > 0 && (
           <section className="mb-16">
-            <div className="text-center mb-10">
+            <div className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">
-                Official ECI Election Schedule
+                Key Election Dates
               </h2>
               <p className="text-sm text-muted-foreground">
-                Key dates from the Election Commission of India
+                As per Election Commission of India
               </p>
             </div>
 
             <div
-              className={`grid gap-8 ${
+              className={`grid gap-6 ${
                 data.schedule.length > 1
                   ? "md:grid-cols-2"
-                  : "max-w-2xl mx-auto"
+                  : "max-w-3xl mx-auto"
               }`}
             >
-              {data.schedule.map((p) => {
-                const steps = [
-                  { label: "Gazette Notification", value: p.gazette, icon: FileText },
-                  { label: "Last Date of Nominations", value: p.lastNomination, icon: Calendar },
-                  { label: "Scrutiny of Nominations", value: p.scrutiny, icon: Search },
-                  { label: "Last Date of Withdrawal", value: p.withdrawal, icon: Calendar },
-                  { label: "Date of Poll", value: p.poll, icon: Vote, highlight: true },
-                  { label: "Date of Counting", value: p.counting, icon: TrendingUp, highlight: true },
-                  { label: "Election to be Completed By", value: p.completion, icon: CheckCircle2 },
-                ];
-                return (
-                  <Card key={p.label} className="border-border shadow-card">
-                    <CardHeader className="text-center border-b border-border pb-4">
-                      <Badge variant="outline" className="mx-auto mb-2 w-fit">
-                        <Calendar className="h-3 w-3 mr-1" /> Schedule
-                      </Badge>
-                      <CardTitle className="text-lg">{p.label}</CardTitle>
+              {data.schedule.map((p) => (
+                <Card key={p.label} className="border-border shadow-card">
+                  {data.schedule!.length > 1 && (
+                    <CardHeader className="text-center border-b border-border pb-3">
+                      <CardTitle className="text-base">{p.label}</CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-8 pb-6">
-                      <ol className="relative border-l-2 border-border ml-4 space-y-6">
-                        {steps.map((step, i) => {
-                          const Icon = step.icon;
-                          return (
-                            <li key={step.label} className="ml-6 relative group">
-                              <span
-                                className={`absolute -left-[34px] flex items-center justify-center w-7 h-7 rounded-full ring-4 ring-background transition-transform group-hover:scale-110 ${
-                                  step.highlight
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-muted text-foreground border border-border"
-                                }`}
-                              >
-                                <Icon className="h-3.5 w-3.5" />
-                              </span>
-                              <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-0.5">
-                                Step {i + 1} • {step.label}
-                              </p>
-                              <p
-                                className={`font-semibold ${
-                                  step.highlight
-                                    ? "text-primary text-base"
-                                    : "text-foreground text-sm"
-                                }`}
-                              >
-                                {step.value}
-                              </p>
-                            </li>
-                          );
-                        })}
-                      </ol>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                  )}
+                  <CardContent className="p-6 grid sm:grid-cols-2 gap-4">
+                    <div className="text-center p-5 rounded-xl border border-border bg-muted/30">
+                      <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background">
+                        <Vote className="h-5 w-5" />
+                      </div>
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
+                        Date of Poll
+                      </p>
+                      <p className="font-display font-bold text-foreground text-lg leading-tight">
+                        {p.poll}
+                      </p>
+                    </div>
+                    <div className="text-center p-5 rounded-xl border border-border bg-muted/30">
+                      <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background">
+                        <TrendingUp className="h-5 w-5" />
+                      </div>
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">
+                        Date of Counting
+                      </p>
+                      <p className="font-display font-bold text-foreground text-lg leading-tight">
+                        {p.counting}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-            <p className="text-xs text-muted-foreground mt-6 text-center">
-              Source: Election Commission of India (ECI) official notification
-            </p>
           </section>
         )}
 
