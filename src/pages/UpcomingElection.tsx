@@ -263,6 +263,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["पूर्ण राज्य का दर्जा", "बेरोजगारी", "LG vs CM अधिकार विवाद", "मछुआरों की समस्याएं", "पर्यटन विकास"],
+    schedule: [PHASE_1_EARLY],
   },
   "tamil-nadu": {
     stateName: "Tamil Nadu",
