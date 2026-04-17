@@ -14,6 +14,17 @@ interface PartyInfo {
   schemes: string[];
 }
 
+interface SchedulePhase {
+  label: string;
+  gazette: string;
+  lastNomination: string;
+  scrutiny: string;
+  withdrawal: string;
+  poll: string;
+  counting: string;
+  completion: string;
+}
+
 interface ElectionData {
   stateName: string;
   dateInfo: string;
@@ -23,7 +34,30 @@ interface ElectionData {
   overview: string;
   parties: PartyInfo[];
   keyIssues: string[];
+  schedule?: SchedulePhase[];
 }
+
+const PHASE_1_EARLY: SchedulePhase = {
+  label: "एकल चरण (All ACs)",
+  gazette: "16 मार्च 2026 (सोमवार)",
+  lastNomination: "23 मार्च 2026 (सोमवार)",
+  scrutiny: "24 मार्च 2026 (मंगलवार)",
+  withdrawal: "26 मार्च 2026 (गुरुवार)",
+  poll: "9 अप्रैल 2026 (गुरुवार)",
+  counting: "4 मई 2026 (सोमवार)",
+  completion: "6 मई 2026 (बुधवार)",
+};
+
+const PHASE_LATE: SchedulePhase = {
+  label: "एकल चरण (All ACs)",
+  gazette: "30 मार्च 2026 (सोमवार)",
+  lastNomination: "6 अप्रैल 2026 (सोमवार)",
+  scrutiny: "7 अप्रैल 2026 (मंगलवार)",
+  withdrawal: "9 अप्रैल 2026 (गुरुवार)",
+  poll: "23 अप्रैल 2026 (गुरुवार)",
+  counting: "4 मई 2026 (सोमवार)",
+  completion: "6 मई 2026 (बुधवार)",
+};
 
 const electionData: Record<string, ElectionData> = {
   assam: {
@@ -103,6 +137,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["बाढ़ और जल प्रबंधन", "NRC और नागरिकता", "चाय बागान श्रमिकों की मजदूरी", "बेरोजगारी", "अवैध घुसपैठ", "असमीया अस्मिता"],
+    schedule: [PHASE_1_EARLY],
   },
   kerala: {
     stateName: "Kerala",
@@ -168,6 +203,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["K-Rail परियोजना", "बेरोजगारी", "भ्रष्टाचार", "गल्फ प्रवासी संकट", "बाढ़ प्रबंधन", "स्वास्थ्य सेवाएं"],
+    schedule: [PHASE_1_EARLY],
   },
   puducherry: {
     stateName: "Puducherry",
@@ -227,6 +263,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["पूर्ण राज्य का दर्जा", "बेरोजगारी", "LG vs CM अधिकार विवाद", "मछुआरों की समस्याएं", "पर्यटन विकास"],
+    schedule: [PHASE_1_EARLY],
   },
   "tamil-nadu": {
     stateName: "Tamil Nadu",
@@ -306,6 +343,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["NEET परीक्षा", "सामाजिक न्याय / आरक्षण", "द्रविड़ अस्मिता", "बेरोजगारी", "जल संकट", "मंदिर प्रशासन", "शिक्षा नीति"],
+    schedule: [PHASE_LATE],
   },
   "west-bengal": {
     stateName: "West Bengal",
@@ -388,6 +426,28 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["शिक्षा भर्ती घोटाला", "कानून-व्यवस्था", "बेरोजगारी", "CAA/NRC", "महिला सुरक्षा", "भ्रष्टाचार", "बंगाल की अस्मिता"],
+    schedule: [
+      {
+        label: "चरण 1 (152 ACs)",
+        gazette: "30 मार्च 2026 (सोमवार)",
+        lastNomination: "6 अप्रैल 2026 (सोमवार)",
+        scrutiny: "7 अप्रैल 2026 (मंगलवार)",
+        withdrawal: "9 अप्रैल 2026 (गुरुवार)",
+        poll: "23 अप्रैल 2026 (गुरुवार)",
+        counting: "4 मई 2026 (सोमवार)",
+        completion: "6 मई 2026 (बुधवार)",
+      },
+      {
+        label: "चरण 2 (142 ACs)",
+        gazette: "2 अप्रैल 2026 (गुरुवार)",
+        lastNomination: "9 अप्रैल 2026 (गुरुवार)",
+        scrutiny: "10 अप्रैल 2026 (शुक्रवार)",
+        withdrawal: "13 अप्रैल 2026 (सोमवार)",
+        poll: "29 अप्रैल 2026 (बुधवार)",
+        counting: "4 मई 2026 (सोमवार)",
+        completion: "6 मई 2026 (बुधवार)",
+      },
+    ],
   },
 };
 
@@ -447,6 +507,45 @@ const UpcomingElection = () => {
             </Card>
           ))}
         </div>
+
+        {/* ECI Schedule */}
+        {data.schedule && data.schedule.length > 0 && (
+          <div className="mb-10">
+            <h2 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" /> ECI आधिकारिक चुनाव कार्यक्रम
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {data.schedule.map((p) => (
+                <Card key={p.label} className="border-border">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">{p.label}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <dl className="text-sm divide-y divide-border">
+                      {[
+                        ["गजट अधिसूचना जारी", p.gazette],
+                        ["नामांकन की अंतिम तिथि", p.lastNomination],
+                        ["नामांकन की जांच", p.scrutiny],
+                        ["नाम वापसी की अंतिम तिथि", p.withdrawal],
+                        ["मतदान तिथि", p.poll],
+                        ["मतगणना", p.counting],
+                        ["चुनाव पूर्ण होने की तिथि", p.completion],
+                      ].map(([k, v]) => (
+                        <div key={k} className="flex justify-between gap-4 py-2">
+                          <dt className="text-muted-foreground">{k}</dt>
+                          <dd className="font-medium text-foreground text-right">{v}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground mt-3">
+              स्रोत: भारत निर्वाचन आयोग (ECI) आधिकारिक अधिसूचना
+            </p>
+          </div>
+        )}
 
         {/* Key Issues */}
         <div className="mb-10">
