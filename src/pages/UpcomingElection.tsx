@@ -34,6 +34,7 @@ import {
   Cell,
 } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
+import LiveResultsPanel from "@/components/LiveResultsPanel";
 
 interface PartyInfo {
   name: string;
@@ -719,7 +720,9 @@ const UpcomingElection = () => {
           </div>
         </section>
 
-        {/* Quick Stats */}
+        {/* LIVE counting (auto-shows on counting day) */}
+        {stateSlug && <LiveResultsPanel stateSlug={stateSlug} />}
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-14">
           {[
             { icon: MapPin, label: "Total Seats", value: data.totalSeats },
