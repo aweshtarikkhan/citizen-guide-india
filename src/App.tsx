@@ -35,6 +35,7 @@ import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import UpcomingElection from "./pages/UpcomingElection";
+import ViewCandidates from "./pages/ViewCandidates";
 import ByeElections from "./pages/ByeElections";
 import Services from "./pages/Services";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -91,6 +92,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/upcoming-election/:stateSlug" element={<UpcomingElection />} />
+            <Route path="/upcoming-election/:stateSlug/candidates" element={<ViewCandidates />} />
             <Route path="/bye-elections-2026" element={<ByeElections />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

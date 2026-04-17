@@ -710,7 +710,7 @@ const UpcomingElection = () => {
               >
                 <Scale className="h-4 w-4 mr-2" /> Compare Parties
               </Button>
-              <Link to="/constituency">
+              <Link to={`/upcoming-election/${stateSlug}/candidates`}>
                 <Button size="lg" variant="outline" className="rounded-full">
                   <Users className="h-4 w-4 mr-2" /> View Candidates
                 </Button>
