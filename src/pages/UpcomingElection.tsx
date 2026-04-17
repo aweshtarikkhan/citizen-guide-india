@@ -1119,6 +1119,47 @@ const UpcomingElection = () => {
           </div>
         </section>
 
+        {/* Other Ongoing Elections */}
+        <section className="mb-12">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-display font-bold mb-2">
+              Other Ongoing Elections
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Explore other state assembly elections happening in 2026
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {Object.entries(electionData)
+              .filter(([slug]) => slug !== stateSlug)
+              .map(([slug, other]) => (
+                <Link
+                  key={slug}
+                  to={`/upcoming-election/${slug}`}
+                  className="group"
+                >
+                  <Card className="h-full border-border transition-all hover:-translate-y-1 hover:shadow-elegant">
+                    <CardContent className="p-5">
+                      <Badge variant="outline" className="mb-3 text-[10px]">
+                        <Calendar className="h-3 w-3 mr-1" /> {other.dateInfo}
+                      </Badge>
+                      <h3 className="font-display font-bold text-lg mb-1 group-hover:text-primary transition-colors">
+                        {other.stateName}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mb-3">
+                        {other.totalSeats} seats • {other.totalVoters}
+                      </p>
+                      <div className="flex items-center text-xs font-medium text-foreground">
+                        View details{" "}
+                        <ChevronRight className="h-3 w-3 ml-0.5 transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+          </div>
+        </section>
+
         <div className="bg-muted/50 rounded-xl p-6 text-center text-sm text-muted-foreground">
           <p>
             ⚠️ This data is for educational purposes. For official information,
