@@ -173,6 +173,84 @@ export type Database = {
         }
         Relationships: []
       }
+      live_results: {
+        Row: {
+          alliance: string | null
+          candidate_name: string
+          constituency: string
+          created_at: string
+          fetched_at: string
+          id: string
+          is_leading: boolean
+          party: string | null
+          round_number: number | null
+          state_slug: string
+          status: string
+          total_rounds: number | null
+          votes: number
+        }
+        Insert: {
+          alliance?: string | null
+          candidate_name: string
+          constituency: string
+          created_at?: string
+          fetched_at?: string
+          id?: string
+          is_leading?: boolean
+          party?: string | null
+          round_number?: number | null
+          state_slug: string
+          status?: string
+          total_rounds?: number | null
+          votes?: number
+        }
+        Update: {
+          alliance?: string | null
+          candidate_name?: string
+          constituency?: string
+          created_at?: string
+          fetched_at?: string
+          id?: string
+          is_leading?: boolean
+          party?: string | null
+          round_number?: number | null
+          state_slug?: string
+          status?: string
+          total_rounds?: number | null
+          votes?: number
+        }
+        Relationships: []
+      }
+      live_status: {
+        Row: {
+          id: string
+          is_active: boolean
+          last_error: string | null
+          last_run_at: string | null
+          last_success_at: string | null
+          states_active: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          is_active?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          last_success_at?: string | null
+          states_active?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          is_active?: boolean
+          last_error?: string | null
+          last_run_at?: string | null
+          last_success_at?: string | null
+          states_active?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       page_content: {
         Row: {
           content: string
