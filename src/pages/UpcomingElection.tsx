@@ -14,6 +14,17 @@ interface PartyInfo {
   schemes: string[];
 }
 
+interface SchedulePhase {
+  label: string;
+  gazette: string;
+  lastNomination: string;
+  scrutiny: string;
+  withdrawal: string;
+  poll: string;
+  counting: string;
+  completion: string;
+}
+
 interface ElectionData {
   stateName: string;
   dateInfo: string;
@@ -23,7 +34,30 @@ interface ElectionData {
   overview: string;
   parties: PartyInfo[];
   keyIssues: string[];
+  schedule?: SchedulePhase[];
 }
+
+const PHASE_1_EARLY: SchedulePhase = {
+  label: "एकल चरण (All ACs)",
+  gazette: "16 मार्च 2026 (सोमवार)",
+  lastNomination: "23 मार्च 2026 (सोमवार)",
+  scrutiny: "24 मार्च 2026 (मंगलवार)",
+  withdrawal: "26 मार्च 2026 (गुरुवार)",
+  poll: "9 अप्रैल 2026 (गुरुवार)",
+  counting: "4 मई 2026 (सोमवार)",
+  completion: "6 मई 2026 (बुधवार)",
+};
+
+const PHASE_LATE: SchedulePhase = {
+  label: "एकल चरण (All ACs)",
+  gazette: "30 मार्च 2026 (सोमवार)",
+  lastNomination: "6 अप्रैल 2026 (सोमवार)",
+  scrutiny: "7 अप्रैल 2026 (मंगलवार)",
+  withdrawal: "9 अप्रैल 2026 (गुरुवार)",
+  poll: "23 अप्रैल 2026 (गुरुवार)",
+  counting: "4 मई 2026 (सोमवार)",
+  completion: "6 मई 2026 (बुधवार)",
+};
 
 const electionData: Record<string, ElectionData> = {
   assam: {
