@@ -626,26 +626,10 @@ const UpcomingElection = () => {
 
   const [issueFilter, setIssueFilter] = useState<string | null>(null);
   const [searchQ, setSearchQ] = useState("");
-  const [candidateCount, setCandidateCount] = useState<number | null>(null);
 
   // Always call hooks unconditionally — pass safe defaults if data is missing
   const baselineTurnout = data?.lastTurnout ?? 0;
   const { value: liveTurnout, isLive } = useLiveTurnout(baselineTurnout);
-
-  // Try to load actual cached candidate count for the state (optional live feature)
-  useEffect(() => {
-    if (!data) return;
-    let cancelled = false;
-    (async () => {
-      const { count } = await supabase
-        .from("candidate_cache")
-        .select("candidate_id", { count: "exact", head: true });
-      if (!cancelled) setCandidateCount(count ?? null);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [data]);
 
   const filteredParties = useMemo(() => {
     if (!data) return [];
