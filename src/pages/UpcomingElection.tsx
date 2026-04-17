@@ -1056,7 +1056,9 @@ const UpcomingElection = () => {
                 className="border-border overflow-hidden flex flex-col shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant"
               >
                 <CardHeader className="text-center bg-muted/40 border-b border-border pb-5">
-                  <div className="text-4xl mb-2">{party.symbol}</div>
+                  <div className="mx-auto mb-3 inline-flex h-14 w-14 items-center justify-center rounded-full border border-border bg-background text-foreground font-display font-bold text-base">
+                    {party.short.slice(0, 3)}
+                  </div>
                   <CardTitle className="text-lg leading-tight">
                     {party.name}
                   </CardTitle>
