@@ -137,6 +137,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["बाढ़ और जल प्रबंधन", "NRC और नागरिकता", "चाय बागान श्रमिकों की मजदूरी", "बेरोजगारी", "अवैध घुसपैठ", "असमीया अस्मिता"],
+    schedule: [PHASE_1_EARLY],
   },
   kerala: {
     stateName: "Kerala",
