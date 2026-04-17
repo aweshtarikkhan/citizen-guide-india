@@ -137,9 +137,17 @@ const ElectionCountdown = () => {
           </div>
         )}
 
-        <div className="mt-6 flex items-center gap-2 text-xs opacity-50">
-          <Clock className="h-3.5 w-3.5" />
-          <span>Live countdown • Dates subject to ECI announcement</span>
+        <div className="mt-6 flex items-center justify-between gap-2 text-xs opacity-50">
+          <div className="flex items-center gap-2">
+            <Clock className="h-3.5 w-3.5" />
+            <span>Live countdown • ECI announced</span>
+          </div>
+          <button
+            onClick={(e) => { e.stopPropagation(); navigate("/bye-elections-2026"); }}
+            className="underline hover:opacity-100 transition-opacity"
+          >
+            8 bye-elections →
+          </button>
         </div>
       </div>
     </div>
