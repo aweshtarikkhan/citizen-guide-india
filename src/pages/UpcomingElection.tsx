@@ -203,6 +203,7 @@ const electionData: Record<string, ElectionData> = {
       },
     ],
     keyIssues: ["K-Rail परियोजना", "बेरोजगारी", "भ्रष्टाचार", "गल्फ प्रवासी संकट", "बाढ़ प्रबंधन", "स्वास्थ्य सेवाएं"],
+    schedule: [PHASE_1_EARLY],
   },
   puducherry: {
     stateName: "Puducherry",
