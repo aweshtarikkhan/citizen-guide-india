@@ -352,14 +352,6 @@ const ByeElections = () => {
                   <p className="text-sm text-muted-foreground">{seat.keyContest}</p>
                 </div>
 
-                {/* Schedule */}
-                <div>
-                  <h4 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-primary" />
-                    ECI Election Schedule
-                  </h4>
-                  <ScheduleBlock s={seat.schedule} />
-                </div>
               </CardContent>
             </Card>
           ))}
