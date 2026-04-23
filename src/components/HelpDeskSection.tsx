@@ -29,18 +29,31 @@ const HelpDeskSection = () => (
         </p>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {items.map((item, i) => (
-          <div
-            key={i}
-            className="group p-6 rounded-xl bg-card border border-border shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-          >
-            <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-gradient-warm group-hover:text-primary-foreground transition-colors">
-              <item.icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
+        {items.map((item, i) => {
+          const isExternal = "external" in item && item.external;
+          const cardClass = "group p-6 rounded-xl bg-card border border-border shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 cursor-pointer block";
+          const inner = (
+            <>
+              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-gradient-warm group-hover:text-primary-foreground transition-colors">
+                <item.icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="text-lg font-display font-semibold text-foreground">{item.title}</h3>
+                {isExternal && <ExternalLink className="h-4 w-4 text-muted-foreground" />}
+              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
+            </>
+          );
+          return isExternal ? (
+            <a key={i} href={(item as any).href} target="_blank" rel="noopener noreferrer" className={cardClass}>
+              {inner}
+            </a>
+          ) : (
+            <div key={i} className={cardClass}>
+              {inner}
             </div>
-            <h3 className="text-lg font-display font-semibold text-foreground mb-2">{item.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </section>
