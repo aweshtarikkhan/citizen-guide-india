@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
-import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search, ExternalLink, CheckCircle, Smartphone, Globe, Printer, Users } from "lucide-react";
+import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search, ExternalLink, CheckCircle, Smartphone, Globe, Printer, Users, ClipboardCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -99,6 +99,24 @@ const services = [
     ],
     link: "https://electoralsearch.eci.gov.in/",
     linkText: "Check Status →",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Search Your Name in SIR (Special Intensive Revision)",
+    desc: "Verify your name in the latest Special Intensive Revision of the electoral roll.",
+    details: [
+      "SIR (Special Intensive Revision) is a door-to-door verification drive conducted by the Election Commission of India to update and clean the electoral roll.",
+      "During SIR, BLOs (Booth Level Officers) physically visit every household to verify existing voters and identify new eligible voters.",
+      "Names of deceased, shifted, or duplicate voters are flagged for deletion, while new eligible citizens are added.",
+      "After SIR, a draft electoral roll is published — every voter MUST check their name to avoid being missed on election day.",
+      "Visit the official ECI Voters Portal and search by EPIC number or by name + state + constituency.",
+      "If your name is missing from the SIR roll, file Form 6 immediately for inclusion.",
+      "If your details are incorrect (name, age, photo, address), file Form 8 for correction.",
+      "Always verify your name in SIR well before the final roll is published — claims and objections have a fixed deadline.",
+      "Keep a screenshot or PDF of your SIR entry for your records.",
+    ],
+    link: "https://voters.eci.gov.in/",
+    linkText: "Search Your Name in SIR →",
   },
   {
     icon: Smartphone,
