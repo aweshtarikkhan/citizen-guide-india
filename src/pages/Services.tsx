@@ -1,11 +1,12 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
-import { UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, ArrowRight } from "lucide-react";
+import { UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, ArrowRight, Search, ExternalLink } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
 const serviceLinks = [
   { icon: UserPlus, label: "Voter Help Desk", desc: "Register, correct details & find your polling station. Step-by-step guidance for all voter services.", href: "/help-desk", color: "from-orange-500/10 to-orange-600/5" },
+  { icon: Search, label: "Search Your Name in SIR", desc: "Check if your name appears in the Special Intensive Revision (SIR) electoral roll on the official ECI portal.", href: "https://voters.eci.gov.in/", color: "from-emerald-500/10 to-emerald-600/5", external: true },
   { icon: BookOpen, label: "Know Your Democracy", desc: "Learn how elections work, how Parliament functions & how governance shapes your life.", href: "/knowledge", color: "from-blue-500/10 to-blue-600/5" },
   { icon: XCircle, label: "Myth Busters", desc: "Common voting myths debunked with facts. Don't let misinformation stop you from voting.", href: "/myths", color: "from-red-500/10 to-red-600/5" },
   { icon: Clock, label: "Election Timeline", desc: "Every phase of an election — from announcement to final results, explained clearly.", href: "/election-timeline", color: "from-green-500/10 to-green-600/5" },
