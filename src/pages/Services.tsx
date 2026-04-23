@@ -39,29 +39,40 @@ const ServicesPage = () => {
       <section className="pb-20 bg-background">
         <div className="container max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {serviceLinks.map((s) => (
-              <Link
-                key={s.href}
-                to={s.href}
-                className="group relative rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-elevated hover:border-foreground/20 hover:-translate-y-1"
-              >
-                {/* Subtle gradient bg on hover */}
-                <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${s.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <div className="relative flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-xl bg-foreground flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <s.icon className="h-5 w-5 text-background" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-lg font-display font-bold text-foreground">{s.label}</h2>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+            {serviceLinks.map((s) => {
+              const isExternal = "external" in s && s.external;
+              const cardContent = (
+                <>
+                  <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${s.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                  <div className="relative flex items-start gap-4">
+                    <div className="h-12 w-12 rounded-xl bg-foreground flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      <s.icon className="h-5 w-5 text-background" />
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{s.desc}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-lg font-display font-bold text-foreground">{s.label}</h2>
+                        {isExternal ? (
+                          <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                        ) : (
+                          <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{s.desc}</p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </>
+              );
+              const className = "group relative rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-elevated hover:border-foreground/20 hover:-translate-y-1";
+              return isExternal ? (
+                <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" className={className}>
+                  {cardContent}
+                </a>
+              ) : (
+                <Link key={s.href} to={s.href} className={className}>
+                  {cardContent}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
