@@ -22,7 +22,7 @@ const forms = [
       "A Booth Level Officer (BLO) will visit your address for verification.",
       "Once verified, your name is added to the electoral roll and your EPIC is issued.",
     ],
-    link: "https://www.nvsp.in/Forms/Forms/form6",
+    link: "https://voters.eci.gov.in/",
   },
   {
     form: "Form 6B",
@@ -41,7 +41,7 @@ const forms = [
       "Your Aadhaar will be linked for electoral verification purposes.",
       "Your Aadhaar data is not used for any purpose beyond electoral roll management.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
   },
   {
     form: "Form 7",
@@ -60,7 +60,7 @@ const forms = [
       "The ERO will verify the objection and hold a hearing if necessary.",
       "If the objection is upheld, the entry is removed from the roll.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
   },
   {
     form: "Form 8",
@@ -79,7 +79,7 @@ const forms = [
       "Submit — corrections are typically processed within 15–30 days.",
       "You may receive a new EPIC with corrected details.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
   },
   {
     form: "Form 8A",
@@ -97,7 +97,7 @@ const forms = [
       "BLO verification may be conducted at your new address.",
       "Your polling station assignment will be updated accordingly.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
   },
   {
     form: "Form 001",
@@ -117,7 +117,7 @@ const forms = [
       "Your application is forwarded to the ERO of your Indian constituency.",
       "Once approved, you are enrolled as an overseas elector — but you must vote in person at your Indian constituency on polling day.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
   },
 ];
 

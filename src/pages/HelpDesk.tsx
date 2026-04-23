@@ -18,8 +18,8 @@ const services = [
       "The entire process typically takes 15–30 days from the date of application.",
       "You can track your application status online using your reference number.",
     ],
-    link: "https://www.nvsp.in/",
-    linkText: "Apply on NVSP →",
+    link: "https://voters.eci.gov.in/",
+    linkText: "Apply on ECI Voters Portal →",
   },
   {
     icon: FileText,
@@ -34,8 +34,8 @@ const services = [
       "You can correct multiple fields in a single Form 8 submission.",
       "If your photo is outdated, submit a new passport-sized colour photograph with your correction form.",
     ],
-    link: "https://www.nvsp.in/",
-    linkText: "Correct Details on NVSP →",
+    link: "https://voters.eci.gov.in/",
+    linkText: "Correct Details on ECI Portal →",
   },
   {
     icon: MapPin,
@@ -129,7 +129,7 @@ const services = [
       "It is accepted as a valid identity document at polling booths.",
       "Keep both digital and physical copies for convenience.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
     linkText: "Download e-EPIC →",
   },
   {
@@ -145,7 +145,7 @@ const services = [
       "Your registration remains valid as long as your Indian passport is valid.",
       "You can apply online through the NVSP portal's overseas voter section.",
     ],
-    link: "https://www.nvsp.in/",
+    link: "https://voters.eci.gov.in/",
     linkText: "Register as Overseas Voter →",
   },
   {

@@ -1,11 +1,12 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
-import { UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, ArrowRight } from "lucide-react";
+import { UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, ArrowRight, Search, ExternalLink } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
 const serviceLinks = [
   { icon: UserPlus, label: "Voter Help Desk", desc: "Register, correct details & find your polling station. Step-by-step guidance for all voter services.", href: "/help-desk", color: "from-orange-500/10 to-orange-600/5" },
+  { icon: Search, label: "Search Your Name in SIR", desc: "Check if your name appears in the Special Intensive Revision (SIR) electoral roll on the official ECI portal.", href: "https://voters.eci.gov.in/", color: "from-emerald-500/10 to-emerald-600/5", external: true },
   { icon: BookOpen, label: "Know Your Democracy", desc: "Learn how elections work, how Parliament functions & how governance shapes your life.", href: "/knowledge", color: "from-blue-500/10 to-blue-600/5" },
   { icon: XCircle, label: "Myth Busters", desc: "Common voting myths debunked with facts. Don't let misinformation stop you from voting.", href: "/myths", color: "from-red-500/10 to-red-600/5" },
   { icon: Clock, label: "Election Timeline", desc: "Every phase of an election — from announcement to final results, explained clearly.", href: "/election-timeline", color: "from-green-500/10 to-green-600/5" },
@@ -38,29 +39,40 @@ const ServicesPage = () => {
       <section className="pb-20 bg-background">
         <div className="container max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {serviceLinks.map((s) => (
-              <Link
-                key={s.href}
-                to={s.href}
-                className="group relative rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-elevated hover:border-foreground/20 hover:-translate-y-1"
-              >
-                {/* Subtle gradient bg on hover */}
-                <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${s.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                
-                <div className="relative flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-xl bg-foreground flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <s.icon className="h-5 w-5 text-background" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <h2 className="text-lg font-display font-bold text-foreground">{s.label}</h2>
-                      <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+            {serviceLinks.map((s) => {
+              const isExternal = "external" in s && s.external;
+              const cardContent = (
+                <>
+                  <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${s.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                  <div className="relative flex items-start gap-4">
+                    <div className="h-12 w-12 rounded-xl bg-foreground flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                      <s.icon className="h-5 w-5 text-background" />
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{s.desc}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-lg font-display font-bold text-foreground">{s.label}</h2>
+                        {isExternal ? (
+                          <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                        ) : (
+                          <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{s.desc}</p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </>
+              );
+              const className = "group relative rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-elevated hover:border-foreground/20 hover:-translate-y-1";
+              return isExternal ? (
+                <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" className={className}>
+                  {cardContent}
+                </a>
+              ) : (
+                <Link key={s.href} to={s.href} className={className}>
+                  {cardContent}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
