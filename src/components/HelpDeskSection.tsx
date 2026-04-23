@@ -1,4 +1,4 @@
-import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search } from "lucide-react";
+import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search, ClipboardCheck, ExternalLink } from "lucide-react";
 
 const items = [
   { icon: UserPlus, title: "Register to Vote", desc: "Step-by-step guidance on new voter registration through Form 6" },
@@ -7,6 +7,13 @@ const items = [
   { icon: ShieldCheck, title: "Documents Required", desc: "Know exactly which identity documents you need to carry on polling day" },
   { icon: AlertCircle, title: "Name Missing?", desc: "What to do if your name is missing from the electoral roll before elections" },
   { icon: Search, title: "Check Voter Status", desc: "Verify your registration status and details in the current electoral roll" },
+  {
+    icon: ClipboardCheck,
+    title: "Search Your Name in SIR",
+    desc: "Check if your name appears in the Special Intensive Revision (SIR) of the electoral roll on the official ECI portal",
+    href: "https://voters.eci.gov.in/",
+    external: true,
+  },
 ];
 
 const HelpDeskSection = () => (
