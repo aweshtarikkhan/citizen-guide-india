@@ -189,6 +189,7 @@ export type Database = {
           state_name: string
           state_slug: string
           summary: string | null
+          total_seats: number | null
           updated_at: string
         }
         Insert: {
@@ -206,6 +207,7 @@ export type Database = {
           state_name: string
           state_slug: string
           summary?: string | null
+          total_seats?: number | null
           updated_at?: string
         }
         Update: {
@@ -223,6 +225,7 @@ export type Database = {
           state_name?: string
           state_slug?: string
           summary?: string | null
+          total_seats?: number | null
           updated_at?: string
         }
         Relationships: []

@@ -16,12 +16,13 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Trash2, Edit, Save, X, BarChart3, Star, Loader2 } from "lucide-react";
+import ExitPollPopupSettings from "./ExitPollPopupSettings";
 
 interface PartyPrediction {
   party: string;
   short?: string;
   seats?: number;
-  vote_share?: number;
+  margin?: number; // ± margin of error in seats
   alliance?: string;
 }
 
@@ -38,14 +39,15 @@ interface ExitPoll {
   source_url: string | null;
   is_featured: boolean;
   sort_order: number;
+  total_seats: number | null;
 }
 
 const STATES = [
-  { slug: "assam", name: "Assam" },
-  { slug: "kerala", name: "Kerala" },
-  { slug: "puducherry", name: "Puducherry" },
-  { slug: "tamil-nadu", name: "Tamil Nadu" },
-  { slug: "west-bengal", name: "West Bengal" },
+  { slug: "assam", name: "Assam", totalSeats: 126 },
+  { slug: "kerala", name: "Kerala", totalSeats: 140 },
+  { slug: "puducherry", name: "Puducherry", totalSeats: 30 },
+  { slug: "tamil-nadu", name: "Tamil Nadu", totalSeats: 234 },
+  { slug: "west-bengal", name: "West Bengal", totalSeats: 294 },
 ];
 
 const empty = (): Partial<ExitPoll> => ({
@@ -55,11 +57,12 @@ const empty = (): Partial<ExitPoll> => ({
   poll_date: null,
   methodology: "",
   sample_size: "",
-  predictions: [{ party: "", short: "", seats: 0, vote_share: 0 }],
+  predictions: [{ party: "", short: "", seats: 0, margin: 0 }],
   summary: "",
   source_url: "",
   is_featured: false,
   sort_order: 0,
+  total_seats: null,
 });
 
 const ExitPollManager = () => {
@@ -102,7 +105,8 @@ const ExitPollManager = () => {
       return;
     }
     setSaving(true);
-    const stateName = STATES.find((s) => s.slug === editing.state_slug)?.name || editing.state_slug;
+    const stateMeta = STATES.find((s) => s.slug === editing.state_slug);
+    const stateName = stateMeta?.name || editing.state_slug;
     const payload = {
       state_slug: editing.state_slug,
       state_name: stateName,
@@ -115,6 +119,7 @@ const ExitPollManager = () => {
       source_url: editing.source_url || null,
       is_featured: !!editing.is_featured,
       sort_order: editing.sort_order ?? 0,
+      total_seats: editing.total_seats ?? stateMeta?.totalSeats ?? null,
     };
 
     let error;
@@ -155,7 +160,7 @@ const ExitPollManager = () => {
     if (!editing) return;
     setEditing({
       ...editing,
-      predictions: [...(editing.predictions || []), { party: "", short: "", seats: 0, vote_share: 0 }],
+      predictions: [...(editing.predictions || []), { party: "", short: "", seats: 0, margin: 0 }],
     });
   };
 
@@ -233,6 +238,23 @@ const ExitPollManager = () => {
                 onChange={(e) => setEditing({ ...editing, sample_size: e.target.value })}
                 placeholder="e.g., 25,000 voters across 234 ACs"
               />
+            </div>
+            <div>
+              <Label>Total Assembly Seats</Label>
+              <Input
+                type="number"
+                value={editing.total_seats ?? ""}
+                onChange={(e) =>
+                  setEditing({ ...editing, total_seats: parseInt(e.target.value) || null })
+                }
+                placeholder="Auto-filled from state (e.g., 294)"
+              />
+            </div>
+            <div className="md:col-span-1">
+              <Label>&nbsp;</Label>
+              <p className="text-xs text-muted-foreground">
+                Predicted seats will be shown as <code>seats (±margin)</code> out of total.
+              </p>
             </div>
             <div className="md:col-span-2">
               <Label>Source URL</Label>
@@ -313,11 +335,10 @@ const ExitPollManager = () => {
                   <Input
                     className="col-span-2"
                     type="number"
-                    step="0.1"
-                    placeholder="Vote %"
-                    value={p.vote_share ?? ""}
+                    placeholder="± Margin"
+                    value={p.margin ?? ""}
                     onChange={(e) =>
-                      updatePrediction(i, "vote_share", parseFloat(e.target.value) || 0)
+                      updatePrediction(i, "margin", parseInt(e.target.value) || 0)
                     }
                   />
                   <Input
@@ -372,6 +393,7 @@ const ExitPollManager = () => {
         </div>
       </div>
 
+      <ExitPollPopupSettings />
       {loading ? (
         <div className="flex justify-center py-12">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />

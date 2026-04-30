@@ -1,0 +1,1 @@
+ALTER TABLE public.exit_polls ADD COLUMN IF NOT EXISTS total_seats INTEGER;

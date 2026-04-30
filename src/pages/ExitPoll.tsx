@@ -31,7 +31,7 @@ interface PartyPrediction {
   party: string;
   short?: string;
   seats?: number;
-  vote_share?: number;
+  margin?: number;
   alliance?: string;
 }
 
@@ -47,6 +47,7 @@ interface ExitPoll {
   summary: string | null;
   source_url: string | null;
   is_featured: boolean;
+  total_seats: number | null;
 }
 
 const STATE_NAMES: Record<string, string> = {
@@ -296,17 +297,25 @@ const PollCard = ({ poll, highlighted = false }: { poll: ExitPoll; highlighted?:
             <thead className="bg-muted/50 text-xs uppercase">
               <tr>
                 <th className="text-left p-2 font-medium">Party</th>
-                <th className="text-right p-2 font-medium">Seats</th>
-                <th className="text-right p-2 font-medium">Vote %</th>
+                <th className="text-right p-2 font-medium">Predicted Seats</th>
+                <th className="text-right p-2 font-medium">Alliance</th>
               </tr>
             </thead>
             <tbody>
               {poll.predictions.map((p, i) => (
                 <tr key={i} className="border-t border-border">
                   <td className="p-2 font-medium">{p.party}</td>
-                  <td className="p-2 text-right">{p.seats ?? "—"}</td>
-                  <td className="p-2 text-right text-muted-foreground">
-                    {p.vote_share != null ? `${p.vote_share}%` : "—"}
+                  <td className="p-2 text-right tabular-nums">
+                    <span className="font-semibold">{p.seats ?? "—"}</span>
+                    {p.margin != null && p.margin > 0 && (
+                      <span className="text-muted-foreground text-xs ml-1">(±{p.margin})</span>
+                    )}
+                    {poll.total_seats ? (
+                      <span className="text-muted-foreground text-xs"> / {poll.total_seats}</span>
+                    ) : null}
+                  </td>
+                  <td className="p-2 text-right text-muted-foreground text-xs">
+                    {p.alliance || "—"}
                   </td>
                 </tr>
               ))}

@@ -6,6 +6,7 @@ import { usePageContent } from "@/hooks/usePageContent";
 import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark, Brain, PenLine, BarChart3, Sparkles } from "lucide-react";
 import ElectionCountdown from "@/components/ElectionCountdown";
 import DailyFact from "@/components/DailyFact";
+import ExitPollPopup from "@/components/ExitPollPopup";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -98,6 +99,7 @@ const Index = () => {
   return (
   <div className="min-h-screen">
     <Navbar />
+    <ExitPollPopup />
 
     {/* 1. Hero */}
     <HeroSection />
