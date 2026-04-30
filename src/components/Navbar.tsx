@@ -123,6 +123,15 @@ const Navbar = () => {
           </Link>
 
           <Link
+            to="/exit-polls"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/exit-polls" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Exit Polls
+          </Link>
+
+          <Link
             to="/contact"
             className={`text-sm font-medium transition-colors ${
               location.pathname === "/contact" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
