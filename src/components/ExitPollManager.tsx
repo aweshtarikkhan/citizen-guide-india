@@ -110,7 +110,7 @@ const ExitPollManager = () => {
       poll_date: editing.poll_date || null,
       methodology: editing.methodology || null,
       sample_size: editing.sample_size || null,
-      predictions: editing.predictions || [],
+      predictions: (editing.predictions || []) as any,
       summary: editing.summary || null,
       source_url: editing.source_url || null,
       is_featured: !!editing.is_featured,
