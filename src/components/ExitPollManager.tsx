@@ -67,6 +67,7 @@ const empty = (): Partial<ExitPoll> => ({
 });
 
 const DRAFT_KEY = "exit_poll_draft_v1";
+const BULK_MODE_KEY = "exit_poll_bulk_mode_v1";
 
 const ExitPollManager = () => {
   const { toast } = useToast();
@@ -91,7 +92,22 @@ const ExitPollManager = () => {
   };
   const [saving, setSaving] = useState(false);
   const [filterState, setFilterState] = useState<string>("all");
-  const [bulkMode, setBulkMode] = useState(false);
+  const [bulkMode, setBulkModeState] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(BULK_MODE_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const setBulkMode = (next: boolean) => {
+    setBulkModeState(next);
+    try {
+      if (next) localStorage.setItem(BULK_MODE_KEY, "1");
+      else localStorage.removeItem(BULK_MODE_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
 
   const load = async () => {
     setLoading(true);
