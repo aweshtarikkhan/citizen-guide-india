@@ -18,6 +18,7 @@ import {
   ChevronRight,
   Megaphone,
   Sparkles,
+  BarChart3,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -714,6 +715,11 @@ const UpcomingElection = () => {
               <Link to={`/upcoming-election/${stateSlug}/candidates`}>
                 <Button size="lg" variant="outline" className="rounded-full">
                   <Users className="h-4 w-4 mr-2" /> View Candidates
+                </Button>
+              </Link>
+              <Link to={`/upcoming-election/${stateSlug}/exit-poll`}>
+                <Button size="lg" variant="outline" className="rounded-full">
+                  <BarChart3 className="h-4 w-4 mr-2" /> View Exit Poll
                 </Button>
               </Link>
             </div>
