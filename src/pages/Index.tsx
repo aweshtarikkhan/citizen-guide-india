@@ -3,7 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import FooterSection from "@/components/FooterSection";
 import { Link } from "react-router-dom";
 import { usePageContent } from "@/hooks/usePageContent";
-import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark, Brain, PenLine } from "lucide-react";
+import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, Mail, Phone, MapPin, Quote, TrendingUp, Users, Landmark, Brain, PenLine, BarChart3, Sparkles } from "lucide-react";
 import ElectionCountdown from "@/components/ElectionCountdown";
 import DailyFact from "@/components/DailyFact";
 import { useQuery } from "@tanstack/react-query";
