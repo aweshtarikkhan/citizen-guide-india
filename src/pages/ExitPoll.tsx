@@ -235,6 +235,19 @@ const ExitPollPage = () => {
               </section>
             )}
 
+            {/* Poll of Polls — aggregated average */}
+            {pollOfPolls && (
+              <section className="mb-12">
+                <div className="flex items-center gap-2 mb-3">
+                  <BarChart3 className="h-4 w-4 text-foreground" />
+                  <span className="text-xs font-semibold uppercase tracking-widest">
+                    Poll of Polls — Matdaan Aggregate
+                  </span>
+                </div>
+                <PollCard poll={pollOfPolls} highlighted />
+              </section>
+            )}
+
             {/* Other polls grid */}
             {others.length > 0 && (
               <section>
