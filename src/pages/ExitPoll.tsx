@@ -112,6 +112,72 @@ const ExitPollPage = () => {
   const featured = useMemo(() => polls.find((p) => p.is_featured), [polls]);
   const others = useMemo(() => polls.filter((p) => p.id !== featured?.id), [polls, featured]);
 
+  // Poll of Polls — average across all agencies for this state
+  const pollOfPolls = useMemo<ExitPoll | null>(() => {
+    if (polls.length < 2) return null;
+    const partyMap = new Map<
+      string,
+      { party: string; short?: string; alliance?: string; seatsList: number[] }
+    >();
+    polls.forEach((poll) => {
+      poll.predictions.forEach((p) => {
+        const key = (p.short || p.party || "").trim().toUpperCase();
+        if (!key) return;
+        if (!partyMap.has(key)) {
+          partyMap.set(key, {
+            party: p.party,
+            short: p.short,
+            alliance: p.alliance,
+            seatsList: [],
+          });
+        }
+        const entry = partyMap.get(key)!;
+        if (typeof p.seats === "number") entry.seatsList.push(p.seats);
+        if (!entry.alliance && p.alliance) entry.alliance = p.alliance;
+      });
+    });
+
+    const predictions: PartyPrediction[] = Array.from(partyMap.values())
+      .map((e) => {
+        if (e.seatsList.length === 0) return null;
+        const avg = e.seatsList.reduce((a, b) => a + b, 0) / e.seatsList.length;
+        const min = Math.min(...e.seatsList);
+        const max = Math.max(...e.seatsList);
+        const margin = Math.round((max - min) / 2);
+        return {
+          party: e.party,
+          short: e.short,
+          alliance: e.alliance,
+          seats: Math.round(avg),
+          margin,
+        } as PartyPrediction;
+      })
+      .filter((p): p is PartyPrediction => p !== null)
+      .sort((a, b) => (b.seats || 0) - (a.seats || 0));
+
+    if (predictions.length === 0) return null;
+
+    const totalSeats = polls.find((p) => p.total_seats)?.total_seats ?? null;
+
+    return {
+      id: "poll-of-polls",
+      state_slug: stateSlug || "",
+      state_name: stateName,
+      agency: "Poll of Polls",
+      poll_date: new Date().toISOString().slice(0, 10),
+      methodology: `Average of ${polls.length} exit polls from ${Array.from(
+        new Set(polls.map((p) => p.agency)),
+      ).join(", ")}. Margin shows the spread (±) across agencies.`,
+      sample_size: `${polls.length} agencies`,
+      predictions,
+      summary:
+        "Aggregated projection computed by Matdaan from all available exit polls for this state. Use this as a consolidated view rather than relying on a single agency.",
+      source_url: null,
+      is_featured: false,
+      total_seats: totalSeats,
+    };
+  }, [polls, stateSlug, stateName]);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
