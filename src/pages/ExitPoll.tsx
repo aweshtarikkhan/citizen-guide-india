@@ -283,6 +283,45 @@ const ExitPollPage = () => {
           </>
         )}
 
+        {otherStates.length > 0 && (
+          <section className="mt-16">
+            <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
+              <div>
+                <h2 className="text-xl md:text-2xl font-display font-bold">
+                  Exit Polls from Other States
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Compare predictions across all states going to polls in 2026.
+                </p>
+              </div>
+              <Link to="/all-exit-polls">
+                <Button variant="outline" size="sm">View All</Button>
+              </Link>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+              {otherStates.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={`/upcoming-election/${s.slug}/exit-poll`}
+                  className="group block rounded-lg border border-border bg-card hover:border-foreground hover:shadow-card transition-all p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-display font-semibold text-base group-hover:text-foreground">
+                        {s.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {s.count} {s.count === 1 ? "poll" : "polls"} available
+                      </div>
+                    </div>
+                    <ArrowLeft className="h-4 w-4 rotate-180 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         <div className="mt-14 bg-muted/50 rounded-xl p-5 text-center text-xs text-muted-foreground">
           ⚠️ Exit polls are statistical projections by media/research agencies and may differ
           from final results. For official results, visit the{" "}
