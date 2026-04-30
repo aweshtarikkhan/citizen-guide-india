@@ -91,6 +91,7 @@ const ExitPollManager = () => {
   };
   const [saving, setSaving] = useState(false);
   const [filterState, setFilterState] = useState<string>("all");
+  const [bulkMode, setBulkMode] = useState(false);
 
   const load = async () => {
     setLoading(true);
