@@ -193,6 +193,18 @@ const ExitPollManager = () => {
 
   const filtered = filterState === "all" ? polls : polls.filter((p) => p.state_slug === filterState);
 
+  if (bulkMode) {
+    return (
+      <ExitPollBulkAdd
+        onClose={() => setBulkMode(false)}
+        onSaved={() => {
+          setBulkMode(false);
+          load();
+        }}
+      />
+    );
+  }
+
   if (editing) {
     return (
       <div className="max-w-4xl">
