@@ -21,7 +21,7 @@ interface PartyPrediction {
   party: string;
   short?: string;
   seats?: number;
-  vote_share?: number;
+  margin?: number; // ± margin of error in seats
   alliance?: string;
 }
 
@@ -38,6 +38,7 @@ interface ExitPoll {
   source_url: string | null;
   is_featured: boolean;
   sort_order: number;
+  total_seats: number | null;
 }
 
 const STATES = [
