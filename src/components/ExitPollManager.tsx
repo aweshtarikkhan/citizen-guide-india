@@ -42,11 +42,11 @@ interface ExitPoll {
 }
 
 const STATES = [
-  { slug: "assam", name: "Assam" },
-  { slug: "kerala", name: "Kerala" },
-  { slug: "puducherry", name: "Puducherry" },
-  { slug: "tamil-nadu", name: "Tamil Nadu" },
-  { slug: "west-bengal", name: "West Bengal" },
+  { slug: "assam", name: "Assam", totalSeats: 126 },
+  { slug: "kerala", name: "Kerala", totalSeats: 140 },
+  { slug: "puducherry", name: "Puducherry", totalSeats: 30 },
+  { slug: "tamil-nadu", name: "Tamil Nadu", totalSeats: 234 },
+  { slug: "west-bengal", name: "West Bengal", totalSeats: 294 },
 ];
 
 const empty = (): Partial<ExitPoll> => ({
@@ -56,11 +56,12 @@ const empty = (): Partial<ExitPoll> => ({
   poll_date: null,
   methodology: "",
   sample_size: "",
-  predictions: [{ party: "", short: "", seats: 0, vote_share: 0 }],
+  predictions: [{ party: "", short: "", seats: 0, margin: 0 }],
   summary: "",
   source_url: "",
   is_featured: false,
   sort_order: 0,
+  total_seats: null,
 });
 
 const ExitPollManager = () => {
