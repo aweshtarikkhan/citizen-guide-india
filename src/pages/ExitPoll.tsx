@@ -83,8 +83,27 @@ const ExitPollPage = () => {
   const { stateSlug } = useParams<{ stateSlug: string }>();
   const [polls, setPolls] = useState<ExitPoll[]>([]);
   const [loading, setLoading] = useState(true);
+  const [otherStates, setOtherStates] = useState<{ slug: string; name: string; count: number }[]>([]);
 
   const stateName = stateSlug ? STATE_NAMES[stateSlug] ?? stateSlug : "";
+
+  useEffect(() => {
+    supabase
+      .from("exit_polls")
+      .select("state_slug, state_name")
+      .then(({ data, error }) => {
+        if (!error && data) {
+          const map = new Map<string, { slug: string; name: string; count: number }>();
+          data.forEach((row: any) => {
+            if (row.state_slug === stateSlug) return;
+            const existing = map.get(row.state_slug);
+            if (existing) existing.count += 1;
+            else map.set(row.state_slug, { slug: row.state_slug, name: row.state_name, count: 1 });
+          });
+          setOtherStates(Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name)));
+        }
+      });
+  }, [stateSlug]);
 
   useEffect(() => {
     if (!stateSlug) return;
