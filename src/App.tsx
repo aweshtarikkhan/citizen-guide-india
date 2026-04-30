@@ -97,6 +97,7 @@ const App = () => {
             <Route path="/upcoming-election/:stateSlug" element={<UpcomingElection />} />
             <Route path="/upcoming-election/:stateSlug/candidates" element={<ViewCandidates />} />
             <Route path="/upcoming-election/:stateSlug/exit-poll" element={<ExitPoll />} />
+            <Route path="/exit-polls" element={<AllExitPolls />} />
             <Route path="/bye-elections-2026" element={<ByeElections />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
