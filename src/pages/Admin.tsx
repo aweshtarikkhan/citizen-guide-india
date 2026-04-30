@@ -11,10 +11,11 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type, Crown, Star
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type, Crown, Star, BarChart3
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
 import ConstituencyManager from "@/components/ConstituencyManager";
+import ExitPollManager from "@/components/ExitPollManager";
 import FontSelector from "@/components/FontSelector";
 
 interface Blog {
@@ -61,7 +62,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "settings";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "exit-polls" | "settings";
 
 const ROLE_HIERARCHY: Record<string, number> = {
   super_admin: 4,
@@ -529,6 +530,7 @@ const Admin = () => {
         { id: "dashboard" as Tab, label: "Dashboard", icon: LayoutDashboard },
         { id: "content" as Tab, label: "Page Content", icon: Globe },
         { id: "constituencies" as Tab, label: "Constituencies", icon: MapPin },
+        { id: "exit-polls" as Tab, label: "Exit Polls", icon: BarChart3 },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
         { id: "leads" as Tab, label: "Leads", icon: Users },
         ...(canManageRoles ? [{ id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck }] : []),
@@ -792,6 +794,8 @@ const Admin = () => {
 
         {/* Constituency Manager */}
         {activeTab === "constituencies" && isAdmin && <ConstituencyManager />}
+
+        {activeTab === "exit-polls" && isAdmin && <ExitPollManager />}
 
         {/* Site Settings */}
         {activeTab === "settings" && isAdmin && (

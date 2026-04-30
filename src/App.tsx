@@ -37,6 +37,7 @@ import NotFound from "./pages/NotFound";
 import UpcomingElection from "./pages/UpcomingElection";
 import ViewCandidates from "./pages/ViewCandidates";
 import ByeElections from "./pages/ByeElections";
+import ExitPoll from "./pages/ExitPoll";
 import Services from "./pages/Services";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -94,6 +95,7 @@ const App = () => {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/upcoming-election/:stateSlug" element={<UpcomingElection />} />
             <Route path="/upcoming-election/:stateSlug/candidates" element={<ViewCandidates />} />
+            <Route path="/upcoming-election/:stateSlug/exit-poll" element={<ExitPoll />} />
             <Route path="/bye-elections-2026" element={<ByeElections />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
