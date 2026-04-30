@@ -83,8 +83,27 @@ const ExitPollPage = () => {
   const { stateSlug } = useParams<{ stateSlug: string }>();
   const [polls, setPolls] = useState<ExitPoll[]>([]);
   const [loading, setLoading] = useState(true);
+  const [otherStates, setOtherStates] = useState<{ slug: string; name: string; count: number }[]>([]);
 
   const stateName = stateSlug ? STATE_NAMES[stateSlug] ?? stateSlug : "";
+
+  useEffect(() => {
+    supabase
+      .from("exit_polls")
+      .select("state_slug, state_name")
+      .then(({ data, error }) => {
+        if (!error && data) {
+          const map = new Map<string, { slug: string; name: string; count: number }>();
+          data.forEach((row: any) => {
+            if (row.state_slug === stateSlug) return;
+            const existing = map.get(row.state_slug);
+            if (existing) existing.count += 1;
+            else map.set(row.state_slug, { slug: row.state_slug, name: row.state_name, count: 1 });
+          });
+          setOtherStates(Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name)));
+        }
+      });
+  }, [stateSlug]);
 
   useEffect(() => {
     if (!stateSlug) return;
@@ -181,7 +200,7 @@ const ExitPollPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container max-w-6xl py-10 md:py-14">
+      <main className="container max-w-6xl pt-24 md:pt-28 pb-10 md:pb-14">
         <Link
           to={`/upcoming-election/${stateSlug}`}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"
@@ -262,6 +281,45 @@ const ExitPollPage = () => {
               </section>
             )}
           </>
+        )}
+
+        {otherStates.length > 0 && (
+          <section className="mt-16">
+            <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
+              <div>
+                <h2 className="text-xl md:text-2xl font-display font-bold">
+                  Exit Polls from Other States
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Compare predictions across all states going to polls in 2026.
+                </p>
+              </div>
+              <Link to="/all-exit-polls">
+                <Button variant="outline" size="sm">View All</Button>
+              </Link>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+              {otherStates.map((s) => (
+                <Link
+                  key={s.slug}
+                  to={`/upcoming-election/${s.slug}/exit-poll`}
+                  className="group block rounded-lg border border-border bg-card hover:border-foreground hover:shadow-card transition-all p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-display font-semibold text-base group-hover:text-foreground">
+                        {s.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {s.count} {s.count === 1 ? "poll" : "polls"} available
+                      </div>
+                    </div>
+                    <ArrowLeft className="h-4 w-4 rotate-180 text-muted-foreground group-hover:text-foreground transition-colors" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
 
         <div className="mt-14 bg-muted/50 rounded-xl p-5 text-center text-xs text-muted-foreground">
