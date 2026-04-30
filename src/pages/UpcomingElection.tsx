@@ -628,6 +628,19 @@ const UpcomingElection = () => {
 
   const [issueFilter, setIssueFilter] = useState<string | null>(null);
   const [searchQ, setSearchQ] = useState("");
+  const [featuredPoll, setFeaturedPoll] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (!stateSlug) return;
+    supabase
+      .from("exit_polls")
+      .select("*")
+      .eq("state_slug", stateSlug)
+      .eq("is_featured", true)
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => setFeaturedPoll(data));
+  }, [stateSlug]);
 
   // Always call hooks unconditionally — pass safe defaults if data is missing
   const baselineTurnout = data?.lastTurnout ?? 0;
