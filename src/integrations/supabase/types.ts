@@ -173,6 +173,60 @@ export type Database = {
         }
         Relationships: []
       }
+      exit_polls: {
+        Row: {
+          agency: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_featured: boolean
+          methodology: string | null
+          poll_date: string | null
+          predictions: Json
+          sample_size: string | null
+          sort_order: number
+          source_url: string | null
+          state_name: string
+          state_slug: string
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          agency: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_featured?: boolean
+          methodology?: string | null
+          poll_date?: string | null
+          predictions?: Json
+          sample_size?: string | null
+          sort_order?: number
+          source_url?: string | null
+          state_name: string
+          state_slug: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          agency?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_featured?: boolean
+          methodology?: string | null
+          poll_date?: string | null
+          predictions?: Json
+          sample_size?: string | null
+          sort_order?: number
+          source_url?: string | null
+          state_name?: string
+          state_slug?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       live_results: {
         Row: {
           alliance: string | null
