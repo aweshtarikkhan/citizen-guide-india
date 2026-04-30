@@ -238,6 +238,23 @@ const ExitPollManager = () => {
                 placeholder="e.g., 25,000 voters across 234 ACs"
               />
             </div>
+            <div>
+              <Label>Total Assembly Seats</Label>
+              <Input
+                type="number"
+                value={editing.total_seats ?? ""}
+                onChange={(e) =>
+                  setEditing({ ...editing, total_seats: parseInt(e.target.value) || null })
+                }
+                placeholder="Auto-filled from state (e.g., 294)"
+              />
+            </div>
+            <div className="md:col-span-1">
+              <Label>&nbsp;</Label>
+              <p className="text-xs text-muted-foreground">
+                Predicted seats will be shown as <code>seats (±margin)</code> out of total.
+              </p>
+            </div>
             <div className="md:col-span-2">
               <Label>Source URL</Label>
               <Input
