@@ -17,6 +17,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Trash2, Edit, Save, X, BarChart3, Star, Loader2 } from "lucide-react";
 import ExitPollPopupSettings from "./ExitPollPopupSettings";
+import ExitPollBulkAdd from "./ExitPollBulkAdd";
 
 interface PartyPrediction {
   party: string;
@@ -90,6 +91,7 @@ const ExitPollManager = () => {
   };
   const [saving, setSaving] = useState(false);
   const [filterState, setFilterState] = useState<string>("all");
+  const [bulkMode, setBulkMode] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -190,6 +192,18 @@ const ExitPollManager = () => {
   };
 
   const filtered = filterState === "all" ? polls : polls.filter((p) => p.state_slug === filterState);
+
+  if (bulkMode) {
+    return (
+      <ExitPollBulkAdd
+        onClose={() => setBulkMode(false)}
+        onSaved={() => {
+          setBulkMode(false);
+          load();
+        }}
+      />
+    );
+  }
 
   if (editing) {
     return (
@@ -405,6 +419,9 @@ const ExitPollManager = () => {
               ))}
             </SelectContent>
           </Select>
+          <Button variant="outline" onClick={() => setBulkMode(true)}>
+            <Plus className="h-4 w-4 mr-2" /> Bulk Add (Multi-Agency)
+          </Button>
           <Button onClick={() => setEditing(empty())}>
             <Plus className="h-4 w-4 mr-2" /> New Exit Poll
           </Button>
