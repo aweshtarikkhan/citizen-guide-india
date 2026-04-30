@@ -99,6 +99,7 @@ const Index = () => {
   return (
   <div className="min-h-screen">
     <Navbar />
+    <ExitPollPopup />
 
     {/* 1. Hero */}
     <HeroSection />
