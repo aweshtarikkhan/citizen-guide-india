@@ -317,11 +317,10 @@ const ExitPollManager = () => {
                   <Input
                     className="col-span-2"
                     type="number"
-                    step="0.1"
-                    placeholder="Vote %"
-                    value={p.vote_share ?? ""}
+                    placeholder="± Margin"
+                    value={p.margin ?? ""}
                     onChange={(e) =>
-                      updatePrediction(i, "vote_share", parseFloat(e.target.value) || 0)
+                      updatePrediction(i, "margin", parseInt(e.target.value) || 0)
                     }
                   />
                   <Input
