@@ -65,11 +65,29 @@ const empty = (): Partial<ExitPoll> => ({
   total_seats: null,
 });
 
+const DRAFT_KEY = "exit_poll_draft_v1";
+
 const ExitPollManager = () => {
   const { toast } = useToast();
   const [polls, setPolls] = useState<ExitPoll[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<Partial<ExitPoll> | null>(null);
+  const [editing, setEditingState] = useState<Partial<ExitPoll> | null>(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      return raw ? (JSON.parse(raw) as Partial<ExitPoll>) : null;
+    } catch {
+      return null;
+    }
+  });
+  const setEditing = (next: Partial<ExitPoll> | null) => {
+    setEditingState(next);
+    try {
+      if (next) localStorage.setItem(DRAFT_KEY, JSON.stringify(next));
+      else localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
   const [saving, setSaving] = useState(false);
   const [filterState, setFilterState] = useState<string>("all");
 
