@@ -200,7 +200,7 @@ const ExitPollPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="container max-w-6xl py-10 md:py-14">
+      <main className="container max-w-6xl pt-24 md:pt-28 pb-10 md:pb-14">
         <Link
           to={`/upcoming-election/${stateSlug}`}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"
