@@ -116,7 +116,7 @@ const IndiaMapInteractive = () => {
               key={location.id}
               d={location.path}
               className="transition-all duration-200 cursor-pointer"
-              fill={hovered?.name === location.name ? "hsl(var(--foreground))" : "hsl(var(--muted))"}
+              fill={hovered?.name === location.name ? getPartyColor(data?.party || "") : "hsl(var(--muted))"}
               stroke="hsl(var(--foreground))"
               strokeWidth="0.5"
               onMouseEnter={() =>
