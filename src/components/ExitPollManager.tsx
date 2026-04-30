@@ -419,6 +419,9 @@ const ExitPollManager = () => {
               ))}
             </SelectContent>
           </Select>
+          <Button variant="outline" onClick={() => setBulkMode(true)}>
+            <Plus className="h-4 w-4 mr-2" /> Bulk Add (Multi-Agency)
+          </Button>
           <Button onClick={() => setEditing(empty())}>
             <Plus className="h-4 w-4 mr-2" /> New Exit Poll
           </Button>
