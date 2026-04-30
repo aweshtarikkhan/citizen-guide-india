@@ -159,7 +159,7 @@ const ExitPollManager = () => {
     if (!editing) return;
     setEditing({
       ...editing,
-      predictions: [...(editing.predictions || []), { party: "", short: "", seats: 0, vote_share: 0 }],
+      predictions: [...(editing.predictions || []), { party: "", short: "", seats: 0, margin: 0 }],
     });
   };
 
