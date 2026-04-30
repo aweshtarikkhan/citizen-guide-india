@@ -31,7 +31,7 @@ interface PartyPrediction {
   party: string;
   short?: string;
   seats?: number;
-  vote_share?: number;
+  margin?: number;
   alliance?: string;
 }
 
@@ -47,6 +47,7 @@ interface ExitPoll {
   summary: string | null;
   source_url: string | null;
   is_featured: boolean;
+  total_seats: number | null;
 }
 
 const STATE_NAMES: Record<string, string> = {
