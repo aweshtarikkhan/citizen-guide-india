@@ -112,6 +112,57 @@ const Index = () => {
       </div>
     </section>
 
+    {/* Featured Exit Poll Highlight */}
+    {featuredExitPoll && (
+      <section className="py-8 md:py-12 bg-background">
+        <div className="container max-w-5xl">
+          <div className="rounded-2xl border-2 border-foreground bg-gradient-to-br from-muted/40 via-background to-muted/20 p-6 md:p-8 shadow-elegant">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="h-4 w-4" />
+                  <span className="text-xs font-semibold uppercase tracking-widest">
+                    Featured Exit Poll
+                  </span>
+                </div>
+                <h2 className="text-xl md:text-2xl font-display font-bold mb-2">
+                  {featuredExitPoll.agency} — {featuredExitPoll.state_name} 2026
+                </h2>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {featuredExitPoll.summary ||
+                    `Latest exit poll predictions from ${featuredExitPoll.agency} for the ${featuredExitPoll.state_name} Assembly Election.`}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {(Array.isArray(featuredExitPoll.predictions)
+                    ? (featuredExitPoll.predictions as any[])
+                    : []
+                  )
+                    .slice(0, 5)
+                    .map((p: any, i: number) => (
+                      <div
+                        key={i}
+                        className="px-3 py-1.5 rounded-full bg-foreground text-background text-xs font-semibold"
+                      >
+                        {p.short || p.party}: {p.seats ?? "?"}
+                      </div>
+                    ))}
+                </div>
+                <Link
+                  to={`/upcoming-election/${featuredExitPoll.state_slug}/exit-poll`}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:gap-3 transition-all"
+                >
+                  Compare All Exit Polls <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+              <div className="hidden md:flex h-24 w-24 rounded-full bg-foreground items-center justify-center shrink-0">
+                <BarChart3 className="h-12 w-12 text-background" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
     {/* Latest Blogs Section */}
     <section className="py-10 md:py-14 lg:py-16 bg-muted/30">
       <div className="container max-w-5xl">
