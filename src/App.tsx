@@ -38,6 +38,7 @@ import UpcomingElection from "./pages/UpcomingElection";
 import ViewCandidates from "./pages/ViewCandidates";
 import ByeElections from "./pages/ByeElections";
 import ExitPoll from "./pages/ExitPoll";
+import AllExitPolls from "./pages/AllExitPolls";
 import Services from "./pages/Services";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
