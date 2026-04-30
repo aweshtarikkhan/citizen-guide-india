@@ -1125,6 +1125,57 @@ const UpcomingElection = () => {
           </div>
         </section>
 
+        {/* Exit Poll CTA Section */}
+        <section className="mb-12">
+          <div className="rounded-2xl border-2 border-foreground bg-gradient-to-br from-muted/30 to-background p-6 md:p-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
+              <div className="flex-1">
+                <Badge variant="outline" className="mb-3">
+                  <BarChart3 className="h-3 w-3 mr-1" /> Exit Polls
+                </Badge>
+                {featuredPoll ? (
+                  <>
+                    <h3 className="text-xl md:text-2xl font-display font-bold mb-1">
+                      Featured: {featuredPoll.agency} Exit Poll
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {featuredPoll.summary ||
+                        `Latest seat projections for ${data.stateName} from ${featuredPoll.agency}.`}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {(Array.isArray(featuredPoll.predictions)
+                        ? featuredPoll.predictions
+                        : []
+                      )
+                        .slice(0, 4)
+                        .map((p: any, i: number) => (
+                          <Badge key={i} variant="secondary" className="text-xs">
+                            {p.short || p.party}: {p.seats ?? "?"}
+                          </Badge>
+                        ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-xl md:text-2xl font-display font-bold mb-1">
+                      Compare {data.stateName} Exit Polls
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      See predictions from Chanakya, Axis My India, India Today-CVoter, and more
+                      in one place.
+                    </p>
+                  </>
+                )}
+              </div>
+              <Link to={`/upcoming-election/${stateSlug}/exit-poll`}>
+                <Button size="lg" className="rounded-full whitespace-nowrap">
+                  <BarChart3 className="h-4 w-4 mr-2" /> View Exit Poll
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Other Ongoing Elections */}
         <section className="mb-12">
           <div className="text-center mb-8">
