@@ -2,6 +2,53 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import indiaMap from "@svg-maps/india";
 
+// Party color mapping (official party colors)
+const partyColors: Record<string, string> = {
+  "BJP": "#FF9933",
+  "Congress": "#19AAED",
+  "INC": "#19AAED",
+  "AAP": "#0066CC",
+  "TMC": "#20C997",
+  "DMK": "#E2231A",
+  "BJD": "#138808",
+  "TDP": "#FFD700",
+  "JMM": "#006400",
+  "SKM": "#FFA500",
+  "ZPM": "#8B4513",
+  "NPP": "#1E90FF",
+  "NC": "#FF1493",
+  "NDPP": "#FF6347",
+  "YSRCP": "#0F52BA",
+  "SP": "#DC143C",
+  "BSP": "#22409A",
+  "Shiv Sena": "#F47216",
+  "NCP": "#00BFFF",
+  "CPM": "#CC0000",
+  "CPI": "#CC0000",
+};
+
+// Get color for a party string (handles alliances/compound names)
+const getPartyColor = (party: string): string => {
+  if (!party) return "hsl(var(--muted))";
+  const upper = party.toUpperCase();
+  if (upper.includes("BJP") || upper.includes("NDA") || upper.includes("MAHAYUTI")) return partyColors["BJP"];
+  if (upper.includes("CONGRESS") || upper.includes("INC") || upper.includes("UDF")) return partyColors["Congress"];
+  if (upper.includes("AAP")) return partyColors["AAP"];
+  if (upper.includes("TMC")) return partyColors["TMC"];
+  if (upper.includes("DMK")) return partyColors["DMK"];
+  if (upper.includes("BJD")) return partyColors["BJD"];
+  if (upper.includes("TDP")) return partyColors["TDP"];
+  if (upper.includes("JMM")) return partyColors["JMM"];
+  if (upper.includes("SKM")) return partyColors["SKM"];
+  if (upper.includes("ZPM")) return partyColors["ZPM"];
+  if (upper.includes("NPP")) return partyColors["NPP"];
+  if (upper.includes("NC-") || upper.startsWith("NC ")) return partyColors["NC"];
+  if (upper.includes("NDPP")) return partyColors["NDPP"];
+  if (upper.includes("LDF") || upper.includes("CPM")) return partyColors["CPM"];
+  if (upper.includes("NR CONGRESS")) return partyColors["BJP"];
+  return "hsl(var(--foreground))";
+};
+
 const statePartyData: Record<string, { party: string; cm: string }> = {
   "an": { party: "BJP", cm: "Lt. Governor" },
   "ap": { party: "TDP-led NDA", cm: "N. Chandrababu Naidu" },
