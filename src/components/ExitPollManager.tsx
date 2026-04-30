@@ -16,6 +16,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Trash2, Edit, Save, X, BarChart3, Star, Loader2 } from "lucide-react";
+import ExitPollPopupSettings from "./ExitPollPopupSettings";
 
 interface PartyPrediction {
   party: string;
