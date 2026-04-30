@@ -216,6 +216,15 @@ const Navbar = () => {
           </Link>
 
           <Link
+            to="/exit-polls"
+            className={`block py-2.5 text-sm font-medium ${
+              location.pathname === "/exit-polls" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
+            }`}
+          >
+            Exit Polls
+          </Link>
+
+          <Link
             to="/contact"
             className={`block py-2.5 text-sm font-medium ${
               location.pathname === "/contact" ? "text-foreground" : "text-foreground/60 hover:text-foreground"
