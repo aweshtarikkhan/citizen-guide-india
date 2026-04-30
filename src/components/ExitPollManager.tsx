@@ -104,7 +104,8 @@ const ExitPollManager = () => {
       return;
     }
     setSaving(true);
-    const stateName = STATES.find((s) => s.slug === editing.state_slug)?.name || editing.state_slug;
+    const stateMeta = STATES.find((s) => s.slug === editing.state_slug);
+    const stateName = stateMeta?.name || editing.state_slug;
     const payload = {
       state_slug: editing.state_slug,
       state_name: stateName,
@@ -117,6 +118,7 @@ const ExitPollManager = () => {
       source_url: editing.source_url || null,
       is_featured: !!editing.is_featured,
       sort_order: editing.sort_order ?? 0,
+      total_seats: editing.total_seats ?? stateMeta?.totalSeats ?? null,
     };
 
     let error;
