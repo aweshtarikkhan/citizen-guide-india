@@ -61,8 +61,10 @@ serve(async (req) => {
 
   try {
     const url = new URL(req.url);
-    const provider = url.searchParams.get("provider"); // "groq" | "lovable" | null
-    const { messages, type } = await req.json();
+    const body = await req.json();
+    const { messages, type } = body;
+    // Provider can come from query param OR body.provider for testing
+    const provider = url.searchParams.get("provider") || body.provider || null;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     // Daily fact mode (always Lovable AI)
