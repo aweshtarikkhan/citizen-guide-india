@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import {
   ArrowLeft,
   Users,
@@ -669,7 +670,8 @@ const UpcomingElection = () => {
             Go to Home
           </Link>
         </div>
-        <FooterSection />
+        <FeedbackSection />
+      <FooterSection />
       </div>
     );
   }

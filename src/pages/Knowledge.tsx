@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { Landmark, Users, BookOpen, Vote, Scale, Globe, Shield, FileText, Briefcase, Building2 } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -173,7 +174,8 @@ const KnowledgePage = () => {
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
   );
 };

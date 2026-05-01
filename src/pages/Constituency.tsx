@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { stateDataMap, Constituency as ConstituencyType } from "@/data/stateConstituencies";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -555,6 +556,7 @@ const ConstituencyPage = () => {
         </div>
       </section>
 
+      <FeedbackSection />
       <FooterSection />
     </div>
   );
