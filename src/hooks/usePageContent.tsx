@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 interface PageSection {
@@ -12,21 +12,20 @@ interface PageSection {
 }
 
 export const usePageContent = (pageSlug: string) => {
-  const [sections, setSections] = useState<PageSection[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchContent = async () => {
+  // Cached & deduped across components for 10 minutes — page CMS rarely changes
+  const { data: sections = [], isLoading: loading } = useQuery({
+    queryKey: ["page_content", pageSlug],
+    queryFn: async () => {
       const { data } = await supabase
         .from("page_content")
-        .select("*")
+        .select("section_key, content")
         .eq("page_slug", pageSlug)
         .order("sort_order", { ascending: true });
-      setSections((data as PageSection[]) || []);
-      setLoading(false);
-    };
-    fetchContent();
-  }, [pageSlug]);
+      return (data as PageSection[]) || [];
+    },
+    staleTime: 10 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  });
 
   const getContent = (sectionKey: string, fallback: string = ""): string => {
     const section = sections.find((s) => s.section_key === sectionKey);
