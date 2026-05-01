@@ -236,6 +236,12 @@ const HelpDeskPage = () => {
       </div>
     </section>
 
+    <section className="py-12 md:py-16 bg-background">
+      <div className="container max-w-3xl">
+        <HelpDeskTicket />
+      </div>
+    </section>
+
     <FeedbackSection />
       <FooterSection />
   </div>
