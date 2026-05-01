@@ -8,6 +8,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/hooks/useLanguage";
 import AutoTranslateWrapper from "@/components/AutoTranslateWrapper";
 import { loadGlobalFont } from "@/components/FontSelector";
+import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import HelpDesk from "./pages/HelpDesk";
 import Knowledge from "./pages/Knowledge";
@@ -113,6 +114,7 @@ const App = () => {
       </BrowserRouter>
       </LanguageProvider>
     </TooltipProvider>
+    <Analytics />
   </QueryClientProvider>
   );
 };
