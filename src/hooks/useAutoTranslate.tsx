@@ -104,24 +104,36 @@ const useAutoTranslate = () => {
     }
   }, [isTranslating, t, currentLang]);
 
-  // Observe DOM changes for dynamic content
+  // Observe DOM changes for dynamic content — only react to *added* nodes
+  // (ignore characterData changes we cause ourselves). Heavy debounce to avoid CPU pinning.
   useEffect(() => {
     if (currentLang === "en") return;
 
-    const observer = new MutationObserver(() => {
-      // Debounce
-      clearTimeout((observer as any)._timer);
-      (observer as any)._timer = setTimeout(() => {
+    let timer: number | undefined;
+    const observer = new MutationObserver((mutations) => {
+      // Only react when new element subtrees are added — ignore text edits we
+      // perform ourselves during translation (which would cause infinite loops).
+      const hasNewNodes = mutations.some(
+        (m) => m.type === "childList" && m.addedNodes.length > 0
+      );
+      if (!hasNewNodes) return;
+
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
         translatePage();
-      }, 500);
+      }, 1500);
     });
 
     observer.observe(document.body, {
       childList: true,
       subtree: true,
+      characterData: false,
     });
 
-    return () => observer.disconnect();
+    return () => {
+      window.clearTimeout(timer);
+      observer.disconnect();
+    };
   }, [currentLang, translatePage]);
 
   return { isTranslating };
