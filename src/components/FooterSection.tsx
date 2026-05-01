@@ -6,7 +6,7 @@ import NewsletterSignup from "./NewsletterSignup";
 const FooterSection = () => (
   <footer className="py-10 md:py-16 bg-foreground text-background">
     <div className="container">
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-10">
         <div>
           <Link to="/" className="flex items-center gap-1 text-2xl font-bold text-background tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
             <img src={matdaanLogo} alt="Matdaan Logo" className="h-12 w-12 object-contain brightness-0 invert" />
@@ -44,12 +44,14 @@ const FooterSection = () => (
             <a href="tel:+919009036633" className="flex items-center gap-2 hover:text-background transition-colors">
               <Phone className="h-4 w-4" /> +91 9009036633
             </a>
-            <Link to="/join-us" className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 rounded-md border border-background/30 text-background hover:bg-background hover:text-foreground transition-colors text-xs font-medium">
-              <HeartHandshake className="h-3.5 w-3.5" /> Volunteer with us
+            <Link to="/join-us" className="flex items-center gap-2 hover:text-background transition-colors">
+              <HeartHandshake className="h-4 w-4" /> Volunteer with us
             </Link>
           </div>
         </div>
-        <NewsletterSignup />
+        <div className="sm:col-span-2 lg:col-span-2">
+          <NewsletterSignup />
+        </div>
       </div>
       <div className="border-t border-background/10 mt-12 pt-6">
         <div className="flex flex-wrap justify-center gap-4 text-xs text-background/60 mb-4">
