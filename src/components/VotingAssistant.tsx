@@ -158,6 +158,38 @@ const VotingAssistant = () => {
             </div>
           </div>
 
+          {/* Optional lead capture (skippable) */}
+          {!leadCaptured && (
+            <div className="px-4 py-3 border-b border-border bg-muted/40 space-y-2">
+              <p className="text-xs font-medium text-foreground">Quick intro (optional)</p>
+              <p className="text-[11px] text-muted-foreground leading-snug">
+                Share your details so we can follow up if needed. We will not send any promotional mail.
+              </p>
+              <input value={leadName} onChange={(e) => setLeadName(e.target.value)} placeholder="Name" maxLength={100} className="w-full px-2.5 py-1.5 text-xs rounded-md border border-border bg-background" />
+              <div className="grid grid-cols-2 gap-2">
+                <input type="email" value={leadEmail} onChange={(e) => setLeadEmail(e.target.value)} placeholder="Email" maxLength={255} className="px-2.5 py-1.5 text-xs rounded-md border border-border bg-background" />
+                <input value={leadMobile} onChange={(e) => setLeadMobile(e.target.value)} placeholder="Mobile" maxLength={20} className="px-2.5 py-1.5 text-xs rounded-md border border-border bg-background" />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => submitLead(false)}
+                  disabled={leadSubmitting || !leadName.trim() || !leadEmail.trim() || !leadMobile.trim()}
+                  className="flex-1 px-3 py-1.5 text-xs rounded-md bg-foreground text-background font-medium disabled:opacity-40 hover:bg-foreground/90"
+                >
+                  {leadSubmitting ? "Saving..." : "Save & continue"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => submitLead(true)}
+                  className="px-3 py-1.5 text-xs rounded-md border border-border text-muted-foreground hover:bg-background"
+                >
+                  Skip
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.length === 0 && (
