@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
+import HelpDeskTicket from "@/components/HelpDeskTicket";
 import { UserPlus, FileText, MapPin, ShieldCheck, AlertCircle, Search, ExternalLink, CheckCircle, Smartphone, Globe, Printer, Users, ClipboardCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePageContent } from "@/hooks/usePageContent";
@@ -234,7 +236,14 @@ const HelpDeskPage = () => {
       </div>
     </section>
 
-    <FooterSection />
+    <section className="py-12 md:py-16 bg-background">
+      <div className="container max-w-3xl">
+        <HelpDeskTicket />
+      </div>
+    </section>
+
+    <FeedbackSection />
+      <FooterSection />
   </div>
   );
 };

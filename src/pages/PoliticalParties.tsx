@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { Users, Calendar, MapPin, Globe } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -110,7 +111,8 @@ const PoliticalParties = () => {
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
   );
 };

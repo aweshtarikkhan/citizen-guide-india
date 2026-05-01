@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { Scale, BookOpen, FileText, Landmark } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -121,7 +122,8 @@ const ConstitutionLaws = () => {
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
   );
 };

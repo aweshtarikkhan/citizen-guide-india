@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Users, Landmark, Building2, Search } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { stateDataMap } from "@/data/stateConstituencies";
 import { assemblyData } from "@/data/assemblyConstituencies";
 import StateConstituencyMap from "@/components/StateConstituencyMap";
@@ -257,6 +258,7 @@ const StatePage = () => {
           )}
         </div>
       </main>
+      <FeedbackSection />
       <FooterSection />
     </div>
   );

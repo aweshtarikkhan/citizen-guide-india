@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -93,7 +94,8 @@ const ViewCandidates = () => {
             </Button>
           </Link>
         </main>
-        <FooterSection />
+        <FeedbackSection />
+      <FooterSection />
       </div>
     );
   }

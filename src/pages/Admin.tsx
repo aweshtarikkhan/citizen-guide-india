@@ -11,12 +11,13 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import {
   LayoutDashboard, FileText, Users, UserCheck, LogOut, Plus, Edit, Trash2,
-  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type, Crown, Star, BarChart3
+  Eye, Save, Upload, X, Loader2, Image as ImageIcon, Shield, ShieldCheck, Globe, MapPin, Settings, Type, Crown, Star, BarChart3, Inbox
 } from "lucide-react";
 import ContentManager from "@/components/ContentManager";
 import ConstituencyManager from "@/components/ConstituencyManager";
 import ExitPollManager from "@/components/ExitPollManager";
 import FontSelector from "@/components/FontSelector";
+import SubmissionsManager from "@/components/SubmissionsManager";
 
 interface Blog {
   id: string;
@@ -62,7 +63,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "exit-polls" | "settings";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "exit-polls" | "settings" | "submissions";
 
 const ROLE_HIERARCHY: Record<string, number> = {
   super_admin: 4,
@@ -532,7 +533,8 @@ const Admin = () => {
         { id: "constituencies" as Tab, label: "Constituencies", icon: MapPin },
         { id: "exit-polls" as Tab, label: "Exit Polls", icon: BarChart3 },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
-        { id: "leads" as Tab, label: "Leads", icon: Users },
+        { id: "leads" as Tab, label: "Volunteer Leads", icon: Users },
+        { id: "submissions" as Tab, label: "Submissions", icon: Inbox },
         ...(canManageRoles ? [{ id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck }] : []),
         { id: "settings" as Tab, label: "Site Settings", icon: Type },
       ]
@@ -796,6 +798,8 @@ const Admin = () => {
         {activeTab === "constituencies" && isAdmin && <ConstituencyManager />}
 
         {activeTab === "exit-polls" && isAdmin && <ExitPollManager />}
+
+        {activeTab === "submissions" && isAdmin && <SubmissionsManager />}
 
         {/* Site Settings */}
         {activeTab === "settings" && isAdmin && (

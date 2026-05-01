@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { Link } from "react-router-dom";
 import { UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpCircle, TrendingUp, Users, Landmark, ArrowRight, Search, ExternalLink } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
@@ -77,6 +78,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
+      <FeedbackSection />
       <FooterSection />
     </div>
   );

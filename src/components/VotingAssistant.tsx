@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { supabase } from "@/integrations/supabase/client";
 
 type Msg = { role: "user" | "assistant"; content: string };
+const LEAD_KEY = "matdaan_chat_lead_v1";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/voting-assistant`;
 
@@ -27,10 +29,39 @@ const VotingAssistant = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [leadCaptured, setLeadCaptured] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return !!localStorage.getItem(LEAD_KEY);
+  });
+  const [leadName, setLeadName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadMobile, setLeadMobile] = useState("");
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  const submitLead = async (skip: boolean) => {
+    if (skip) {
+      localStorage.setItem(LEAD_KEY, "skipped");
+      setLeadCaptured(true);
+      return;
+    }
+    if (!leadName.trim() || !leadEmail.trim() || !leadMobile.trim()) return;
+    setLeadSubmitting(true);
+    const { error } = await supabase.from("submissions").insert({
+      type: "chat_lead",
+      name: leadName.trim().slice(0, 100),
+      email: leadEmail.trim().slice(0, 255),
+      mobile: leadMobile.trim().slice(0, 20),
+    });
+    setLeadSubmitting(false);
+    if (!error) {
+      localStorage.setItem(LEAD_KEY, "saved");
+      setLeadCaptured(true);
+    }
+  };
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
@@ -126,6 +157,38 @@ const VotingAssistant = () => {
               <p className="text-xs opacity-70">Ask anything about voting</p>
             </div>
           </div>
+
+          {/* Optional lead capture (skippable) */}
+          {!leadCaptured && (
+            <div className="px-4 py-3 border-b border-border bg-muted/40 space-y-2">
+              <p className="text-xs font-medium text-foreground">Quick intro (optional)</p>
+              <p className="text-[11px] text-muted-foreground leading-snug">
+                Share your details so we can follow up if needed. We will not send any promotional mail.
+              </p>
+              <input value={leadName} onChange={(e) => setLeadName(e.target.value)} placeholder="Name" maxLength={100} className="w-full px-2.5 py-1.5 text-xs rounded-md border border-border bg-background" />
+              <div className="grid grid-cols-2 gap-2">
+                <input type="email" value={leadEmail} onChange={(e) => setLeadEmail(e.target.value)} placeholder="Email" maxLength={255} className="px-2.5 py-1.5 text-xs rounded-md border border-border bg-background" />
+                <input value={leadMobile} onChange={(e) => setLeadMobile(e.target.value)} placeholder="Mobile" maxLength={20} className="px-2.5 py-1.5 text-xs rounded-md border border-border bg-background" />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => submitLead(false)}
+                  disabled={leadSubmitting || !leadName.trim() || !leadEmail.trim() || !leadMobile.trim()}
+                  className="flex-1 px-3 py-1.5 text-xs rounded-md bg-foreground text-background font-medium disabled:opacity-40 hover:bg-foreground/90"
+                >
+                  {leadSubmitting ? "Saving..." : "Save & continue"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => submitLead(true)}
+                  className="px-3 py-1.5 text-xs rounded-md border border-border text-muted-foreground hover:bg-background"
+                >
+                  Skip
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3">

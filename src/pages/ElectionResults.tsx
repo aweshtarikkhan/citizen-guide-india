@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { TrendingUp, BarChart3, MapPin, Calendar, Users, Award } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -155,7 +156,8 @@ const ElectionResults = () => {
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
   );
 };

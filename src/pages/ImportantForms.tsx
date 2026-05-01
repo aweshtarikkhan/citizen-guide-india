@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { FileText, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -192,7 +193,8 @@ const ImportantFormsPage = () => (
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
 );
 

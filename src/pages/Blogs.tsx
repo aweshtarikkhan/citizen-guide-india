@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { PenLine, Clock } from "lucide-react";
 
 const samplePosts = [
@@ -64,7 +65,8 @@ const Blogs = () => (
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
 );
 

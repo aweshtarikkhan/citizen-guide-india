@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { XCircle, CheckCircle } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -111,7 +112,8 @@ const MythsPage = () => {
       </div>
     </section>
 
-    <FooterSection />
+    <FeedbackSection />
+      <FooterSection />
   </div>
   );
 };

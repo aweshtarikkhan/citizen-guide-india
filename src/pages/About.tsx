@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import IndiaMapInteractive from "@/components/IndiaMapInteractive";
 import { usePageContent } from "@/hooks/usePageContent";
 import {
@@ -548,6 +549,7 @@ const AboutPage = () => {
         </div>
       </section>
 
+      <FeedbackSection />
       <FooterSection />
     </div>
   );

@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
+import FeedbackSection from "@/components/FeedbackSection";
 import { stateDataMap } from "@/data/stateConstituencies";
 import { getConstituencyExtra, formatIndianNumber } from "@/data/constituencyExtraData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -94,7 +95,8 @@ const ConstituencyDetailPage = () => {
             <Button><ArrowLeft className="h-4 w-4 mr-2" /> Back to All Constituencies</Button>
           </Link>
         </div>
-        <FooterSection />
+        <FeedbackSection />
+      <FooterSection />
       </div>
     );
   }
