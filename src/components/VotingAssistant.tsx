@@ -155,8 +155,13 @@ const VotingAssistant = () => {
             <div className="h-9 w-9 rounded-full bg-background/20 flex items-center justify-center">
               <Bot className="h-5 w-5" />
             </div>
-            <div>
-              <p className="font-display font-semibold text-sm">Matdaan Assistant</p>
+            <div className="flex-1">
+              <p className="font-display font-semibold text-sm">
+                Matdaan Assistant
+                {typeof window !== "undefined" && new URLSearchParams(window.location.search).get("testGroq") === "1" && (
+                  <span className="ml-2 px-1.5 py-0.5 text-[9px] rounded bg-yellow-400 text-black font-bold">GROQ TEST</span>
+                )}
+              </p>
               <p className="text-xs opacity-70">Ask anything about voting</p>
             </div>
           </div>
