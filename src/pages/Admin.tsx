@@ -533,7 +533,8 @@ const Admin = () => {
         { id: "constituencies" as Tab, label: "Constituencies", icon: MapPin },
         { id: "exit-polls" as Tab, label: "Exit Polls", icon: BarChart3 },
         { id: "blogs" as Tab, label: "Blogs", icon: FileText },
-        { id: "leads" as Tab, label: "Leads", icon: Users },
+        { id: "leads" as Tab, label: "Volunteer Leads", icon: Users },
+        { id: "submissions" as Tab, label: "Submissions", icon: Inbox },
         ...(canManageRoles ? [{ id: "users" as Tab, label: "Users & Roles", icon: ShieldCheck }] : []),
         { id: "settings" as Tab, label: "Site Settings", icon: Type },
       ]
