@@ -29,10 +29,39 @@ const VotingAssistant = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [leadCaptured, setLeadCaptured] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return !!localStorage.getItem(LEAD_KEY);
+  });
+  const [leadName, setLeadName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadMobile, setLeadMobile] = useState("");
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
+
+  const submitLead = async (skip: boolean) => {
+    if (skip) {
+      localStorage.setItem(LEAD_KEY, "skipped");
+      setLeadCaptured(true);
+      return;
+    }
+    if (!leadName.trim() || !leadEmail.trim() || !leadMobile.trim()) return;
+    setLeadSubmitting(true);
+    const { error } = await supabase.from("submissions").insert({
+      type: "chat_lead",
+      name: leadName.trim().slice(0, 100),
+      email: leadEmail.trim().slice(0, 255),
+      mobile: leadMobile.trim().slice(0, 20),
+    });
+    setLeadSubmitting(false);
+    if (!error) {
+      localStorage.setItem(LEAD_KEY, "saved");
+      setLeadCaptured(true);
+    }
+  };
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
