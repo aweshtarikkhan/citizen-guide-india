@@ -44,12 +44,14 @@ const FooterSection = () => (
             <a href="tel:+919009036633" className="flex items-center gap-2 hover:text-background transition-colors">
               <Phone className="h-4 w-4" /> +91 9009036633
             </a>
-            <Link to="/join-us" className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 rounded-md border border-background/30 text-background hover:bg-background hover:text-foreground transition-colors text-xs font-medium">
-              <HeartHandshake className="h-3.5 w-3.5" /> Volunteer with us
+            <Link to="/join-us" className="flex items-center gap-2 hover:text-background transition-colors">
+              <HeartHandshake className="h-4 w-4" /> Volunteer with us
             </Link>
           </div>
         </div>
-        <NewsletterSignup />
+        <div className="sm:col-span-2 lg:col-span-2">
+          <NewsletterSignup />
+        </div>
       </div>
       <div className="border-t border-background/10 mt-12 pt-6">
         <div className="flex flex-wrap justify-center gap-4 text-xs text-background/60 mb-4">
