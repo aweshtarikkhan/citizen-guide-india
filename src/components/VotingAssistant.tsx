@@ -73,6 +73,9 @@ const VotingAssistant = () => {
 
     let assistantSoFar = "";
 
+    // Test mode: append ?testGroq=1 to the URL to force Groq provider
+    const forceGroq = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("testGroq") === "1";
+
     try {
       const resp = await fetch(CHAT_URL, {
         method: "POST",
@@ -80,7 +83,7 @@ const VotingAssistant = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: allMsgs }),
+        body: JSON.stringify({ messages: allMsgs, ...(forceGroq ? { provider: "groq" } : {}) }),
       });
 
       if (!resp.ok || !resp.body) {
