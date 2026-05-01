@@ -39,17 +39,23 @@ async function callLovableAI(messages: any[]) {
   });
 }
 
-async function callGroq(messages: any[]) {
-  const GROQ_API_KEY = Deno.env.get("GROQ_API_KEY");
-  if (!GROQ_API_KEY) throw new Error("GROQ_API_KEY missing");
-  return await fetch("https://api.groq.com/openai/v1/chat/completions", {
+/**
+ * Direct Google Gemini API fallback.
+ * Uses the OpenAI-compatible endpoint so we can keep the same SSE
+ * (`data: {choices:[{delta:{content}}]}`) format as Lovable AI.
+ * Docs: https://ai.google.dev/gemini-api/docs/openai
+ */
+async function callGeminiDirect(messages: any[]) {
+  const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
+  if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
+  return await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${GROQ_API_KEY}`,
+      Authorization: `Bearer ${GEMINI_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "llama-3.1-8b-instant",
+      model: "gemini-2.0-flash",
       messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
       stream: true,
     }),
@@ -63,7 +69,7 @@ serve(async (req) => {
     const url = new URL(req.url);
     const body = await req.json();
     const { messages, type } = body;
-    // Provider can come from query param OR body.provider for testing
+    // Provider override for testing: "gemini" forces direct Gemini API
     const provider = url.searchParams.get("provider") || body.provider || null;
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
@@ -99,21 +105,20 @@ serve(async (req) => {
     let response: Response;
     let usedProvider = "lovable";
 
-    if (provider === "groq") {
-      // Force Groq for direct testing
-      response = await callGroq(messages);
-      usedProvider = "groq";
+    if (provider === "gemini") {
+      // Force direct Gemini for testing
+      response = await callGeminiDirect(messages);
+      usedProvider = "gemini-direct";
     } else {
       // Default: try Lovable AI first
       response = await callLovableAI(messages);
 
-      // Fallback to Groq on 429 (rate limit) or 402 (credits exhausted)
-      if ((response.status === 429 || response.status === 402) && Deno.env.get("GROQ_API_KEY")) {
-        console.log(`Lovable AI returned ${response.status}, falling back to Groq`);
-        // Drain response body to avoid leaks
+      // Fallback to direct Gemini on 429 (rate limit) or 402 (credits exhausted)
+      if ((response.status === 429 || response.status === 402) && Deno.env.get("GEMINI_API_KEY")) {
+        console.log(`Lovable AI returned ${response.status}, falling back to Gemini direct`);
         try { await response.body?.cancel(); } catch {}
-        response = await callGroq(messages);
-        usedProvider = "groq-fallback";
+        response = await callGeminiDirect(messages);
+        usedProvider = "gemini-fallback";
       }
     }
 
