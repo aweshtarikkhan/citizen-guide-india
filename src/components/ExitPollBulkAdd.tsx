@@ -62,7 +62,7 @@ const ExitPollBulkAdd = ({ onClose, onSaved }: Props) => {
   const [parties, setParties] = useState<PartyRow[]>(
     draft?.parties || [
       { party: "Indian National Congress", short: "INC", alliance: "INDIA" },
-      { party: "Indian National Congress", short: "INC", alliance: "INDIA" },
+      { party: "", short: "", alliance: "" },
     ],
   );
   const [agencies, setAgencies] = useState<AgencyCol[]>(
