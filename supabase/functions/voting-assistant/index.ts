@@ -95,6 +95,7 @@ serve(async (req) => {
     }
 
     // Chat mode with fallback strategy
+    console.log(`[voting-assistant] provider param: ${provider}, msg count: ${messages?.length}`);
     let response: Response;
     let usedProvider = "lovable";
 
