@@ -799,6 +799,8 @@ const Admin = () => {
 
         {activeTab === "exit-polls" && isAdmin && <ExitPollManager />}
 
+        {activeTab === "submissions" && isAdmin && <SubmissionsManager />}
+
         {/* Site Settings */}
         {activeTab === "settings" && isAdmin && (
           <div>
