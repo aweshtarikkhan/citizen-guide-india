@@ -63,7 +63,7 @@ interface UserRole {
   role: string;
 }
 
-type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "exit-polls" | "settings";
+type Tab = "dashboard" | "blogs" | "leads" | "blog-editor" | "users" | "content" | "constituencies" | "exit-polls" | "settings" | "submissions";
 
 const ROLE_HIERARCHY: Record<string, number> = {
   super_admin: 4,
