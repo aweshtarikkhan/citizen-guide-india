@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import VotingAssistant from "./components/VotingAssistant";
 import CookieConsent from "./components/CookieConsent";
+import { Analytics } from "@vercel/analytics/react";
 
 // Lazy-load all non-critical routes for smaller initial bundle
 const HelpDesk = lazy(() => import("./pages/HelpDesk"));
@@ -129,6 +130,7 @@ const App = () => {
           </Suspense>
           <VotingAssistant />
           <CookieConsent />
+          <Analytics />
           </AutoTranslateWrapper>
         </AuthProvider>
       </BrowserRouter>
