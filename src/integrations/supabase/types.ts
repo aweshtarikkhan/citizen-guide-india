@@ -433,6 +433,66 @@ export type Database = {
         }
         Relationships: []
       }
+      submissions: {
+        Row: {
+          category: string | null
+          constituency: string | null
+          created_at: string
+          email: string | null
+          id: string
+          message: string | null
+          metadata: Json | null
+          mobile: string | null
+          name: string | null
+          page_path: string | null
+          page_title: string | null
+          rating: number | null
+          state: string | null
+          status: string
+          subject: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          constituency?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          mobile?: string | null
+          name?: string | null
+          page_path?: string | null
+          page_title?: string | null
+          rating?: number | null
+          state?: string | null
+          status?: string
+          subject?: string | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          constituency?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          mobile?: string | null
+          name?: string | null
+          page_path?: string | null
+          page_title?: string | null
+          rating?: number | null
+          state?: string | null
+          status?: string
+          subject?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       translation_cache: {
         Row: {
           created_at: string
