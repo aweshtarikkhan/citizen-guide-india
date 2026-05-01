@@ -1,6 +1,7 @@
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, HeartHandshake } from "lucide-react";
 import { Link } from "react-router-dom";
 import matdaanLogo from "@/assets/matdaan-logo.png";
+import NewsletterSignup from "./NewsletterSignup";
 
 const FooterSection = () => (
   <footer className="py-10 md:py-16 bg-foreground text-background">
