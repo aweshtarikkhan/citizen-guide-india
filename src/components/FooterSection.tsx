@@ -6,7 +6,7 @@ import NewsletterSignup from "./NewsletterSignup";
 const FooterSection = () => (
   <footer className="py-10 md:py-16 bg-foreground text-background">
     <div className="container">
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 md:gap-10">
         <div>
           <Link to="/" className="flex items-center gap-1 text-2xl font-bold text-background tracking-wide" style={{ fontFamily: 'var(--font-logo)' }}>
             <img src={matdaanLogo} alt="Matdaan Logo" className="h-12 w-12 object-contain brightness-0 invert" />
