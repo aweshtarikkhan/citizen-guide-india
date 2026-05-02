@@ -242,8 +242,88 @@ const BlogDetail = () => {
           )}
         </div>
       </article>
+
+      {blog && <RelatedArticles currentId={blog.id} category={blog.category} />}
+
       <FooterSection />
     </div>
+  );
+};
+
+const RelatedArticles = ({ currentId, category }: { currentId: string; category: string | null }) => {
+  const { data: related } = useQuery({
+    queryKey: ["relatedBlogs", currentId, category],
+    queryFn: async () => {
+      let posts: any[] = [];
+      if (category) {
+        const { data } = await supabase
+          .from("blogs")
+          .select("id, slug, title, excerpt, published_at, category, featured_image")
+          .eq("status", "published")
+          .eq("category", category)
+          .neq("id", currentId)
+          .order("published_at", { ascending: false })
+          .limit(6);
+        posts = data || [];
+      }
+      if (posts.length < 3) {
+        const { data } = await supabase
+          .from("blogs")
+          .select("id, slug, title, excerpt, published_at, category, featured_image")
+          .eq("status", "published")
+          .neq("id", currentId)
+          .order("published_at", { ascending: false })
+          .limit(8);
+        const existing = new Set(posts.map((p) => p.id));
+        for (const p of data || []) {
+          if (!existing.has(p.id)) posts.push(p);
+        }
+      }
+      return posts.sort(() => Math.random() - 0.5).slice(0, Math.min(3, posts.length));
+    },
+  });
+
+  if (!related || related.length === 0) return null;
+
+  return (
+    <section className="py-14 bg-muted/30 border-t border-border">
+      <div className="container max-w-5xl">
+        <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-6">
+          Related articles
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {related.map((post: any) => (
+            <Link
+              key={post.id}
+              to={`/blog/${post.slug || post.id}`}
+              className="group rounded-xl border border-border bg-card shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
+            >
+              <div className="h-36 bg-gradient-to-br from-foreground/5 to-muted overflow-hidden">
+                {post.featured_image && (
+                  <img src={post.featured_image} alt={post.title} className="w-full h-full object-cover" />
+                )}
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                {post.category && (
+                  <span className="text-[11px] font-semibold text-foreground/70 uppercase tracking-wider mb-2">
+                    {post.category}
+                  </span>
+                )}
+                <h3 className="text-base font-display font-bold text-foreground mb-2 leading-snug group-hover:underline decoration-foreground/30 underline-offset-2 line-clamp-2">
+                  {post.title}
+                </h3>
+                {post.excerpt && (
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 mb-3">
+                    {post.excerpt}
+                  </p>
+                )}
+                <span className="mt-auto text-xs font-semibold text-foreground group-hover:underline">Read more →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 
