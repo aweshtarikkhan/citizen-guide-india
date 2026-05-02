@@ -7,6 +7,7 @@ import { ArrowRight, UserPlus, BookOpen, XCircle, Clock, FileText, Shield, HelpC
 import ElectionCountdown from "@/components/ElectionCountdown";
 import DailyFact from "@/components/DailyFact";
 import ExitPollPopup from "@/components/ExitPollPopup";
+import FeaturedExitPolls from "@/components/FeaturedExitPolls";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
