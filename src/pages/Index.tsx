@@ -70,7 +70,7 @@ const Index = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blogs")
-        .select("id, title, excerpt, published_at, category")
+        .select("id, slug, title, excerpt, published_at, category")
         .eq("status", "published")
         .order("published_at", { ascending: false })
         .limit(3);
