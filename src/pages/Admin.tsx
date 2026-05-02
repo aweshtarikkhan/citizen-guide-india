@@ -34,6 +34,10 @@ interface Blog {
   published_at: string | null;
   created_at: string;
   author_id: string;
+  slug?: string | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  seo_keywords?: string | null;
 }
 
 interface VolunteerApp {
@@ -302,6 +306,9 @@ const Admin = () => {
     }
     setSaving(true);
 
+    const slugify = (s: string) =>
+      s.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").slice(0, 80);
+
     const blogData = {
       title: editingBlog.title,
       content: editingBlog.content || "",
@@ -315,6 +322,10 @@ const Admin = () => {
       external_links: editingBlog.external_links || [],
       published_at: status === "published" ? new Date().toISOString() : null,
       author_id: user!.id,
+      slug: editingBlog.slug?.trim() ? slugify(editingBlog.slug) : slugify(editingBlog.title),
+      seo_title: editingBlog.seo_title || null,
+      seo_description: editingBlog.seo_description || null,
+      seo_keywords: editingBlog.seo_keywords || null,
     };
 
     let error;
@@ -503,6 +514,56 @@ const Admin = () => {
                 {link.label}: <a href={link.url} target="_blank" rel="noopener" className="underline">{link.url}</a>
               </div>
             ))}
+          </div>
+
+          {/* SEO Section */}
+          <div className="border-t border-border pt-6 space-y-4">
+            <div>
+              <h3 className="text-lg font-display font-bold flex items-center gap-2">
+                <Globe className="h-4 w-4" /> SEO Settings
+              </h3>
+              <p className="text-xs text-muted-foreground mt-1">Optional. Auto-filled from title/excerpt if left blank.</p>
+            </div>
+            <div className="space-y-2">
+              <Label>URL Slug</Label>
+              <Input
+                placeholder="auto-generated-from-title"
+                value={editingBlog?.slug || ""}
+                onChange={(e) => setEditingBlog((prev) => ({ ...prev, slug: e.target.value }))}
+              />
+              <p className="text-xs text-muted-foreground">
+                Final URL: /blog/{editingBlog?.slug || "(auto)"}
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label>SEO Title</Label>
+              <Input
+                placeholder="Page title for search engines (max 60 chars)"
+                maxLength={70}
+                value={editingBlog?.seo_title || ""}
+                onChange={(e) => setEditingBlog((prev) => ({ ...prev, seo_title: e.target.value }))}
+              />
+              <p className="text-xs text-muted-foreground">{(editingBlog?.seo_title || "").length}/60</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Meta Description</Label>
+              <Textarea
+                placeholder="Description shown in search results (max 160 chars)"
+                rows={2}
+                maxLength={170}
+                value={editingBlog?.seo_description || ""}
+                onChange={(e) => setEditingBlog((prev) => ({ ...prev, seo_description: e.target.value }))}
+              />
+              <p className="text-xs text-muted-foreground">{(editingBlog?.seo_description || "").length}/160</p>
+            </div>
+            <div className="space-y-2">
+              <Label>SEO Keywords</Label>
+              <Input
+                placeholder="comma, separated, keywords"
+                value={editingBlog?.seo_keywords || ""}
+                onChange={(e) => setEditingBlog((prev) => ({ ...prev, seo_keywords: e.target.value }))}
+              />
+            </div>
           </div>
         </div>
       </div>

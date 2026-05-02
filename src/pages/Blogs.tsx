@@ -6,11 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 
-const fallbackPosts = [
-  { id: "s1", title: "Understanding EVM: How Electronic Voting Machines Work", excerpt: "A deep dive into the technology behind India's Electronic Voting Machines and why they are considered secure.", published_at: "2026-03-05", category: "Technology", featured_image: null },
-  { id: "s2", title: "First-Time Voter? Here's Your Complete Guide", excerpt: "Everything you need to know before casting your first vote — from registration to the polling booth.", published_at: "2026-03-01", category: "Guide", featured_image: null },
-  { id: "s3", title: "The History of Elections in India", excerpt: "From the first general election in 1951 to the world's largest democracy today — a journey through India's electoral history.", published_at: "2026-02-25", category: "History", featured_image: null },
-];
+const fallbackPosts: any[] = [];
 
 const formatDate = (d: string | null) =>
   d ? new Date(d).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }) : "";
@@ -27,7 +23,7 @@ const Blogs = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("blogs")
-        .select("id, title, excerpt, content, published_at, category, featured_image")
+        .select("id, slug, title, excerpt, content, published_at, category, featured_image")
         .eq("status", "published")
         .order("published_at", { ascending: false });
       if (error) throw error;
@@ -70,8 +66,9 @@ const Blogs = () => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post: any) => (
-                <article
+                <Link
                   key={post.id}
+                  to={`/blog/${post.slug || post.id}`}
                   className="group rounded-xl border border-border bg-card shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
                 >
                   <div className="h-40 bg-gradient-to-br from-foreground/5 to-muted flex items-center justify-center overflow-hidden">
@@ -97,8 +94,9 @@ const Blogs = () => {
                         <Clock className="h-3 w-3" /> {estimateReadTime(post.content)}
                       </span>
                     </div>
+                    <span className="mt-3 text-xs font-semibold text-foreground group-hover:underline">Read more →</span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           )}
