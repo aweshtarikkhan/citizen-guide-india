@@ -122,7 +122,7 @@ const Index = () => {
           {blogsToShow.map((blog) => (
             <Link
               key={blog.id}
-              to="/blogs"
+              to={`/blog/${(blog as any).slug || blog.id}`}
               className="group rounded-xl border border-border bg-card shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
             >
               <div className="h-32 bg-gradient-to-br from-foreground/5 to-muted flex items-center justify-center">
