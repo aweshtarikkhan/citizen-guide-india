@@ -26,6 +26,7 @@ const VoterRights = lazy(() => import("./pages/VoterRights"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const StatePage = lazy(() => import("./pages/StatePage"));
 const Blogs = lazy(() => import("./pages/Blogs"));
+const BlogDetail = lazy(() => import("./pages/BlogDetail"));
 const ElectionResults = lazy(() => import("./pages/ElectionResults"));
 const PoliticalParties = lazy(() => import("./pages/PoliticalParties"));
 const ConstitutionLaws = lazy(() => import("./pages/ConstitutionLaws"));
@@ -102,6 +103,7 @@ const App = () => {
             <Route path="/faq" element={<FAQ />} />
             <Route path="/state/:stateId" element={<StatePage />} />
             <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/election-results" element={<ElectionResults />} />
             <Route path="/political-parties" element={<PoliticalParties />} />
             <Route path="/constitution-laws" element={<ConstitutionLaws />} />
