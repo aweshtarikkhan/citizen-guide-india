@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 
-const fallbackPosts = [
+const fallbackPosts: any[] = [];
   { id: "s1", title: "Understanding EVM: How Electronic Voting Machines Work", excerpt: "A deep dive into the technology behind India's Electronic Voting Machines and why they are considered secure.", published_at: "2026-03-05", category: "Technology", featured_image: null },
   { id: "s2", title: "First-Time Voter? Here's Your Complete Guide", excerpt: "Everything you need to know before casting your first vote — from registration to the polling booth.", published_at: "2026-03-01", category: "Guide", featured_image: null },
   { id: "s3", title: "The History of Elections in India", excerpt: "From the first general election in 1951 to the world's largest democracy today — a journey through India's electoral history.", published_at: "2026-02-25", category: "History", featured_image: null },
