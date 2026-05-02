@@ -66,8 +66,9 @@ const Blogs = () => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post: any) => (
-                <article
+                <Link
                   key={post.id}
+                  to={`/blog/${post.slug || post.id}`}
                   className="group rounded-xl border border-border bg-card shadow-card hover:shadow-elevated hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
                 >
                   <div className="h-40 bg-gradient-to-br from-foreground/5 to-muted flex items-center justify-center overflow-hidden">
@@ -93,8 +94,9 @@ const Blogs = () => {
                         <Clock className="h-3 w-3" /> {estimateReadTime(post.content)}
                       </span>
                     </div>
+                    <span className="mt-3 text-xs font-semibold text-foreground group-hover:underline">Read more →</span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           )}
