@@ -26,6 +26,10 @@ export type Database = {
           id: string
           images: string[] | null
           published_at: string | null
+          seo_description: string | null
+          seo_keywords: string | null
+          seo_title: string | null
+          slug: string | null
           social_links: Json | null
           status: string
           tags: string[] | null
@@ -43,6 +47,10 @@ export type Database = {
           id?: string
           images?: string[] | null
           published_at?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug?: string | null
           social_links?: Json | null
           status?: string
           tags?: string[] | null
@@ -60,6 +68,10 @@ export type Database = {
           id?: string
           images?: string[] | null
           published_at?: string | null
+          seo_description?: string | null
+          seo_keywords?: string | null
+          seo_title?: string | null
+          slug?: string | null
           social_links?: Json | null
           status?: string
           tags?: string[] | null
