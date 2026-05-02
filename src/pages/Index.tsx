@@ -82,18 +82,7 @@ const Index = () => {
 
   // Fetch featured exit poll for homepage highlight
   const { data: featuredExitPoll } = useQuery({
-    queryKey: ["featuredExitPoll"],
-    queryFn: async () => {
-      const { data } = await supabase
-        .from("exit_polls")
-        .select("*")
-        .eq("is_featured", true)
-        .order("poll_date", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      return data;
-    },
-  });
+  const blogsToShow = latestBlogs && latestBlogs.length > 0 ? latestBlogs : fallbackBlogs;
 
   const blogsToShow = latestBlogs && latestBlogs.length > 0 ? latestBlogs : fallbackBlogs;
 
