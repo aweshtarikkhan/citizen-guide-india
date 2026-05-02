@@ -80,10 +80,6 @@ const Index = () => {
     },
   });
 
-  // Fetch featured exit poll for homepage highlight
-  const { data: featuredExitPoll } = useQuery({
-  const blogsToShow = latestBlogs && latestBlogs.length > 0 ? latestBlogs : fallbackBlogs;
-
   const blogsToShow = latestBlogs && latestBlogs.length > 0 ? latestBlogs : fallbackBlogs;
 
   return (
