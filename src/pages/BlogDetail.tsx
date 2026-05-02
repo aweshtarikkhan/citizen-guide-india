@@ -161,14 +161,18 @@ const BlogDetail = () => {
       <Navbar />
       <article className="pt-28 pb-16 bg-background">
         <div className="container max-w-3xl">
-          <Link to="/blogs" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6">
-            <ArrowLeft className="h-4 w-4" /> All articles
-          </Link>
+          <div className="mb-6">
+            <Link to="/blogs" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="h-4 w-4" /> All articles
+            </Link>
+          </div>
 
           {blog.category && (
-            <span className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">
-              {blog.category}
-            </span>
+            <div className="mb-3">
+              <Badge variant="secondary" className="uppercase tracking-wider text-[11px]">
+                {blog.category}
+              </Badge>
+            </div>
           )}
           <h1 className="text-3xl md:text-5xl font-display font-bold mt-2 mb-4 text-foreground leading-tight">
             {blog.title}
