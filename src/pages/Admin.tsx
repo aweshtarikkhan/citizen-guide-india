@@ -34,6 +34,10 @@ interface Blog {
   published_at: string | null;
   created_at: string;
   author_id: string;
+  slug?: string | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  seo_keywords?: string | null;
 }
 
 interface VolunteerApp {
@@ -302,6 +306,9 @@ const Admin = () => {
     }
     setSaving(true);
 
+    const slugify = (s: string) =>
+      s.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-").slice(0, 80);
+
     const blogData = {
       title: editingBlog.title,
       content: editingBlog.content || "",
@@ -315,6 +322,10 @@ const Admin = () => {
       external_links: editingBlog.external_links || [],
       published_at: status === "published" ? new Date().toISOString() : null,
       author_id: user!.id,
+      slug: editingBlog.slug?.trim() ? slugify(editingBlog.slug) : slugify(editingBlog.title),
+      seo_title: editingBlog.seo_title || null,
+      seo_description: editingBlog.seo_description || null,
+      seo_keywords: editingBlog.seo_keywords || null,
     };
 
     let error;
